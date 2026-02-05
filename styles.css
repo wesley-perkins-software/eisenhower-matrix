@@ -1,19 +1,102 @@
 :root {
   color-scheme: light;
+
+  /* Base tokens (Theme: Editorial Soft) */
+  --font-ui: "Source Sans 3", "Trebuchet MS", sans-serif;
+  --font-heading: "Space Grotesk", "Segoe UI", sans-serif;
+
   --bg: #f6f3ef;
   --bg-accent: #ebe5dd;
   --ink: #1d1b17;
   --muted: #6c655c;
   --card: #fffaf3;
+  --surface: #ffffff;
   --border: #d6cdc1;
+
   --primary: #2f5d62;
   --primary-dark: #24484c;
   --accent: #d98859;
+  --focus: rgba(47, 93, 98, 0.25);
+
+  --quad-do-first: #c65f2e;
+  --quad-schedule: #375a9e;
+  --quad-delegate: #6c4f8d;
+  --quad-eliminate: #66707a;
+
   --shadow: 0 12px 24px rgba(29, 27, 23, 0.08);
   --shadow-soft: 0 8px 16px rgba(29, 27, 23, 0.05);
+
   --radius: 18px;
   --radius-sm: 12px;
+  --btn-radius: 999px;
   --transition: 160ms ease;
+}
+
+/*
+  Visual variants:
+  - body.theme-editorial (default): warm, rounded, gently elevated.
+  - body.theme-minimal: flat, neutral, sharp corners, restrained accents.
+  - body.theme-vibrant: bold gradient background, punchier contrast, softer cards.
+*/
+
+body.theme-minimal {
+  --font-ui: "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-heading: "Segoe UI", "Helvetica Neue", sans-serif;
+
+  --bg: #f4f6f8;
+  --bg-accent: #eef2f4;
+  --ink: #14202e;
+  --muted: #4f5f70;
+  --card: #ffffff;
+  --surface: #ffffff;
+  --border: #c8d3de;
+
+  --primary: #1d4c8f;
+  --primary-dark: #173d73;
+  --accent: #0f766e;
+  --focus: rgba(29, 76, 143, 0.25);
+
+  --quad-do-first: #bf3f2b;
+  --quad-schedule: #2563eb;
+  --quad-delegate: #7c3aed;
+  --quad-eliminate: #475569;
+
+  --shadow: none;
+  --shadow-soft: none;
+
+  --radius: 4px;
+  --radius-sm: 4px;
+  --btn-radius: 4px;
+}
+
+body.theme-vibrant {
+  --font-ui: "Source Sans 3", "Avenir Next", sans-serif;
+  --font-heading: "Space Grotesk", "Avenir Next", sans-serif;
+
+  --bg: #f2f5ff;
+  --bg-accent: #e8edff;
+  --ink: #162038;
+  --muted: #4c5570;
+  --card: #ffffff;
+  --surface: #ffffff;
+  --border: #cfd8ff;
+
+  --primary: #3f46e0;
+  --primary-dark: #3338b8;
+  --accent: #ee6a5f;
+  --focus: rgba(63, 70, 224, 0.3);
+
+  --quad-do-first: #ef5a4f;
+  --quad-schedule: #2f6fed;
+  --quad-delegate: #7b4de2;
+  --quad-eliminate: #2e8f95;
+
+  --shadow: 0 18px 30px rgba(40, 53, 120, 0.12);
+  --shadow-soft: 0 10px 18px rgba(40, 53, 120, 0.08);
+
+  --radius: 22px;
+  --radius-sm: 14px;
+  --btn-radius: 999px;
 }
 
 * {
@@ -22,16 +105,24 @@
 
 body {
   margin: 0;
-  font-family: "Source Sans 3", "Trebuchet MS", sans-serif;
+  font-family: var(--font-ui);
   color: var(--ink);
   background: radial-gradient(circle at top left, #ffffff 0%, var(--bg) 52%, var(--bg-accent) 100%);
   min-height: 100vh;
 }
 
+body.theme-minimal {
+  background: var(--bg);
+}
+
+body.theme-vibrant {
+  background: radial-gradient(circle at 5% 0%, #ffffff 0%, #eef2ff 35%, var(--bg-accent) 100%);
+}
+
 h1,
 h2,
 h3 {
-  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-family: var(--font-heading);
   margin: 0;
 }
 
@@ -84,10 +175,10 @@ select {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 200px auto;
   gap: 10px;
-  background: rgba(255, 250, 243, 0.72);
+  background: var(--card);
   padding: 11px;
   border-radius: var(--radius);
-  border: 1px solid #ddd4c8;
+  border: 1px solid var(--border);
   box-shadow: var(--shadow-soft);
 }
 
@@ -96,19 +187,23 @@ select {
   border: 1px solid var(--border);
   padding: 10px 12px;
   border-radius: var(--radius-sm);
-  background: #fff;
+  background: var(--surface);
 }
 
 .quick-add input:focus,
-.quick-add select:focus {
-  outline: 2px solid rgba(47, 93, 98, 0.25);
+.quick-add select:focus,
+.task-edit:focus,
+.task-actions select:focus,
+.btn:focus-visible,
+.icon-btn:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
   border-color: var(--primary);
 }
 
-
 .helper-tip {
   margin-top: -10px;
-  color: #8b8379;
+  color: var(--muted);
   font-size: 0.88rem;
 }
 
@@ -122,11 +217,28 @@ select {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  border-top-width: 4px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   min-height: 240px;
   box-shadow: var(--shadow);
+}
+
+.quadrant[data-quadrant="do_first"] {
+  border-top-color: var(--quad-do-first);
+}
+
+.quadrant[data-quadrant="schedule"] {
+  border-top-color: var(--quad-schedule);
+}
+
+.quadrant[data-quadrant="delegate"] {
+  border-top-color: var(--quad-delegate);
+}
+
+.quadrant[data-quadrant="eliminate"] {
+  border-top-color: var(--quad-eliminate);
 }
 
 .quadrant header {
@@ -154,19 +266,18 @@ select {
   gap: 10px;
 }
 
-
 .task-list:empty::before {
   content: attr(data-empty-hint);
-  color: #9f968b;
+  color: var(--muted);
   font-size: 0.9rem;
-  border: 1px dashed #ddd4c8;
-  border-radius: 10px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
   padding: 16px 12px;
   text-align: center;
 }
 
 .task {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 10px 12px;
@@ -188,9 +299,10 @@ select {
 
 .task-edit {
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   padding: 6px 8px;
   width: 100%;
+  background: var(--surface);
 }
 
 .task-actions {
@@ -202,18 +314,22 @@ select {
 
 .task-actions select {
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   padding: 4px 8px;
-  background: #fff;
+  background: var(--surface);
 }
 
 .btn {
   border: none;
-  border-radius: 999px;
+  border-radius: var(--btn-radius);
   padding: 10px 18px;
   cursor: pointer;
   font-weight: 600;
-  transition: transform var(--transition), background var(--transition), color var(--transition);
+  transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
 }
 
 .btn.primary {
@@ -244,12 +360,12 @@ select {
 }
 
 .btn.tiny:hover {
-  background: #c17349;
+  filter: brightness(0.93);
 }
 
 .icon-btn {
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--surface);
   border-radius: 50%;
   width: 28px;
   height: 28px;
@@ -264,10 +380,11 @@ select {
 }
 
 .description {
-  background: #fff;
+  background: var(--surface);
   border-radius: var(--radius);
   padding: 20px;
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
 }
 
 .description h3 {
