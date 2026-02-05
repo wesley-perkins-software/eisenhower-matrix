@@ -120,21 +120,6 @@ function reorderFromDOM() {
   state.tasks = orderedTasks;
 }
 
-function buildMoveSelect(currentQuadrant) {
-  const select = document.createElement("select");
-  select.setAttribute("aria-label", "Move task to");
-  QUADRANTS.forEach((quadrant) => {
-    const option = document.createElement("option");
-    option.value = quadrant.id;
-    option.textContent = quadrant.label;
-    if (quadrant.id === currentQuadrant) {
-      option.selected = true;
-    }
-    select.appendChild(option);
-  });
-  return select;
-}
-
 function createTaskElement(task) {
   const li = document.createElement("li");
   li.className = "task";
@@ -161,20 +146,9 @@ function createTaskElement(task) {
   topRow.appendChild(textSpan);
   topRow.appendChild(deleteButton);
 
-  const actionsRow = document.createElement("div");
-  actionsRow.className = "task-actions";
-
-  const moveSelect = buildMoveSelect(task.quadrant);
-  moveSelect.addEventListener("change", (event) => {
-    updateTask(task.id, { quadrant: event.target.value });
-  });
-
-  actionsRow.appendChild(moveSelect);
-
   textSpan.addEventListener("click", () => startInlineEdit(task, textSpan));
 
   li.appendChild(topRow);
-  li.appendChild(actionsRow);
 
   return li;
 }

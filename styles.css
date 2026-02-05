@@ -193,7 +193,6 @@ select {
 .quick-add input:focus,
 .quick-add select:focus,
 .task-edit:focus,
-.task-actions select:focus,
 .btn:focus-visible,
 .icon-btn:focus-visible {
   outline: 2px solid var(--focus);
@@ -280,9 +279,7 @@ select {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  display: grid;
-  gap: 8px;
+  padding: 8px 10px;
 }
 
 .task-top {
@@ -302,20 +299,6 @@ select {
   border-radius: var(--radius-sm);
   padding: 6px 8px;
   width: 100%;
-  background: var(--surface);
-}
-
-.task-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.task-actions select {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 4px 8px;
   background: var(--surface);
 }
 
@@ -424,15 +407,6 @@ select {
 }
 
 @media (max-width: 520px) {
-  .task-top {
-    flex-direction: column;
-  }
-
-  .task-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
   .btn.ghost {
     width: 100%;
   }

@@ -25,8 +25,7 @@ A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks
 - Delete task:
   - Small delete control per task.
 - Move task:
-  - Drag-and-drop between quadrants is preferred.
-  - Must also have a non-drag fallback (e.g., “Move to…” menu).
+  - Drag-and-drop between quadrants.
 
 ### 3. Persistence
 - Save state on every change (debounced).
@@ -58,4 +57,3 @@ A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks
 - Add/edit/delete/move tasks works with no console errors.
 - Refresh page: tasks persist.
 - Mobile width ~390px: layout is usable and touch-friendly.
-- A non-drag method exists for moving tasks.
