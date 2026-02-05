@@ -1,5 +1,12 @@
 :root {
   color-scheme: light;
+  --font-heading: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-body: "Source Sans 3", "Trebuchet MS", sans-serif;
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
+  --transition: 160ms ease;
+
   --bg: #f6f3ef;
   --bg-accent: #ebe5dd;
   --ink: #1d1b17;
@@ -9,11 +16,93 @@
   --primary: #2f5d62;
   --primary-dark: #24484c;
   --accent: #d98859;
+  --focus-ring: rgba(47, 93, 98, 0.25);
   --shadow: 0 12px 24px rgba(29, 27, 23, 0.08);
   --shadow-soft: 0 8px 16px rgba(29, 27, 23, 0.05);
-  --radius: 18px;
+
+  --q-do: #b0453e;
+  --q-schedule: #2b5d9a;
+  --q-delegate: #4a6a3e;
+  --q-eliminate: #70614d;
+}
+
+/*
+  Variant 1 — "Minimal Ink" (default)
+  Crisp corners, subtle elevation, neutral palette with clear quadrant accents.
+*/
+body.theme-minimal {
+  --radius-lg: 10px;
+  --radius-md: 7px;
+  --radius-sm: 6px;
+  --bg: #f3f4f6;
+  --bg-accent: #e7ebf0;
+  --ink: #16181c;
+  --muted: #596273;
+  --card: #ffffff;
+  --border: #cfd6e2;
+  --primary: #24558f;
+  --primary-dark: #1b426f;
+  --accent: #4f6d8f;
+  --focus-ring: rgba(36, 85, 143, 0.25);
+  --shadow: 0 4px 10px rgba(12, 22, 38, 0.06);
+  --shadow-soft: 0 2px 8px rgba(12, 22, 38, 0.04);
+  --q-do: #b2443f;
+  --q-schedule: #2c5ca4;
+  --q-delegate: #3f7a58;
+  --q-eliminate: #5e5d63;
+}
+
+/*
+  Variant 2 — "Soft Editorial"
+  Rounder controls, warm paper tones, calmer contrast and friendly depth.
+*/
+body.theme-soft {
+  --radius-lg: 24px;
+  --radius-md: 16px;
   --radius-sm: 12px;
-  --transition: 160ms ease;
+  --bg: #f7f1e8;
+  --bg-accent: #efe4d3;
+  --ink: #2a2119;
+  --muted: #756556;
+  --card: #fffdf8;
+  --border: #e4d5c1;
+  --primary: #7a4a9f;
+  --primary-dark: #633b84;
+  --accent: #d17947;
+  --focus-ring: rgba(122, 74, 159, 0.25);
+  --shadow: 0 14px 28px rgba(60, 37, 20, 0.1);
+  --shadow-soft: 0 8px 18px rgba(60, 37, 20, 0.08);
+  --q-do: #b24638;
+  --q-schedule: #3569a7;
+  --q-delegate: #527a43;
+  --q-eliminate: #816f5a;
+}
+
+/*
+  Variant 3 — "Dark Professional"
+  Flat, low-glare dark UI with restrained color accents.
+*/
+body.theme-dark {
+  color-scheme: dark;
+  --radius-lg: 12px;
+  --radius-md: 9px;
+  --radius-sm: 7px;
+  --bg: #171a20;
+  --bg-accent: #111319;
+  --ink: #edf1f5;
+  --muted: #9aa7b8;
+  --card: #1e242d;
+  --border: #2f3a47;
+  --primary: #4f8fd1;
+  --primary-dark: #4078b2;
+  --accent: #6f95ba;
+  --focus-ring: rgba(79, 143, 209, 0.3);
+  --shadow: 0 0 0 rgba(0, 0, 0, 0);
+  --shadow-soft: 0 0 0 rgba(0, 0, 0, 0);
+  --q-do: #d06f68;
+  --q-schedule: #79b0eb;
+  --q-delegate: #8ab382;
+  --q-eliminate: #b1a28f;
 }
 
 * {
@@ -22,16 +111,20 @@
 
 body {
   margin: 0;
-  font-family: "Source Sans 3", "Trebuchet MS", sans-serif;
+  font-family: var(--font-body);
   color: var(--ink);
   background: radial-gradient(circle at top left, #ffffff 0%, var(--bg) 52%, var(--bg-accent) 100%);
   min-height: 100vh;
 }
 
+body.theme-dark {
+  background: linear-gradient(155deg, #1f2731 0%, var(--bg) 45%, var(--bg-accent) 100%);
+}
+
 h1,
 h2,
 h3 {
-  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-family: var(--font-heading);
   margin: 0;
 }
 
@@ -84,10 +177,10 @@ select {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 200px auto;
   gap: 10px;
-  background: rgba(255, 250, 243, 0.72);
+  background: var(--card);
   padding: 11px;
-  border-radius: var(--radius);
-  border: 1px solid #ddd4c8;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
   box-shadow: var(--shadow-soft);
 }
 
@@ -95,20 +188,22 @@ select {
 .quick-add select {
   border: 1px solid var(--border);
   padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  background: #fff;
+  border-radius: var(--radius-md);
+  background: var(--card);
+  color: var(--ink);
 }
 
 .quick-add input:focus,
-.quick-add select:focus {
-  outline: 2px solid rgba(47, 93, 98, 0.25);
+.quick-add select:focus,
+.task-edit:focus,
+.task-actions select:focus {
+  outline: 2px solid var(--focus-ring);
   border-color: var(--primary);
 }
 
-
 .helper-tip {
   margin-top: -10px;
-  color: #8b8379;
+  color: var(--muted);
   font-size: 0.88rem;
 }
 
@@ -121,12 +216,28 @@ select {
 .quadrant {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   padding: 16px;
   display: flex;
   flex-direction: column;
   min-height: 240px;
   box-shadow: var(--shadow);
+}
+
+.quadrant[data-quadrant="do_first"] {
+  border-top: 4px solid var(--q-do);
+}
+
+.quadrant[data-quadrant="schedule"] {
+  border-top: 4px solid var(--q-schedule);
+}
+
+.quadrant[data-quadrant="delegate"] {
+  border-top: 4px solid var(--q-delegate);
+}
+
+.quadrant[data-quadrant="eliminate"] {
+  border-top: 4px solid var(--q-eliminate);
 }
 
 .quadrant header {
@@ -139,6 +250,7 @@ select {
 
 .quadrant h2 {
   font-size: 1.25rem;
+  letter-spacing: 0.01em;
 }
 
 .quadrant p {
@@ -154,21 +266,20 @@ select {
   gap: 10px;
 }
 
-
 .task-list:empty::before {
   content: attr(data-empty-hint);
-  color: #9f968b;
+  color: var(--muted);
   font-size: 0.9rem;
-  border: 1px dashed #ddd4c8;
-  border-radius: 10px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
   padding: 16px 12px;
   text-align: center;
 }
 
 .task {
-  background: #fff;
+  background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   padding: 10px 12px;
   display: grid;
   gap: 8px;
@@ -188,9 +299,11 @@ select {
 
 .task-edit {
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   padding: 6px 8px;
   width: 100%;
+  background: var(--card);
+  color: var(--ink);
 }
 
 .task-actions {
@@ -202,9 +315,10 @@ select {
 
 .task-actions select {
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   padding: 4px 8px;
-  background: #fff;
+  background: var(--card);
+  color: var(--ink);
 }
 
 .btn {
@@ -213,7 +327,12 @@ select {
   padding: 10px 18px;
   cursor: pointer;
   font-weight: 600;
-  transition: transform var(--transition), background var(--transition), color var(--transition);
+  transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+body.theme-minimal .btn,
+body.theme-dark .btn {
+  border-radius: var(--radius-sm);
 }
 
 .btn.primary {
@@ -244,12 +363,13 @@ select {
 }
 
 .btn.tiny:hover {
-  background: #c17349;
+  filter: brightness(0.95);
 }
 
 .icon-btn {
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--card);
+  color: var(--ink);
   border-radius: 50%;
   width: 28px;
   height: 28px;
@@ -264,8 +384,8 @@ select {
 }
 
 .description {
-  background: #fff;
-  border-radius: var(--radius);
+  background: var(--card);
+  border-radius: var(--radius-lg);
   padding: 20px;
   border: 1px solid var(--border);
 }
