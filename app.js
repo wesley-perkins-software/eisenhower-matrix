@@ -19,6 +19,7 @@ let state = {
   version: 1,
   updatedAt: null,
   tasks: [],
+  lastQuadrant: "do_first",
 };
 
 let saveTimer = null;
@@ -48,7 +49,12 @@ function loadState() {
   try {
     const parsed = JSON.parse(raw);
     if (parsed && Array.isArray(parsed.tasks)) {
-      state = parsed;
+      state = {
+        ...state,
+        ...parsed,
+        tasks: parsed.tasks,
+        lastQuadrant: parsed.lastQuadrant || "do_first",
+      };
     }
   } catch (error) {
     console.warn("Could not load saved tasks", error);
@@ -59,9 +65,13 @@ function normalizeText(text) {
   return text.trim();
 }
 
+function isInlineEditingActive() {
+  return Boolean(document.querySelector(".task-edit"));
+}
+
 function addTask(text, quadrant) {
   const normalized = normalizeText(text);
-  if (!normalized) return;
+  if (!normalized) return false;
   const now = new Date().toISOString();
   state.tasks.push({
     id: uid(),
@@ -70,8 +80,10 @@ function addTask(text, quadrant) {
     createdAt: now,
     updatedAt: now,
   });
+  state.lastQuadrant = quadrant;
   render();
   saveStateDebounced();
+  return true;
 }
 
 function updateTask(id, updates) {
@@ -187,9 +199,13 @@ function startInlineEdit(task, textNode) {
 
   input.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
+      event.preventDefault();
+      event.stopPropagation();
       input.blur();
     }
     if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopPropagation();
       cancelled = true;
       input.value = currentText;
       input.blur();
@@ -235,18 +251,28 @@ function initDragAndDrop() {
   });
 }
 
+function submitQuickAdd() {
+  if (isInlineEditingActive()) return;
+  const didAdd = addTask(elements.taskInput.value, elements.quadrantSelect.value);
+  if (!didAdd) return;
+  elements.taskInput.value = "";
+  elements.taskInput.focus();
+}
+
 function initQuickAdd() {
   elements.addTaskButton.addEventListener("click", () => {
-    addTask(elements.taskInput.value, elements.quadrantSelect.value);
-    elements.taskInput.value = "";
-    elements.taskInput.focus();
+    submitQuickAdd();
   });
 
   elements.taskInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      addTask(elements.taskInput.value, elements.quadrantSelect.value);
-      elements.taskInput.value = "";
-    }
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    submitQuickAdd();
+  });
+
+  elements.quadrantSelect.addEventListener("change", (event) => {
+    state.lastQuadrant = event.target.value;
+    saveStateDebounced();
   });
 }
 
@@ -274,11 +300,20 @@ function initClearAll() {
 
 function init() {
   loadState();
+  elements.quadrantSelect.value = state.lastQuadrant || "do_first";
   render();
   initQuickAdd();
   initPerQuadrantAdd();
   initClearAll();
   initDragAndDrop();
 }
+
+
+document.addEventListener("keydown", (event) => {
+  if (!isInlineEditingActive()) return;
+  if (event.key === "Enter" || event.key === "Escape") {
+    event.stopPropagation();
+  }
+});
 
 init();

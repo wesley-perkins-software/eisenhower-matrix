@@ -10,6 +10,7 @@
   --primary-dark: #24484c;
   --accent: #d98859;
   --shadow: 0 12px 24px rgba(29, 27, 23, 0.08);
+  --shadow-soft: 0 8px 16px rgba(29, 27, 23, 0.05);
   --radius: 18px;
   --radius-sm: 12px;
   --transition: 160ms ease;
@@ -82,18 +83,18 @@ select {
 .quick-add {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 200px auto;
-  gap: 12px;
-  background: var(--card);
-  padding: 14px;
+  gap: 10px;
+  background: rgba(255, 250, 243, 0.72);
+  padding: 11px;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  border: 1px solid #ddd4c8;
+  box-shadow: var(--shadow-soft);
 }
 
 .quick-add input,
 .quick-add select {
   border: 1px solid var(--border);
-  padding: 12px 14px;
+  padding: 10px 12px;
   border-radius: var(--radius-sm);
   background: #fff;
 }
@@ -102,6 +103,13 @@ select {
 .quick-add select:focus {
   outline: 2px solid rgba(47, 93, 98, 0.25);
   border-color: var(--primary);
+}
+
+
+.helper-tip {
+  margin-top: -10px;
+  color: #8b8379;
+  font-size: 0.88rem;
 }
 
 .matrix {
@@ -144,6 +152,17 @@ select {
   margin: 0;
   display: grid;
   gap: 10px;
+}
+
+
+.task-list:empty::before {
+  content: attr(data-empty-hint);
+  color: #9f968b;
+  font-size: 0.9rem;
+  border: 1px dashed #ddd4c8;
+  border-radius: 10px;
+  padding: 16px 12px;
+  text-align: center;
 }
 
 .task {
