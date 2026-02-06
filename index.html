@@ -3,12 +3,70 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Eisenhower Matrix — Focus on What Matters</title>
-    <meta name="description" content="A fast, single-page Eisenhower Matrix tool to organize tasks by urgency and importance. No login. Tasks save locally in your browser." />
+    <title>Eisenhower Matrix (Urgent vs Important) – Free Online Tool</title>
+    <meta name="description" content="Free Eisenhower Matrix to sort tasks by urgent vs important. No signup, no login, and tasks save locally in your browser." />
+    <meta name="theme-color" content="#f6f3ef" />
+    <script>
+      // TODO: Replace with your production domain, e.g. https://eisenhower-matrix.net/
+      const CANONICAL_URL = "/";
+    </script>
+    <!-- TODO: Update canonical URL once your domain is known. -->
+    <link rel="canonical" href="/" />
+    <meta property="og:title" content="Eisenhower Matrix (Urgent vs Important) – Free Online Tool" />
+    <meta property="og:description" content="Free Eisenhower Matrix to sort tasks by urgent vs important. No signup, no login, and tasks save locally in your browser." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="/" />
+    <!-- TODO: Add an og-image.png asset and update the path if needed. -->
+    <meta property="og:image" content="/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Eisenhower Matrix (Urgent vs Important) – Free Online Tool" />
+    <meta name="twitter:description" content="Free Eisenhower Matrix to sort tasks by urgent vs important. No signup, no login, and tasks save locally in your browser." />
+    <meta name="twitter:image" content="/og-image.png" />
+    <!-- TODO: Add favicon assets if not present. -->
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Eisenhower Matrix",
+        "url": "/"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Eisenhower Matrix (Urgent vs Important) – Free Online Tool",
+        "url": "/",
+        "description": "Free Eisenhower Matrix to sort tasks by urgent vs important. No signup, no login, and tasks save locally in your browser."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Eisenhower Matrix",
+        "url": "/",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "Create Eisenhower matrix",
+          "Drag tasks between quadrants",
+          "Local save in your browser",
+          "Print or export for review"
+        ]
+      }
+    </script>
   </head>
   <body class="theme-editorial">
     <!-- Visual style variants: theme-editorial (default), theme-minimal, theme-vibrant -->
@@ -38,6 +96,7 @@
       </section>
 
       <p class="helper-tip" aria-live="polite">Tip: Add tasks, then drag them between boxes.</p>
+      <p class="helper-tip helper-tip--secondary">No signup. Saves on this device (localStorage).</p>
 
       <section class="matrix" aria-label="Eisenhower matrix">
         <article class="quadrant" data-quadrant="do_first">
@@ -85,17 +144,185 @@
         </article>
       </section>
 
-      <section class="description" aria-label="About this tool">
-        <h3>Make the urgent feel manageable.</h3>
+      <section class="seo-content" aria-label="Eisenhower Matrix guide">
+        <h2>What is the Eisenhower Matrix?</h2>
         <p>
-          This is a lightweight Eisenhower Matrix built for quick decisions. Add tasks, move them between
-          quadrants, and keep your focus on what truly matters.
+          The Eisenhower Matrix is a simple way to prioritize tasks by separating what is urgent from what is
+          important. Instead of reacting to every notification, you decide where each task belongs in a 2×2 grid.
+          That keeps your focus on high-impact work while still handling the true emergencies.
         </p>
         <p>
-          Everything stays on your device and in your browser. No accounts, no tracking, no sync.
+          This tool lets you capture tasks quickly, then move them into the right quadrant. Everything stays on
+          your device, so you can make decisions fast without creating accounts or syncing data.
         </p>
+
+        <h2>The 4 quadrants</h2>
+        <div class="quadrant-guide">
+          <div>
+            <h3>Do First (Urgent + Important)</h3>
+            <p>
+              These are the tasks with immediate deadlines or real consequences. If you delay them, you create
+              more risk or cost, so they should be done now.
+            </p>
+            <ul>
+              <li>Fix a production outage</li>
+              <li>Submit a deadline-sensitive proposal</li>
+              <li>Respond to a critical customer issue</li>
+              <li>Prepare for today’s meeting</li>
+            </ul>
+            <p class="quadrant-action">Recommended action: <strong>Do now.</strong></p>
+          </div>
+          <div>
+            <h3>Schedule (Not Urgent + Important)</h3>
+            <p>
+              This quadrant is about long-term value: planning, learning, and relationship building. These tasks
+              move the needle, but they are easy to postpone unless you schedule them.
+            </p>
+            <ul>
+              <li>Write a project roadmap</li>
+              <li>Train for a certification</li>
+              <li>Plan next quarter goals</li>
+              <li>Schedule a 1:1 with a mentor</li>
+            </ul>
+            <p class="quadrant-action">Recommended action: <strong>Schedule it.</strong></p>
+          </div>
+          <div>
+            <h3>Delegate (Urgent + Not Important)</h3>
+            <p>
+              These tasks feel pressing but don’t require your unique skills. If someone else can do them, move
+              them off your plate so you can stay focused.
+            </p>
+            <ul>
+              <li>Routine status updates</li>
+              <li>Meeting logistics</li>
+              <li>Basic data cleanup</li>
+              <li>Scheduling customer demos</li>
+            </ul>
+            <p class="quadrant-action">Recommended action: <strong>Delegate.</strong></p>
+          </div>
+          <div>
+            <h3>Eliminate (Not Urgent + Not Important)</h3>
+            <p>
+              These tasks add little value and can distract you from meaningful work. If they do not serve a real
+              goal, remove them or say no.
+            </p>
+            <ul>
+              <li>Low-impact meetings</li>
+              <li>Re-checking dashboards with no decisions</li>
+              <li>Optional tasks with no outcome</li>
+              <li>Scrolling through outdated inbox threads</li>
+            </ul>
+            <p class="quadrant-action">Recommended action: <strong>Eliminate.</strong></p>
+          </div>
+        </div>
+
+        <h2>How to use this tool</h2>
+        <ol>
+          <li>Do a quick brain dump and add every task.</li>
+          <li>Decide if each task is urgent, important, both, or neither.</li>
+          <li>Drag tasks into the right quadrant.</li>
+          <li>Schedule time for the “Schedule” items.</li>
+          <li>Delegate what you can and remove what you should not do.</li>
+          <li>Review daily or weekly and clear completed items.</li>
+        </ol>
+
+        <h2>Urgent vs important: what’s the difference?</h2>
+        <p>
+          Urgent tasks demand immediate attention and often have a deadline. Important tasks contribute to
+          long-term goals and meaningful outcomes. An urgent task might be “respond to a bug report,” while an
+          important task might be “improve reliability so bugs happen less often.” The matrix helps you handle
+          what is urgent without neglecting what is important.
+        </p>
+
+        <h2>FAQ</h2>
+        <dl class="faq-list">
+          <dt>Does this save my tasks?</dt>
+          <dd>Yes. Tasks are saved locally in your browser using localStorage.</dd>
+          <dt>Is an account required?</dt>
+          <dd>No. There is no login or signup.</dd>
+          <dt>Can I access from another device?</dt>
+          <dd>No. Tasks stay on the device and browser where you created them.</dd>
+          <dt>How often should I review the matrix?</dt>
+          <dd>Most people review it daily or weekly to keep priorities fresh.</dd>
+          <dt>What should I put in “Schedule”?</dt>
+          <dd>Important tasks that are not urgent yet, like planning, learning, or relationship work.</dd>
+          <dt>Is this based on Eisenhower’s method?</dt>
+          <dd>Yes. It follows the classic urgent vs important prioritization framework.</dd>
+          <dt>How do I clear my data?</dt>
+          <dd>Use the “Clear all” button or clear this site’s storage in your browser settings.</dd>
+        </dl>
       </section>
     </main>
+    <footer class="site-footer">
+      <p>
+        Built for focus. No tracking, no accounts. <a href="PRIVACY.md">Privacy</a>
+      </p>
+    </footer>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does this save my tasks?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Tasks are saved locally in your browser using localStorage."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is an account required?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. There is no login or signup."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I access from another device?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Tasks stay on the device and browser where you created them."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How often should I review the matrix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most people review it daily or weekly to keep priorities fresh."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What should I put in “Schedule”?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Important tasks that are not urgent yet, like planning, learning, or relationship work."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is this based on Eisenhower’s method?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. It follows the classic urgent vs important prioritization framework."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I clear my data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use the “Clear all” button or clear this site’s storage in your browser settings."
+            }
+          }
+        ]
+      }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
     <script src="app.js"></script>
