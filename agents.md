@@ -1,7 +1,7 @@
 # agents.md
 
 ## Project
-A single-page Eisenhower Matrix tool (Urgent vs Important) with local-only persistence (no backend).
+A static Eisenhower Matrix tool (Urgent vs Important) with local-only persistence (no backend), plus supporting SEO/content pages.
 
 ## Non-negotiables
 - Static site only: HTML/CSS/Vanilla JS.
@@ -47,6 +47,16 @@ Quadrant IDs:
 - No long explanations above the tool.
 - Use simple, direct labels.
 - Mobile: stack quadrants vertically in order: Do First, Schedule, Delegate, Eliminate.
+
+## File structure (current)
+- `index.html` (tool)
+- `quadrants.html`
+- `urgent-vs-important.html`
+- `examples.html`
+- `about.html`
+- `privacy.html`
+- `styles.css`
+- `app.js`
 
 ## Changes
 If you change architecture, file structure, or storage format:

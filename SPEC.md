@@ -4,7 +4,12 @@
 A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks by urgency and importance. Tasks persist locally in the browser.
 
 ## Pages
-- `index.html` only (single page).
+- `index.html` (interactive tool homepage)
+- `quadrants.html` (4 quadrants explainer)
+- `urgent-vs-important.html` (concept page + FAQ)
+- `examples.html` (sample matrices)
+- `about.html` (short about page)
+- `privacy.html` (privacy summary page)
 
 ## Features
 
@@ -43,6 +48,9 @@ A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks
 - Title: includes “Eisenhower Matrix”
 - H1: “Eisenhower Matrix”
 - Short description below the tool (a few paragraphs max).
+- Supporting pages include unique title, meta description, canonical, and WebPage JSON-LD.
+- `urgent-vs-important.html` includes on-page FAQ + FAQPage JSON-LD.
+- Shared internal links connect homepage and supporting pages.
 
 ## Non-goals (explicitly out of scope)
 - Accounts / login

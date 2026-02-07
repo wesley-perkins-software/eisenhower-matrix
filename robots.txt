@@ -1,5 +1,10 @@
 User-agent: *
 Allow: /
+Allow: /quadrants.html
+Allow: /urgent-vs-important.html
+Allow: /examples.html
+Allow: /about.html
+Allow: /privacy.html
 
 # TODO: Update sitemap URL once your domain is known.
 Sitemap: https://example.com/sitemap.xml
