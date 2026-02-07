@@ -241,10 +241,77 @@ select {
   font-size: 0.82rem;
 }
 
-.matrix {
+.matrix-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: minmax(40px, auto) repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+}
+
+/* Axis labels for the Eisenhower Matrix grid */
+.axis-label {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.axis-spacer {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.axis-label--top {
+  align-self: end;
+}
+
+.axis-label--side {
+  align-self: center;
+  justify-self: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.axis-label--urgent {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.axis-label--not-urgent {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.axis-label--important {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.axis-label--not-important {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.matrix-grid [data-quadrant="do_first"] {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.matrix-grid [data-quadrant="schedule"] {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.matrix-grid [data-quadrant="delegate"] {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.matrix-grid [data-quadrant="eliminate"] {
+  grid-column: 3;
+  grid-row: 3;
 }
 
 .quadrant {
@@ -631,8 +698,17 @@ select {
 }
 
 @media (max-width: 800px) {
-  .matrix {
-    grid-template-columns: 1fr;
+  .matrix-grid {
+    display: block;
+  }
+
+  .axis-label,
+  .axis-spacer {
+    display: none;
+  }
+
+  .matrix-grid > .quadrant + .quadrant {
+    margin-top: 18px;
   }
 
   .page-header {
