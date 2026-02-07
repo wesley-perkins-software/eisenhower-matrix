@@ -241,6 +241,39 @@ select {
   font-size: 0.82rem;
 }
 
+.matrix-axis {
+  display: grid;
+  grid-template-columns: minmax(88px, auto) repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+}
+
+/* Axis labels for the Eisenhower Matrix grid */
+.axis-label {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.axis-label--top {
+  align-self: end;
+}
+
+.axis-label--side {
+  align-self: center;
+  justify-self: end;
+  text-align: right;
+  padding-right: 6px;
+}
+
+.matrix-axis .matrix {
+  grid-column: 2 / 4;
+  grid-row: 2 / 4;
+}
+
 .matrix {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -631,6 +664,14 @@ select {
 }
 
 @media (max-width: 800px) {
+  .matrix-axis {
+    display: block;
+  }
+
+  .axis-label {
+    display: none;
+  }
+
   .matrix {
     grid-template-columns: 1fr;
   }
