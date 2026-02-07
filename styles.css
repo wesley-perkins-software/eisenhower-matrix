@@ -251,8 +251,8 @@ select {
 /* Axis labels for the Eisenhower Matrix grid */
 .axis-label {
   margin: 0;
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-size: 1.50rem;
+  font-weight: 1000;
   color: var(--muted);
   text-align: center;
   letter-spacing: 0.02em;
