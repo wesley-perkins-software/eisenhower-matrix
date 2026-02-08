@@ -193,13 +193,15 @@ select {
 .lead {
   margin-top: 12px;
   color: var(--muted);
-  max-width: 560px;
+  max-width: 520px;
+  text-wrap: balance;
 }
 
 .hero-note {
   margin-top: 6px;
   color: var(--muted);
   font-size: 0.85rem;
+  max-width: 520px;
 }
 
 .header-actions {
@@ -250,10 +252,13 @@ select {
 .how-it-works {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 16px;
+  gap: 6px 16px;
   align-items: center;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .how-it-works__label {
@@ -261,6 +266,7 @@ select {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.7rem;
+  opacity: 0.75;
 }
 
 .how-it-works__steps {
@@ -429,7 +435,7 @@ select {
   font-size: 0.8rem;
   padding: 10px 12px;
   text-align: center;
-  opacity: 0.5;
+  opacity: 0.45;
   pointer-events: none;
 }
 
@@ -500,8 +506,8 @@ select {
 }
 
 .btn.tiny {
-  padding: 5px 10px;
-  font-size: 0.76rem;
+  padding: 4px 8px;
+  font-size: 0.72rem;
   background: var(--accent);
   color: #fff;
 }
@@ -741,6 +747,13 @@ select {
   color: var(--ink);
 }
 
+.storage-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-align: right;
+}
+
 .site-footer {
   text-align: center;
   padding: 12px 20px 32px;
@@ -775,6 +788,10 @@ select {
 
   .how-it-works {
     align-items: flex-start;
+  }
+
+  .storage-note {
+    text-align: left;
   }
 }
 
