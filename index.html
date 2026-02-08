@@ -81,10 +81,11 @@
         <div>
           <p class="eyebrow">Urgent vs Important</p>
           <h1>Eisenhower Matrix</h1>
-          <p class="lead">Sort tasks fast, focus on what matters, and keep everything local to your browser.</p>
+          <p class="lead">A simple Eisenhower Matrix you can use instantly — no signup, no syncing, no clutter.</p>
+          <p class="hero-note">Inspired by Eisenhower’s urgent vs important framework.</p>
         </div>
         <div class="header-actions">
-          <button class="btn ghost" id="clear-all" type="button">Clear all</button>
+          <button class="btn ghost" id="clear-all" type="button" title="Clears all tasks saved on this device">Clear all tasks</button>
         </div>
       </header>
 
@@ -103,6 +104,15 @@
 
       <p class="helper-tip" aria-live="polite">Tip: Add tasks, then drag them between boxes.</p>
       <p class="helper-tip helper-tip--secondary">No signup. Saves on this device (localStorage).</p>
+
+      <section class="how-it-works" aria-label="How it works">
+        <span class="how-it-works__label">How it works</span>
+        <ol class="how-it-works__steps">
+          <li>Add what’s on your mind</li>
+          <li>Drag tasks into the right box</li>
+          <li>Do what matters</li>
+        </ol>
+      </section>
 
       <section class="matrix-grid" aria-label="Eisenhower matrix">
         <!-- Axis labels for the Eisenhower Matrix -->
@@ -157,7 +167,11 @@
         </article>
       </section>
 
-      <section class="seo-content" aria-label="Eisenhower Matrix guide">
+      <p class="scroll-cue">
+        <a href="#what-is" class="scroll-cue__link">Scroll down to learn how the Eisenhower Matrix works →</a>
+      </p>
+
+      <section class="seo-content" id="what-is" aria-label="Eisenhower Matrix guide">
         <h2>What is the Eisenhower Matrix?</h2>
         <p>
           The Eisenhower Matrix is a simple way to get unstuck when your to-do list feels messy or overwhelming. It
@@ -260,7 +274,7 @@
           <dt>Is this based on Eisenhower’s method?</dt>
           <dd>Yes. It’s the classic urgent vs important approach, just simplified.</dd>
           <dt>How do I clear my data?</dt>
-          <dd>Use the “Clear all” button or wipe this site’s storage in your browser.</dd>
+          <dd>Use the “Clear all tasks” button or wipe this site’s storage in your browser.</dd>
         </dl>
       </section>
     </main>
@@ -328,7 +342,7 @@
             "name": "How do I clear my data?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Use the “Clear all” button or wipe this site’s storage in your browser."
+              "text": "Use the “Clear all tasks” button or wipe this site’s storage in your browser."
             }
           }
         ]
