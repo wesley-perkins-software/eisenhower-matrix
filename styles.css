@@ -200,7 +200,7 @@ select {
 .hero-note {
   margin-top: 6px;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   max-width: 520px;
 }
 
@@ -239,54 +239,13 @@ select {
 }
 
 .helper-tip {
-  margin-top: -10px;
-  color: var(--muted);
-  font-size: 0.88rem;
-}
-
-.helper-tip--secondary {
   margin-top: -6px;
-  font-size: 0.82rem;
-}
-
-.how-it-works {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 16px;
-  align-items: center;
   color: var(--muted);
   font-size: 0.82rem;
-  letter-spacing: 0.01em;
-  padding-left: 12px;
-  padding-right: 12px;
 }
 
-.how-it-works__label {
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.7rem;
-  opacity: 0.75;
-}
-
-.how-it-works__steps {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.how-it-works__steps li::before {
-  content: "•";
-  margin-right: 6px;
-  color: var(--accent);
-}
-
-.how-it-works__steps li:first-child::before {
-  content: "";
-  margin-right: 0;
+.helper-tip--single {
+  font-size: 0.8rem;
 }
 
 .matrix-grid {
@@ -424,16 +383,16 @@ select {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 8px;
+  gap: 6px;
   flex: 1;
-  min-height: 140px;
+  min-height: 96px;
 }
 
 .task-list:empty::before {
   content: attr(data-empty-hint);
   color: var(--muted);
-  font-size: 0.8rem;
-  padding: 10px 12px;
+  font-size: 0.78rem;
+  padding: 6px 8px;
   text-align: center;
   opacity: 0.45;
   pointer-events: none;
@@ -448,8 +407,8 @@ select {
 .task {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 8px 10px;
+  border-radius: 8px;
+  padding: 6px 8px;
 }
 
 .task-top {
@@ -520,12 +479,13 @@ select {
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .icon-btn:hover {
@@ -747,13 +707,6 @@ select {
   color: var(--ink);
 }
 
-.storage-note {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.8rem;
-  text-align: right;
-}
-
 .site-footer {
   text-align: center;
   padding: 12px 20px 32px;
@@ -784,14 +737,6 @@ select {
   .cta-strip {
     align-items: flex-start;
     justify-content: flex-start;
-  }
-
-  .how-it-works {
-    align-items: flex-start;
-  }
-
-  .storage-note {
-    text-align: left;
   }
 }
 
