@@ -385,23 +385,34 @@ select {
   display: grid;
   gap: 6px;
   flex: 1;
-  min-height: 96px;
+  min-height: 0;
+  max-height: 260px;
+  overflow-y: auto;
+  position: relative;
 }
 
 .task-list:empty::before {
   content: attr(data-empty-hint);
   color: var(--muted);
   font-size: 0.78rem;
-  padding: 6px 8px;
+  padding: 0;
   text-align: center;
   opacity: 0.45;
   pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
 }
 
-.task-list:empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.task-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
 }
 
 .task {
