@@ -193,7 +193,15 @@ select {
 .lead {
   margin-top: 12px;
   color: var(--muted);
-  max-width: 560px;
+  max-width: 520px;
+  text-wrap: balance;
+}
+
+.hero-note {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  max-width: 520px;
 }
 
 .header-actions {
@@ -231,14 +239,13 @@ select {
 }
 
 .helper-tip {
-  margin-top: -10px;
+  margin-top: -6px;
   color: var(--muted);
-  font-size: 0.88rem;
+  font-size: 0.82rem;
 }
 
-.helper-tip--secondary {
-  margin-top: -6px;
-  font-size: 0.82rem;
+.helper-tip--single {
+  font-size: 0.8rem;
 }
 
 .matrix-grid {
@@ -374,34 +381,45 @@ select {
 .task-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 10px 0 0;
   display: grid;
-  gap: 8px;
-  flex: 1;
-  min-height: 140px;
+  gap: 6px;
+  flex: 0 0 auto;
+  min-height: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  position: relative;
 }
 
 .task-list:empty::before {
   content: attr(data-empty-hint);
   color: var(--muted);
-  font-size: 0.8rem;
-  padding: 10px 12px;
+  font-size: 0.78rem;
+  padding: 0;
   text-align: center;
-  opacity: 0.6;
+  opacity: 0.45;
   pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
 }
 
-.task-list:empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.task-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
 }
 
 .task {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 8px 10px;
+  border-radius: 8px;
+  padding: 6px 8px;
 }
 
 .task-top {
@@ -458,8 +476,8 @@ select {
 }
 
 .btn.tiny {
-  padding: 5px 10px;
-  font-size: 0.76rem;
+  padding: 4px 8px;
+  font-size: 0.72rem;
   background: var(--accent);
   color: #fff;
 }
@@ -472,12 +490,13 @@ select {
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .icon-btn:hover {
@@ -682,6 +701,21 @@ select {
 .faq-list dd {
   margin: 4px 0 0;
   color: var(--muted);
+}
+
+.scroll-cue {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.scroll-cue__link {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.scroll-cue__link:hover {
+  color: var(--ink);
 }
 
 .site-footer {

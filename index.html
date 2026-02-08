@@ -81,10 +81,10 @@
         <div>
           <p class="eyebrow">Urgent vs Important</p>
           <h1>Eisenhower Matrix</h1>
-          <p class="lead">Sort tasks fast, focus on what matters, and keep everything local to your browser.</p>
+          <p class="hero-note">Inspired by Eisenhower’s urgent vs important framework.</p>
         </div>
         <div class="header-actions">
-          <button class="btn ghost" id="clear-all" type="button">Clear all</button>
+          <button class="btn ghost" id="clear-all" type="button" title="Clears all tasks saved on this device">Clear all tasks</button>
         </div>
       </header>
 
@@ -101,8 +101,7 @@
         <button class="btn primary" id="add-task" type="button">Add</button>
       </section>
 
-      <p class="helper-tip" aria-live="polite">Tip: Add tasks, then drag them between boxes.</p>
-      <p class="helper-tip helper-tip--secondary">No signup. Saves on this device (localStorage).</p>
+      <p class="helper-tip helper-tip--single" aria-live="polite">Add tasks, drag to sort. Saves automatically on this device.</p>
 
       <section class="matrix-grid" aria-label="Eisenhower matrix">
         <!-- Axis labels for the Eisenhower Matrix -->
@@ -120,7 +119,7 @@
             </div>
             <button class="btn tiny" data-add="do_first" type="button">+ Add task</button>
           </header>
-          <ul class="task-list" data-list="do_first" data-empty-hint="Drop tasks here" aria-label="Do First tasks"></ul>
+          <ul class="task-list" data-list="do_first" data-empty-hint="Drop here" aria-label="Do First tasks"></ul>
         </article>
 
         <article class="quadrant" data-quadrant="schedule">
@@ -131,7 +130,7 @@
             </div>
             <button class="btn tiny" data-add="schedule" type="button">+ Add task</button>
           </header>
-          <ul class="task-list" data-list="schedule" data-empty-hint="Drop tasks here" aria-label="Schedule tasks"></ul>
+          <ul class="task-list" data-list="schedule" data-empty-hint="Drop here" aria-label="Schedule tasks"></ul>
         </article>
 
         <article class="quadrant" data-quadrant="delegate">
@@ -142,7 +141,7 @@
             </div>
             <button class="btn tiny" data-add="delegate" type="button">+ Add task</button>
           </header>
-          <ul class="task-list" data-list="delegate" data-empty-hint="Drop tasks here" aria-label="Delegate tasks"></ul>
+          <ul class="task-list" data-list="delegate" data-empty-hint="Drop here" aria-label="Delegate tasks"></ul>
         </article>
 
         <article class="quadrant" data-quadrant="eliminate">
@@ -153,11 +152,15 @@
             </div>
             <button class="btn tiny" data-add="eliminate" type="button">+ Add task</button>
           </header>
-          <ul class="task-list" data-list="eliminate" data-empty-hint="Drop tasks here" aria-label="Eliminate tasks"></ul>
+          <ul class="task-list" data-list="eliminate" data-empty-hint="Drop here" aria-label="Eliminate tasks"></ul>
         </article>
       </section>
 
-      <section class="seo-content" aria-label="Eisenhower Matrix guide">
+      <p class="scroll-cue">
+        <a href="#what-is" class="scroll-cue__link">Scroll down to learn how the Eisenhower Matrix works →</a>
+      </p>
+
+      <section class="seo-content" id="what-is" aria-label="Eisenhower Matrix guide">
         <h2>What is the Eisenhower Matrix?</h2>
         <p>
           The Eisenhower Matrix is a simple way to get unstuck when your to-do list feels messy or overwhelming. It
@@ -260,7 +263,7 @@
           <dt>Is this based on Eisenhower’s method?</dt>
           <dd>Yes. It’s the classic urgent vs important approach, just simplified.</dd>
           <dt>How do I clear my data?</dt>
-          <dd>Use the “Clear all” button or wipe this site’s storage in your browser.</dd>
+          <dd>Use the “Clear all tasks” button or wipe this site’s storage in your browser.</dd>
         </dl>
       </section>
     </main>
@@ -328,7 +331,7 @@
             "name": "How do I clear my data?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Use the “Clear all” button or wipe this site’s storage in your browser."
+              "text": "Use the “Clear all tasks” button or wipe this site’s storage in your browser."
             }
           }
         ]
