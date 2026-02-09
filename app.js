@@ -211,6 +211,10 @@ function initDragAndDrop() {
     Sortable.create(list, {
       group: "matrix",
       animation: 150,
+      emptyInsertThreshold: 9999,
+      fallbackTolerance: 3,
+      filter: ".icon-btn, .task-edit",
+      preventOnFilter: false,
       onEnd: (event) => {
         const movedId = event.item.getAttribute("data-id");
         const newQuadrant = event.to.getAttribute("data-list");
