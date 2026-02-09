@@ -380,15 +380,20 @@ select {
 
 .task-list {
   list-style: none;
-  padding: 0;
+  padding: 10px;
   margin: 10px 0 0;
   display: grid;
   gap: 6px;
-  flex: 0 0 auto;
-  min-height: 0;
-  max-height: 220px;
+  flex: 1 1 auto;
+  min-height: 120px;
+  width: 100%;
   overflow-y: auto;
   position: relative;
+  border-radius: var(--radius-sm);
+}
+
+.task-list:empty {
+  border: 1px dashed rgba(0, 0, 0, 0.12);
 }
 
 .task-list:empty::before {

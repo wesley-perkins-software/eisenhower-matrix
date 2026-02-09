@@ -218,6 +218,7 @@ function initDragAndDrop() {
       handle: ".task-grab",
       filter: ".icon-btn, .task-edit",
       preventOnFilter: false,
+      emptyInsertThreshold: 9999,
       fallbackTolerance: 3,
       delay: 120,
       delayOnTouchOnly: true,
