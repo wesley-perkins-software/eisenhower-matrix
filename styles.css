@@ -199,8 +199,9 @@ select {
 
 .hero-note {
   margin-top: 6px;
-  color: var(--muted);
-  font-size: 0.82rem;
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-weight: 600;
   max-width: 520px;
 }
 
@@ -240,12 +241,13 @@ select {
 
 .helper-tip {
   margin-top: -6px;
-  color: var(--muted);
-  font-size: 0.82rem;
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
 .helper-tip--single {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 .matrix-grid {
