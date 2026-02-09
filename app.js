@@ -131,7 +131,7 @@ function createTaskElement(task) {
   const textSpan = document.createElement("span");
   textSpan.className = "task-text";
   textSpan.textContent = task.text;
-  textSpan.title = "Click to edit";
+  textSpan.title = "Click to edit • Enter to save • Esc to cancel";
 
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
@@ -210,7 +210,15 @@ function initDragAndDrop() {
   elements.lists.forEach((list) => {
     Sortable.create(list, {
       group: "matrix",
-      animation: 150,
+      animation: 180,
+      easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+      ghostClass: "is-ghost",
+      chosenClass: "is-chosen",
+      dragClass: "is-dragging",
+      handle: ".task-text",
+      filter: ".icon-btn, .task-edit",
+      preventOnFilter: false,
+      swapThreshold: 0.65,
       onEnd: (event) => {
         const movedId = event.item.getAttribute("data-id");
         const newQuadrant = event.to.getAttribute("data-list");
@@ -254,10 +262,16 @@ function initPerQuadrantAdd() {
   elements.addButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const quadrant = button.getAttribute("data-add");
-      const text = window.prompt("New task:");
-      if (text !== null) {
-        addTask(text, quadrant);
-      }
+      if (!quadrant) return;
+      elements.quadrantSelect.value = quadrant;
+      state.lastQuadrant = quadrant;
+      saveStateDebounced();
+      elements.taskInput.focus();
+      elements.taskInput.select();
+      elements.taskInput.classList.add("pulse");
+      window.setTimeout(() => {
+        elements.taskInput.classList.remove("pulse");
+      }, 220);
     });
   });
 }

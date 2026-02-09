@@ -253,6 +253,7 @@ select {
   grid-template-columns: minmax(40px, auto) repeat(2, minmax(0, 1fr));
   grid-template-rows: auto repeat(2, minmax(0, 1fr));
   gap: 12px 18px;
+  height: clamp(520px, 62vh, 720px);
 }
 
 /* Axis labels for the Eisenhower Matrix grid */
@@ -330,7 +331,8 @@ select {
   padding: 14px;
   display: flex;
   flex-direction: column;
-  min-height: 240px;
+  height: 100%;
+  min-height: 0;
   box-shadow: var(--shadow);
 }
 
@@ -382,12 +384,13 @@ select {
   list-style: none;
   padding: 0;
   margin: 10px 0 0;
-  display: grid;
-  gap: 6px;
-  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
   min-height: 0;
-  max-height: 220px;
-  overflow-y: auto;
+  overflow: auto;
+  scrollbar-gutter: stable;
   position: relative;
 }
 
@@ -418,8 +421,15 @@ select {
 .task {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 6px 8px;
+  border-radius: 12px;
+  padding: 8px 10px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.task:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
 }
 
 .task-top {
@@ -430,8 +440,22 @@ select {
 }
 
 .task-text {
-  cursor: pointer;
+  cursor: grab;
   font-weight: 600;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.task-text:hover {
+  text-decoration: underline;
+}
+
+.task-text:active {
+  cursor: grabbing;
 }
 
 .task-edit {
@@ -478,12 +502,15 @@ select {
 .btn.tiny {
   padding: 4px 8px;
   font-size: 0.72rem;
-  background: var(--accent);
-  color: #fff;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
 }
 
 .btn.tiny:hover {
-  filter: brightness(0.93);
+  border-color: var(--primary);
+  color: var(--ink);
+  transform: translateY(-1px);
 }
 
 .icon-btn {
@@ -497,10 +524,42 @@ select {
   justify-content: center;
   cursor: pointer;
   font-size: 0.8rem;
+  opacity: 0.45;
+  transition: opacity var(--transition), border-color var(--transition);
+}
+
+.task:hover .icon-btn,
+.task:focus-within .icon-btn {
+  opacity: 1;
 }
 
 .icon-btn:hover {
   border-color: var(--primary);
+}
+
+.is-ghost {
+  opacity: 0.45;
+}
+
+.is-chosen {
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.is-dragging {
+  cursor: grabbing;
+}
+
+#task-input.pulse {
+  animation: input-pulse 0.22s ease-in-out;
+}
+
+@keyframes input-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 0 6px rgba(37, 99, 235, 0);
+  }
 }
 
 .description {
