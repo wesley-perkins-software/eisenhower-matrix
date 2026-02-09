@@ -32,9 +32,137 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Eisenhower Matrix",
-        "url": "/"
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Will my tasks be saved?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Your tasks are saved in this browser on this device using localStorage."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need an account?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. There is no sign up, login, or account setup."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use this on another device?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can, but tasks do not sync. Each device and browser keeps its own list."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does this tool work offline?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It may continue to work after the page has loaded once, but offline use is not guaranteed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my data private?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Your tasks stay in your browser. There is no backend or account tied to your data."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens if I clear my browser data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If you clear site data or localStorage, your saved tasks will be removed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between urgent and important?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Urgent means time-sensitive. Important means it supports a goal or responsibility even if it can wait."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a priority matrix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A priority matrix is a simple framework for sorting tasks by value and urgency. The Eisenhower Matrix is a well-known example."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I decide where a task belongs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ask two questions: does it need attention soon, and does it meaningfully support your goals? Place it where the answers match."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What should I do with tasks that feel urgent but are not important?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Move them to “Delegate” if someone else can handle them, or simplify the task so it takes less of your time."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I print or export my matrix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "This tool does not include print or export features. You can copy tasks manually if needed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens if I use a different browser?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Each browser stores its own localStorage, so your tasks will not appear elsewhere."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How often should I update my matrix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Update it whenever priorities shift. Many people review daily or weekly to keep it accurate."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What belongs in “Schedule”?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Important tasks that are not urgent yet, such as planning, learning, or long-term projects."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is this the Eisenhower Matrix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. It is the classic urgent vs important method presented in a simple layout."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I clear everything?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use the “Clear all tasks” button or remove this site’s storage in your browser settings."
+            }
+          }
+        ]
       }
     </script>
     <script type="application/ld+json">
@@ -163,12 +291,13 @@
       <section class="seo-content" id="what-is" aria-label="Eisenhower Matrix guide">
         <h2>What is the Eisenhower Matrix?</h2>
         <p>
-          The Eisenhower Matrix is a simple way to get unstuck when your to-do list feels messy or overwhelming. It
-          helps you sort tasks by “urgent vs important” so you’re not reacting to everything at once.
+          The Eisenhower Matrix is a simple priority matrix that helps with task prioritization by separating what is
+          urgent vs important. It is a practical time management approach that turns a long list into four clear
+          categories.
         </p>
         <p>
-          Think of it as a quick reset: you put tasks into a 2×2 grid and decide what needs attention now, what can
-          wait, and what you can let go. This tool keeps it light and local so you can focus without extra setup.
+          This productivity tool keeps the method lightweight: add tasks, place them into a quadrant, and focus on what
+          matters first. There is no sign up, and your list stays on this device.
         </p>
 
         <h2>The 4 quadrants</h2>
@@ -176,56 +305,54 @@
           <div>
             <h3>Do First (Urgent + Important)</h3>
             <p>
-              These are the tasks that are pressing and truly matter. If you ignore them, something real breaks,
-              slips, or gets worse.
+              These tasks need attention soon and have real impact. They are time-sensitive and meaningful, so they
+              should be handled first.
             </p>
             <ul>
-              <li>Pay an overdue bill</li>
-              <li>Reply to an urgent message</li>
-              <li>Turn in an assignment due tonight</li>
-              <li>Handle a last-minute work issue</li>
+              <li>Reply to a time-sensitive request</li>
+              <li>Pay a bill due today</li>
+              <li>Finish an assignment due soon</li>
+              <li>Resolve a work issue with a deadline</li>
             </ul>
-            <p class="quadrant-action">Do these first so you can breathe again.</p>
+            <p class="quadrant-action">Focus here to reduce immediate pressure.</p>
           </div>
           <div>
             <h3>Schedule (Not Urgent + Important)</h3>
             <p>
-              These matter, but nothing is on fire. They’re easy to delay, which is why they need a spot on your
-              calendar.
+              These tasks matter, but they are not urgent yet. Planning them protects your long-term goals.
             </p>
             <ul>
-              <li>Study for an exam</li>
-              <li>Plan a family budget</li>
-              <li>Start a workout routine</li>
+              <li>Plan the next week</li>
               <li>Work on a long-term project</li>
+              <li>Build a learning habit</li>
+              <li>Book a routine appointment</li>
             </ul>
-            <p class="quadrant-action">Pick a time and put it on your calendar.</p>
+            <p class="quadrant-action">Put these on your calendar so they happen.</p>
           </div>
           <div>
             <h3>Delegate (Urgent + Not Important)</h3>
             <p>
-              These feel urgent but don’t really need your full attention. If someone else can handle them, let
-              them.
+              These tasks feel urgent but do not require your specific attention. If possible, share or delegate them.
             </p>
             <ul>
-              <li>Rescheduling appointments</li>
-              <li>Returning non-urgent calls</li>
-              <li>Running a quick errand</li>
-              <li>Answering routine emails</li>
+              <li>Schedule a meeting you do not need to lead</li>
+              <li>Handle a routine request</li>
+              <li>Respond to a non-critical message</li>
+              <li>Follow up on a standard form or document</li>
             </ul>
-            <p class="quadrant-action">Share it or hand it off if you can.</p>
+            <p class="quadrant-action">Ask for help or set a simple handoff.</p>
           </div>
           <div>
             <h3>Eliminate (Not Urgent + Not Important)</h3>
             <p>
-              These don’t move anything forward. They soak up time and make the list feel heavier than it needs to
-              be.
+              These tasks add little value and can distract from what matters. Consider removing them or saving them for
+              later if they are optional.
             </p>
             <ul>
-              <li>Scrolling for too long</li>
-              <li>Re-reading old messages</li>
-              <li>Optional tasks with no clear payoff</li>
-              <li>Extra chores you can skip today</li>
+              <li>Optional tasks with no clear benefit</li>
+              <li>Low-value notifications to check</li>
+              <li>Busywork that does not move goals forward</li>
+              <li>Tasks you added without a clear reason</li>
             </ul>
             <p class="quadrant-action">Let these go and make space.</p>
           </div>
@@ -233,19 +360,18 @@
 
         <h2>How to use this tool</h2>
         <ol>
-          <li>Do a fast brain dump so the tasks leave your head.</li>
-          <li>Ask “urgent, important, both, or neither?” for each one.</li>
-          <li>Drag each task into the matching quadrant.</li>
-          <li>Give your “Schedule” items a real time to happen.</li>
-          <li>Hand off what you can and drop what doesn’t matter.</li>
-          <li>Check back later and clear finished tasks.</li>
+          <li>Add tasks quickly so they are out of your head and in one place.</li>
+          <li>Decide if each task is urgent, important, both, or neither.</li>
+          <li>Drag tasks into the matching quadrant.</li>
+          <li>Give “Schedule” items a specific date or time.</li>
+          <li>Delegate or simplify tasks that are urgent but not important.</li>
+          <li>Review the list regularly and clear completed tasks.</li>
         </ol>
 
         <h2>Urgent vs important: what’s the difference?</h2>
         <p>
-          Urgent tasks are noisy or time-sensitive, like a message that needs a reply today or a bill due tomorrow.
-          Important tasks matter to your life or goals, but they’re easy to delay—like studying, planning meals, or
-          booking a checkup. The matrix helps you handle the loud stuff without forgetting the meaningful stuff.
+          Urgent tasks are time-sensitive and need attention soon. Important tasks support your goals, responsibilities,
+          or wellbeing. The Eisenhower Matrix helps you act quickly where needed while protecting time for what matters.
         </p>
 
         <h2>FAQ</h2>
@@ -253,15 +379,33 @@
           <dt>Will my tasks be saved?</dt>
           <dd>Yes. Your tasks are saved in this browser on this device using localStorage.</dd>
           <dt>Do I need an account?</dt>
-          <dd>No. There are no logins or sign-ups.</dd>
+          <dd>No. There is no sign up, login, or account setup.</dd>
           <dt>Can I use this on another device?</dt>
-          <dd>You can, but tasks don’t sync. Each device and browser keeps its own list.</dd>
-          <dt>How often should I review the matrix?</dt>
-          <dd>Choose a rhythm that fits—daily, weekly, or whenever things feel overwhelming.</dd>
+          <dd>You can, but tasks do not sync. Each device and browser keeps its own list.</dd>
+          <dt>Does this tool work offline?</dt>
+          <dd>It may continue to work after the page has loaded once, but offline use is not guaranteed.</dd>
+          <dt>Is my data private?</dt>
+          <dd>Your tasks stay in your browser. There is no backend or account tied to your data.</dd>
+          <dt>What happens if I clear my browser data?</dt>
+          <dd>If you clear site data or localStorage, your saved tasks will be removed.</dd>
+          <dt>What is the difference between urgent and important?</dt>
+          <dd>Urgent means time-sensitive. Important means it supports a goal or responsibility even if it can wait.</dd>
+          <dt>What is a priority matrix?</dt>
+          <dd>A priority matrix is a simple framework for sorting tasks by value and urgency. The Eisenhower Matrix is a well-known example.</dd>
+          <dt>How do I decide where a task belongs?</dt>
+          <dd>Ask two questions: does it need attention soon, and does it meaningfully support your goals? Place it where the answers match.</dd>
+          <dt>What should I do with tasks that feel urgent but are not important?</dt>
+          <dd>Move them to “Delegate” if someone else can handle them, or simplify the task so it takes less of your time.</dd>
+          <dt>Can I print or export my matrix?</dt>
+          <dd>This tool does not include print or export features. You can copy tasks manually if needed.</dd>
+          <dt>What happens if I use a different browser?</dt>
+          <dd>Each browser stores its own localStorage, so your tasks will not appear elsewhere.</dd>
+          <dt>How often should I update my matrix?</dt>
+          <dd>Update it whenever priorities shift. Many people review daily or weekly to keep it accurate.</dd>
           <dt>What belongs in “Schedule”?</dt>
-          <dd>Important, not urgent items—like planning, learning, health, or long-term projects.</dd>
+          <dd>Important tasks that are not urgent yet, such as planning, learning, or long-term projects.</dd>
           <dt>Is this the Eisenhower Matrix?</dt>
-          <dd>Yes. It’s the classic urgent vs important method in a simple format.</dd>
+          <dd>Yes. It is the classic urgent vs important method presented in a simple layout.</dd>
           <dt>How do I clear everything?</dt>
           <dd>Use the “Clear all tasks” button or remove this site’s storage in your browser settings.</dd>
         </dl>
@@ -291,7 +435,7 @@
             "name": "Do I need an account?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. There are no logins or sign-ups."
+              "text": "No. There is no sign up, login, or account setup."
             }
           },
           {
@@ -299,15 +443,87 @@
             "name": "Can I use this on another device?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "You can, but tasks don’t sync. Each device and browser keeps its own list."
+              "text": "You can, but tasks do not sync. Each device and browser keeps its own list."
             }
           },
           {
             "@type": "Question",
-            "name": "How often should I review the matrix?",
+            "name": "Does this tool work offline?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Choose a rhythm that fits—daily, weekly, or whenever things feel overwhelming."
+              "text": "It may continue to work after the page has loaded once, but offline use is not guaranteed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my data private?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Your tasks stay in your browser. There is no backend or account tied to your data."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens if I clear my browser data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If you clear site data or localStorage, your saved tasks will be removed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between urgent and important?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Urgent means time-sensitive. Important means it supports a goal or responsibility even if it can wait."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is a priority matrix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A priority matrix is a simple framework for sorting tasks by value and urgency. The Eisenhower Matrix is a well-known example."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I decide where a task belongs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ask two questions: does it need attention soon, and does it meaningfully support your goals? Place it where the answers match."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What should I do with tasks that feel urgent but are not important?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Move them to “Delegate” if someone else can handle them, or simplify the task so it takes less of your time."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I print or export my matrix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "This tool does not include print or export features. You can copy tasks manually if needed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens if I use a different browser?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Each browser stores its own localStorage, so your tasks will not appear elsewhere."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How often should I update my matrix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Update it whenever priorities shift. Many people review daily or weekly to keep it accurate."
             }
           },
           {
@@ -315,7 +531,7 @@
             "name": "What belongs in “Schedule”?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Important, not urgent items—like planning, learning, health, or long-term projects."
+              "text": "Important tasks that are not urgent yet, such as planning, learning, or long-term projects."
             }
           },
           {
@@ -323,7 +539,7 @@
             "name": "Is this the Eisenhower Matrix?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. It’s the classic urgent vs important method in a simple format."
+              "text": "Yes. It is the classic urgent vs important method presented in a simple layout."
             }
           },
           {
