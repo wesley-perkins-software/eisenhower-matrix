@@ -426,12 +426,24 @@ select {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  align-items: flex-start;
+  align-items: center;
+}
+
+.task-grab {
+  flex: 1;
+  padding: 6px 4px;
+  cursor: grab;
+}
+
+.task.sortable-chosen .task-grab {
+  cursor: grabbing;
 }
 
 .task-text {
   cursor: pointer;
   font-weight: 600;
+  display: block;
+  padding: 4px 2px;
 }
 
 .task-edit {

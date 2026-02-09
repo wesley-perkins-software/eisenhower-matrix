@@ -128,6 +128,9 @@ function createTaskElement(task) {
   const topRow = document.createElement("div");
   topRow.className = "task-top";
 
+  const grabRegion = document.createElement("div");
+  grabRegion.className = "task-grab";
+
   const textSpan = document.createElement("span");
   textSpan.className = "task-text";
   textSpan.textContent = task.text;
@@ -143,7 +146,8 @@ function createTaskElement(task) {
     deleteTask(task.id);
   });
 
-  topRow.appendChild(textSpan);
+  grabRegion.appendChild(textSpan);
+  topRow.appendChild(grabRegion);
   topRow.appendChild(deleteButton);
 
   textSpan.addEventListener("click", () => startInlineEdit(task, textSpan));
@@ -211,6 +215,12 @@ function initDragAndDrop() {
     Sortable.create(list, {
       group: "matrix",
       animation: 150,
+      handle: ".task-grab",
+      filter: ".icon-btn, .task-edit",
+      preventOnFilter: false,
+      fallbackTolerance: 3,
+      delay: 120,
+      delayOnTouchOnly: true,
       onEnd: (event) => {
         const movedId = event.item.getAttribute("data-id");
         const newQuadrant = event.to.getAttribute("data-list");
