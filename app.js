@@ -213,6 +213,11 @@ function initDragAndDrop() {
       animation: 150,
       emptyInsertThreshold: 9999,
       fallbackTolerance: 3,
+      forceFallback: true,
+      fallbackOnBody: true,
+      delay: 150,
+      delayOnTouchOnly: true,
+      touchStartThreshold: 4,
       filter: ".icon-btn, .task-edit",
       preventOnFilter: false,
       onEnd: (event) => {
