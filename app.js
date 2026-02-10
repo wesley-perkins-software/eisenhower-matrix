@@ -12,6 +12,7 @@ const elements = {
   quadrantSelect: document.getElementById("quadrant-select"),
   addTaskButton: document.getElementById("add-task"),
   clearAllButton: document.getElementById("clear-all"),
+  taskToast: document.getElementById("task-toast"),
   lists: Array.from(document.querySelectorAll(".task-list")),
   addButtons: Array.from(document.querySelectorAll("[data-add]")),
 };
@@ -24,6 +25,7 @@ let state = {
 };
 
 let saveTimer = null;
+let toastTimer = null;
 
 function uid() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -87,8 +89,32 @@ function addTask(text, quadrant) {
   });
   state.lastQuadrant = quadrant;
   render();
+  showTaskCreatedToast(normalized, quadrant);
   saveStateDebounced();
   return true;
+}
+
+function getQuadrantLabel(quadrant) {
+  const matchingQuadrant = QUADRANTS.find((item) => item.id === quadrant);
+  return matchingQuadrant ? matchingQuadrant.label : "selected quadrant";
+}
+
+function showTaskCreatedToast(taskText, quadrant) {
+  if (!elements.taskToast) return;
+
+  const preview = taskText.length > 40 ? `${taskText.slice(0, 37)}…` : taskText;
+  const targetQuadrant = getQuadrantLabel(quadrant);
+  elements.taskToast.textContent = `Added “${preview}” to ${targetQuadrant}.`;
+  elements.taskToast.classList.add("is-visible");
+
+  if (toastTimer) {
+    window.clearTimeout(toastTimer);
+  }
+
+  toastTimer = window.setTimeout(() => {
+    elements.taskToast.classList.remove("is-visible");
+    toastTimer = null;
+  }, 2100);
 }
 
 function updateTask(id, updates) {
@@ -143,7 +169,15 @@ function createTaskElement(task) {
   const textSpan = document.createElement("span");
   textSpan.className = "task-text";
   textSpan.textContent = task.text;
-  textSpan.title = "Click to edit";
+
+  const actions = document.createElement("div");
+  actions.className = "task-actions";
+
+  const editButton = document.createElement("button");
+  editButton.type = "button";
+  editButton.className = "icon-btn";
+  editButton.setAttribute("aria-label", "Edit task");
+  editButton.textContent = "✎";
 
   const taskActions = document.createElement("div");
   taskActions.className = "task-actions";
@@ -163,6 +197,7 @@ function createTaskElement(task) {
   doneButton.addEventListener("click", () => {
     toggleTaskDone(task.id, !task.completed);
   });
+  editButton.addEventListener("click", () => startInlineEdit(task, textSpan));
 
   deleteButton.addEventListener("click", () => {
     deleteTask(task.id);
@@ -213,6 +248,12 @@ function createTaskElement(task) {
   li.addEventListener("pointerup", endHold);
   li.addEventListener("pointerleave", clearHoldTimer);
   li.addEventListener("pointercancel", clearHoldTimer);
+  actions.appendChild(editButton);
+  actions.appendChild(deleteButton);
+
+  topRow.appendChild(textSpan);
+  topRow.appendChild(actions);
+
 
   li.appendChild(topRow);
 
@@ -220,6 +261,13 @@ function createTaskElement(task) {
 }
 
 function startInlineEdit(task, textNode) {
+  const activeEdit = document.querySelector(".task-edit");
+  if (activeEdit) {
+    activeEdit.focus();
+    activeEdit.select();
+    return;
+  }
+
   const currentText = task.text;
   const input = document.createElement("input");
   input.type = "text";
