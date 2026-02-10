@@ -131,7 +131,6 @@ function createTaskElement(task) {
   const textSpan = document.createElement("span");
   textSpan.className = "task-text";
   textSpan.textContent = task.text;
-  textSpan.title = "Click to edit";
 
   const actions = document.createElement("div");
   actions.className = "task-actions";
@@ -160,7 +159,6 @@ function createTaskElement(task) {
   topRow.appendChild(textSpan);
   topRow.appendChild(actions);
 
-  textSpan.addEventListener("click", () => startInlineEdit(task, textSpan));
 
   li.appendChild(topRow);
 

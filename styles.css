@@ -446,7 +446,6 @@ select {
 }
 
 .task-text {
-  cursor: pointer;
   font-weight: 600;
   flex: 1 1 auto;
 }
