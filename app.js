@@ -128,6 +128,11 @@ function createTaskElement(task) {
   const topRow = document.createElement("div");
   topRow.className = "task-top";
 
+  const dragHandle = document.createElement("span");
+  dragHandle.className = "task-drag-handle";
+  dragHandle.setAttribute("aria-hidden", "true");
+  dragHandle.textContent = "⋮⋮";
+
   const textSpan = document.createElement("span");
   textSpan.className = "task-text";
   textSpan.textContent = task.text;
@@ -156,6 +161,7 @@ function createTaskElement(task) {
   actions.appendChild(editButton);
   actions.appendChild(deleteButton);
 
+  topRow.appendChild(dragHandle);
   topRow.appendChild(textSpan);
   topRow.appendChild(actions);
 
