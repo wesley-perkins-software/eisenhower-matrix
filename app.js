@@ -1,5 +1,4 @@
 const STORAGE_KEY = "eisenhower_matrix_v1";
-const COMPLETE_HOLD_DELAY_MS = 500;
 const QUADRANTS = [
   { id: "do_first", label: "Do First" },
   { id: "schedule", label: "Schedule" },
@@ -170,15 +169,6 @@ function createTaskElement(task) {
   textSpan.className = "task-text";
   textSpan.textContent = task.text;
 
-  const actions = document.createElement("div");
-  actions.className = "task-actions";
-
-  const editButton = document.createElement("button");
-  editButton.type = "button";
-  editButton.className = "icon-btn";
-  editButton.setAttribute("aria-label", "Edit task");
-  editButton.textContent = "✎";
-
   const taskActions = document.createElement("div");
   taskActions.className = "task-actions";
 
@@ -187,6 +177,12 @@ function createTaskElement(task) {
   doneButton.className = "icon-btn";
   doneButton.setAttribute("aria-label", task.completed ? "Mark task as not done" : "Mark task as done");
   doneButton.textContent = "✓";
+
+  const editButton = document.createElement("button");
+  editButton.type = "button";
+  editButton.className = "icon-btn";
+  editButton.setAttribute("aria-label", "Edit task");
+  editButton.textContent = "✎";
 
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
@@ -204,56 +200,11 @@ function createTaskElement(task) {
   });
 
   taskActions.appendChild(doneButton);
+  taskActions.appendChild(editButton);
   taskActions.appendChild(deleteButton);
 
   topRow.appendChild(textSpan);
   topRow.appendChild(taskActions);
-
-  let holdTimer = null;
-  let holdTriggered = false;
-
-  const clearHoldTimer = () => {
-    if (!holdTimer) return;
-    window.clearTimeout(holdTimer);
-    holdTimer = null;
-  };
-
-  const startHold = (event) => {
-    if (event.target.closest("button, .task-edit")) return;
-    clearHoldTimer();
-    holdTriggered = false;
-    holdTimer = window.setTimeout(() => {
-      holdTriggered = true;
-      toggleTaskDone(task.id, !task.completed);
-    }, COMPLETE_HOLD_DELAY_MS);
-  };
-
-  const endHold = () => {
-    clearHoldTimer();
-    if (!holdTriggered) return;
-    window.setTimeout(() => {
-      holdTriggered = false;
-    }, 0);
-  };
-
-  textSpan.addEventListener("click", () => {
-    if (holdTriggered) {
-      holdTriggered = false;
-      return;
-    }
-    startInlineEdit(task, textSpan);
-  });
-
-  li.addEventListener("pointerdown", startHold);
-  li.addEventListener("pointerup", endHold);
-  li.addEventListener("pointerleave", clearHoldTimer);
-  li.addEventListener("pointercancel", clearHoldTimer);
-  actions.appendChild(editButton);
-  actions.appendChild(deleteButton);
-
-  topRow.appendChild(textSpan);
-  topRow.appendChild(actions);
-
 
   li.appendChild(topRow);
 

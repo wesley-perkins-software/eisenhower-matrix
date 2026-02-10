@@ -486,9 +486,8 @@ select {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  gap: 6px;
-  align-items: center;
 }
+
 
 .task-text {
   font-weight: 600;
