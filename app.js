@@ -1,4 +1,5 @@
 const STORAGE_KEY = "eisenhower_matrix_v1";
+const COMPLETE_HOLD_DELAY_MS = 1000;
 const QUADRANTS = [
   { id: "do_first", label: "Do First" },
   { id: "schedule", label: "Schedule" },
@@ -52,7 +53,10 @@ function loadState() {
       state = {
         ...state,
         ...parsed,
-        tasks: parsed.tasks,
+        tasks: parsed.tasks.map((task) => ({
+          ...task,
+          completed: Boolean(task.completed),
+        })),
         lastQuadrant: parsed.lastQuadrant || "do_first",
       };
     }
@@ -77,6 +81,7 @@ function addTask(text, quadrant) {
     id: uid(),
     text: normalized,
     quadrant,
+    completed: false,
     createdAt: now,
     updatedAt: now,
   });
@@ -98,6 +103,10 @@ function deleteTask(id) {
   state.tasks = state.tasks.filter((task) => task.id !== id);
   render();
   saveStateDebounced();
+}
+
+function toggleTaskDone(id, completed) {
+  updateTask(id, { completed });
 }
 
 function reorderFromDOM() {
@@ -123,6 +132,9 @@ function reorderFromDOM() {
 function createTaskElement(task) {
   const li = document.createElement("li");
   li.className = "task";
+  if (task.completed) {
+    li.classList.add("task--done");
+  }
   li.setAttribute("data-id", task.id);
 
   const topRow = document.createElement("div");
@@ -133,20 +145,76 @@ function createTaskElement(task) {
   textSpan.textContent = task.text;
   textSpan.title = "Click to edit";
 
+  const taskActions = document.createElement("div");
+  taskActions.className = "task-actions";
+
+  const doneButton = document.createElement("button");
+  doneButton.type = "button";
+  doneButton.className = "icon-btn";
+  doneButton.setAttribute("aria-label", task.completed ? "Mark task as not done" : "Mark task as done");
+  doneButton.textContent = "✓";
+
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
   deleteButton.className = "icon-btn";
   deleteButton.setAttribute("aria-label", "Delete task");
   deleteButton.textContent = "×";
 
+  doneButton.addEventListener("click", () => {
+    toggleTaskDone(task.id, !task.completed);
+  });
+
   deleteButton.addEventListener("click", () => {
     deleteTask(task.id);
   });
 
-  topRow.appendChild(textSpan);
-  topRow.appendChild(deleteButton);
+  taskActions.appendChild(doneButton);
+  taskActions.appendChild(deleteButton);
 
-  textSpan.addEventListener("click", () => startInlineEdit(task, textSpan));
+  topRow.appendChild(textSpan);
+  topRow.appendChild(taskActions);
+
+  let holdTimer = null;
+  let holdTriggered = false;
+
+  const clearHoldTimer = () => {
+    if (!holdTimer) return;
+    window.clearTimeout(holdTimer);
+    holdTimer = null;
+  };
+
+  const startHold = (event) => {
+    if (event.target.closest("button, .task-edit")) return;
+    clearHoldTimer();
+    holdTriggered = false;
+    holdTimer = window.setTimeout(() => {
+      holdTriggered = true;
+      if (!task.completed) {
+        toggleTaskDone(task.id, true);
+      }
+    }, COMPLETE_HOLD_DELAY_MS);
+  };
+
+  const endHold = () => {
+    clearHoldTimer();
+    if (!holdTriggered) return;
+    window.setTimeout(() => {
+      holdTriggered = false;
+    }, 0);
+  };
+
+  textSpan.addEventListener("click", () => {
+    if (holdTriggered) {
+      holdTriggered = false;
+      return;
+    }
+    startInlineEdit(task, textSpan);
+  });
+
+  li.addEventListener("pointerdown", startHold);
+  li.addEventListener("pointerup", endHold);
+  li.addEventListener("pointerleave", clearHoldTimer);
+  li.addEventListener("pointercancel", clearHoldTimer);
 
   li.appendChild(topRow);
 

@@ -20,6 +20,7 @@ A static Eisenhower Matrix tool (Urgent vs Important) with local-only persistenc
   - Add
   - Edit inline (Enter saves, Esc cancels)
   - Delete
+  - Mark as done (button and 1-second hold shortcut)
   - Move between quadrants (drag-and-drop preferred; must have non-drag fallback)
 - Persistence:
   - Save tasks in localStorage
@@ -37,7 +38,7 @@ Store a single JSON object in localStorage:
 - value:
   - `version`
   - `updatedAt`
-  - `tasks`: array of `{ id, text, quadrant, createdAt, updatedAt }`
+  - `tasks`: array of `{ id, text, quadrant, completed, createdAt, updatedAt }`
 
 Quadrant IDs:
 - `do_first`, `schedule`, `delegate`, `eliminate`
