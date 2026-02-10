@@ -30,7 +30,7 @@ A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks
 - Delete task:
   - Small delete control per task.
 - Mark done:
-  - Mark a task as done/undone with a button or by holding it for 0.5 seconds.
+  - Mark a task as done/undone with a checkbox.
   - Completed tasks are highlighted light green.
 - Move task:
   - Drag-and-drop between quadrants.
