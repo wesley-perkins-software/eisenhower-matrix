@@ -1,5 +1,5 @@
 const STORAGE_KEY = "eisenhower_matrix_v1";
-const COMPLETE_HOLD_DELAY_MS = 1000;
+const COMPLETE_HOLD_DELAY_MS = 500;
 const QUADRANTS = [
   { id: "do_first", label: "Do First" },
   { id: "schedule", label: "Schedule" },
@@ -189,9 +189,7 @@ function createTaskElement(task) {
     holdTriggered = false;
     holdTimer = window.setTimeout(() => {
       holdTriggered = true;
-      if (!task.completed) {
-        toggleTaskDone(task.id, true);
-      }
+      toggleTaskDone(task.id, !task.completed);
     }, COMPLETE_HOLD_DELAY_MS);
   };
 
