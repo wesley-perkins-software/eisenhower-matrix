@@ -437,6 +437,11 @@ select {
 .task:focus-within {
   border-color: color-mix(in srgb, var(--border) 62%, var(--primary));
   box-shadow: var(--shadow-soft);
+  cursor: grab;
+}
+
+.task:active {
+  cursor: grabbing;
 }
 
 .task-top {
@@ -457,38 +462,6 @@ select {
   flex: 1 1 auto;
 }
 
-.task-drag-handle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1px;
-  padding: 0 2px;
-  color: var(--muted);
-  opacity: 0.25;
-  transition: opacity var(--transition), color var(--transition), transform var(--transition);
-  user-select: none;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: -0.06em;
-  cursor: grab;
-}
-
-.task:active .task-drag-handle {
-  cursor: grabbing;
-}
-
-.task:hover .task-drag-handle,
-.task:focus-within .task-drag-handle {
-  opacity: 0.95;
-  color: var(--primary);
-  transform: translateX(-1px);
-}
-
-@media (hover: none) {
-  .task-drag-handle {
-    opacity: 0.75;
-  }
-}
 
 .task-edit {
   border: 1px solid var(--border);
