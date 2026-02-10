@@ -131,7 +131,15 @@ function createTaskElement(task) {
   const textSpan = document.createElement("span");
   textSpan.className = "task-text";
   textSpan.textContent = task.text;
-  textSpan.title = "Click to edit";
+
+  const actions = document.createElement("div");
+  actions.className = "task-actions";
+
+  const editButton = document.createElement("button");
+  editButton.type = "button";
+  editButton.className = "icon-btn";
+  editButton.setAttribute("aria-label", "Edit task");
+  editButton.textContent = "✎";
 
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
@@ -139,14 +147,18 @@ function createTaskElement(task) {
   deleteButton.setAttribute("aria-label", "Delete task");
   deleteButton.textContent = "×";
 
+  editButton.addEventListener("click", () => startInlineEdit(task, textSpan));
+
   deleteButton.addEventListener("click", () => {
     deleteTask(task.id);
   });
 
-  topRow.appendChild(textSpan);
-  topRow.appendChild(deleteButton);
+  actions.appendChild(editButton);
+  actions.appendChild(deleteButton);
 
-  textSpan.addEventListener("click", () => startInlineEdit(task, textSpan));
+  topRow.appendChild(textSpan);
+  topRow.appendChild(actions);
+
 
   li.appendChild(topRow);
 
@@ -154,6 +166,13 @@ function createTaskElement(task) {
 }
 
 function startInlineEdit(task, textNode) {
+  const activeEdit = document.querySelector(".task-edit");
+  if (activeEdit) {
+    activeEdit.focus();
+    activeEdit.select();
+    return;
+  }
+
   const currentText = task.text;
   const input = document.createElement("input");
   input.type = "text";

@@ -439,9 +439,15 @@ select {
   align-items: flex-start;
 }
 
+.task-actions {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
 .task-text {
-  cursor: pointer;
   font-weight: 600;
+  flex: 1 1 auto;
 }
 
 .task-edit {
