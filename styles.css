@@ -250,6 +250,32 @@ select {
   font-size: 0.9rem;
 }
 
+
+.task-toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  max-width: min(92vw, 360px);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--primary) 28%, var(--border));
+  background: color-mix(in srgb, var(--surface) 76%, var(--bg));
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+  font-size: 0.92rem;
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--transition), transform var(--transition);
+  z-index: 1000;
+}
+
+.task-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .matrix-grid {
   display: grid;
   grid-template-columns: minmax(40px, auto) repeat(2, minmax(0, 1fr));
@@ -798,6 +824,13 @@ select {
 @media (max-width: 520px) {
   .btn.ghost {
     width: 100%;
+  }
+
+  .task-toast {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    max-width: none;
   }
 
   .mini-grid-4 {
