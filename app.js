@@ -128,6 +128,12 @@ function createTaskElement(task) {
   const topRow = document.createElement("div");
   topRow.className = "task-top";
 
+  const dragHandle = document.createElement("span");
+  dragHandle.className = "task-handle";
+  dragHandle.setAttribute("aria-hidden", "true");
+  dragHandle.setAttribute("title", "Drag to move");
+  dragHandle.textContent = "⋮⋮";
+
   const textSpan = document.createElement("span");
   textSpan.className = "task-text";
   textSpan.textContent = task.text;
@@ -143,6 +149,7 @@ function createTaskElement(task) {
     deleteTask(task.id);
   });
 
+  topRow.appendChild(dragHandle);
   topRow.appendChild(textSpan);
   topRow.appendChild(deleteButton);
 
@@ -210,6 +217,7 @@ function initDragAndDrop() {
   elements.lists.forEach((list) => {
     Sortable.create(list, {
       group: "matrix",
+      handle: ".task-handle",
       animation: 150,
       emptyInsertThreshold: 9999,
       fallbackTolerance: 3,
