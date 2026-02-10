@@ -172,11 +172,11 @@ function createTaskElement(task) {
   const taskActions = document.createElement("div");
   taskActions.className = "task-actions";
 
-  const completeCheckbox = document.createElement("input");
-  completeCheckbox.type = "checkbox";
-  completeCheckbox.className = "task-complete-checkbox";
-  completeCheckbox.checked = task.completed;
-  completeCheckbox.setAttribute("aria-label", task.completed ? "Mark task as not done" : "Mark task as done");
+  const doneButton = document.createElement("button");
+  doneButton.type = "button";
+  doneButton.className = "icon-btn";
+  doneButton.setAttribute("aria-label", task.completed ? "Mark task as not done" : "Mark task as done");
+  doneButton.textContent = "✓";
 
   const editButton = document.createElement("button");
   editButton.type = "button";
@@ -190,8 +190,8 @@ function createTaskElement(task) {
   deleteButton.setAttribute("aria-label", "Delete task");
   deleteButton.textContent = "×";
 
-  completeCheckbox.addEventListener("change", (event) => {
-    toggleTaskDone(task.id, event.target.checked);
+  doneButton.addEventListener("click", () => {
+    toggleTaskDone(task.id, !task.completed);
   });
   editButton.addEventListener("click", () => startInlineEdit(task, textSpan));
 
@@ -199,13 +199,12 @@ function createTaskElement(task) {
     deleteTask(task.id);
   });
 
-  taskActions.appendChild(completeCheckbox);
+  taskActions.appendChild(doneButton);
   taskActions.appendChild(editButton);
   taskActions.appendChild(deleteButton);
 
   topRow.appendChild(textSpan);
   topRow.appendChild(taskActions);
-  textSpan.addEventListener("click", () => startInlineEdit(task, textSpan));
 
   li.appendChild(topRow);
 
@@ -284,7 +283,7 @@ function initDragAndDrop() {
       delay: 150,
       delayOnTouchOnly: true,
       touchStartThreshold: 4,
-      filter: ".icon-btn, .task-edit, .task-complete-checkbox",
+      filter: ".icon-btn, .task-edit",
       preventOnFilter: false,
       onEnd: (event) => {
         const movedId = event.item.getAttribute("data-id");

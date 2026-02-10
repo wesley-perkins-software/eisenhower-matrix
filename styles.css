@@ -488,13 +488,6 @@ select {
   gap: 6px;
 }
 
-.task-complete-checkbox {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-  accent-color: var(--primary);
-  cursor: pointer;
-}
 
 .task-text {
   font-weight: 600;

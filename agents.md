@@ -20,7 +20,7 @@ A static Eisenhower Matrix tool (Urgent vs Important) with local-only persistenc
   - Add
   - Edit inline (Enter saves, Esc cancels)
   - Delete
-  - Mark as done/undone (checkbox)
+  - Mark as done/undone (✓ icon button)
   - Move between quadrants (drag-and-drop preferred; must have non-drag fallback)
 - Persistence:
   - Save tasks in localStorage
