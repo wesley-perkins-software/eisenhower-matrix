@@ -11,6 +11,7 @@ const elements = {
   quadrantSelect: document.getElementById("quadrant-select"),
   addTaskButton: document.getElementById("add-task"),
   clearAllButton: document.getElementById("clear-all"),
+  taskToast: document.getElementById("task-toast"),
   lists: Array.from(document.querySelectorAll(".task-list")),
   addButtons: Array.from(document.querySelectorAll("[data-add]")),
 };
@@ -23,6 +24,7 @@ let state = {
 };
 
 let saveTimer = null;
+let toastTimer = null;
 
 function uid() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -82,8 +84,32 @@ function addTask(text, quadrant) {
   });
   state.lastQuadrant = quadrant;
   render();
+  showTaskCreatedToast(normalized, quadrant);
   saveStateDebounced();
   return true;
+}
+
+function getQuadrantLabel(quadrant) {
+  const matchingQuadrant = QUADRANTS.find((item) => item.id === quadrant);
+  return matchingQuadrant ? matchingQuadrant.label : "selected quadrant";
+}
+
+function showTaskCreatedToast(taskText, quadrant) {
+  if (!elements.taskToast) return;
+
+  const preview = taskText.length > 40 ? `${taskText.slice(0, 37)}…` : taskText;
+  const targetQuadrant = getQuadrantLabel(quadrant);
+  elements.taskToast.textContent = `Added “${preview}” to ${targetQuadrant}.`;
+  elements.taskToast.classList.add("is-visible");
+
+  if (toastTimer) {
+    window.clearTimeout(toastTimer);
+  }
+
+  toastTimer = window.setTimeout(() => {
+    elements.taskToast.classList.remove("is-visible");
+    toastTimer = null;
+  }, 2100);
 }
 
 function updateTask(id, updates) {
