@@ -20,6 +20,7 @@ No build step required.
 
 ## Data persistence
 Tasks are stored in your browser via localStorage (see `privacy.html` and `PRIVACY.md`).
+Each task stores text, quadrant, and completion state so done tasks stay highlighted after refresh.
 
 ## SEO notes
 The page now includes SEO metadata (title, description, canonical, Open Graph/Twitter tags), JSON-LD structured data

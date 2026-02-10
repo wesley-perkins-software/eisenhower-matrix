@@ -458,6 +458,11 @@ select {
   padding: 6px 8px;
 }
 
+.task--done {
+  background: #e8f6e8;
+  border-color: #9bc99b;
+}
+
 .task-top {
   display: flex;
   justify-content: space-between;
@@ -467,6 +472,8 @@ select {
 
 .task-actions {
   display: inline-flex;
+  align-items: center;
+  gap: 6px;
   gap: 6px;
   align-items: center;
 }

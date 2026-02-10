@@ -29,6 +29,9 @@ A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks
   - Enter saves, Esc cancels.
 - Delete task:
   - Small delete control per task.
+- Mark done:
+  - Mark a task as done/undone with a button or by holding it for 0.5 seconds.
+  - Completed tasks are highlighted light green.
 - Move task:
   - Drag-and-drop between quadrants.
 
@@ -62,6 +65,6 @@ A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks
 
 ## Acceptance criteria
 - Open `index.html` locally: tool works.
-- Add/edit/delete/move tasks works with no console errors.
+- Add/edit/delete/move/complete tasks works with no console errors.
 - Refresh page: tasks persist.
 - Mobile width ~390px: layout is usable and touch-friendly.
