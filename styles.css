@@ -250,6 +250,17 @@ select {
   font-size: 0.9rem;
 }
 
+.helper-tip--list {
+  margin-top: 8px;
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.helper-tip--list li + li {
+  margin-top: 4px;
+}
+
 
 .task-toast {
   position: fixed;
