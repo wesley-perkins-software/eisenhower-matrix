@@ -286,7 +286,7 @@ select {
 /* Axis labels for the Eisenhower Matrix grid */
 .axis-label {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   font-weight: 500;
   color: var(--muted);
   opacity: 0.8;
@@ -455,7 +455,7 @@ select {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 8px 10px;
+  padding: 7px 9px;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
 
@@ -485,7 +485,7 @@ select {
 .task-actions {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
 }
 
 
@@ -529,8 +529,8 @@ select {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--muted);
-  padding: 8px 18px;
-  font-size: 0.95rem;
+  padding: 7px 16px;
+  font-size: 0.92rem;
   opacity: 0.9;
 }
 
@@ -555,8 +555,8 @@ select {
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -769,7 +769,7 @@ select {
 }
 
 .scroll-cue {
-  margin: 36px 0 52px;
+  margin: 32px 0 46px;
   font-size: 0.98rem;
   text-align: center;
 }
