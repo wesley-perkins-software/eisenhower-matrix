@@ -18,12 +18,19 @@ const elements = {
   addButtons: Array.from(document.querySelectorAll("[data-add]")),
 };
 
-const moveSheet = document.getElementById("move-sheet");
-const moveSheetTaskTextEl = document.getElementById("move-sheet-task");
-const moveButtons = moveSheet ? Array.from(moveSheet.querySelectorAll("[data-move]")) : [];
-const moveCancel = moveSheet ? moveSheet.querySelector("[data-sheet-cancel]") : null;
+const supportsDialog = typeof HTMLDialogElement !== "undefined" && !!document.createElement("dialog").showModal;
+const moveDialog = document.getElementById("move-sheet");
+const moveFallback = document.getElementById("move-sheet-fallback");
+const moveBackdrop = document.getElementById("move-sheet-backdrop");
+const moveSheetTaskTextEls = [
+  document.getElementById("move-sheet-task"),
+  document.getElementById("move-sheet-task-fallback"),
+].filter(Boolean);
+const moveButtons = Array.from(document.querySelectorAll("#move-sheet [data-move], #move-sheet-fallback [data-move]"));
+const moveCancels = Array.from(document.querySelectorAll("#move-sheet [data-sheet-cancel], #move-sheet-fallback [data-sheet-cancel]"));
 
 let activeMoveTaskId = null;
+let lastMoveTriggerEl = null;
 
 let state = {
   version: 1,
@@ -182,17 +189,17 @@ function createTaskElement(task) {
   taskActions.className = "task-actions";
 
   li.addEventListener("click", (event) => {
-    if (!isTouch || !moveSheet) return;
+    if (!isTouch) return;
     if (event.target.closest(".icon-btn, .task-edit")) return;
 
     activeMoveTaskId = task.id;
-    if (moveSheetTaskTextEl) {
-      const preview = task.text.length > 80 ? `${task.text.slice(0, 77)}…` : task.text;
-      moveSheetTaskTextEl.textContent = preview;
-    }
-    if (!moveSheet.open) {
-      moveSheet.showModal();
-    }
+    li.tabIndex = -1;
+    lastMoveTriggerEl = li;
+    const preview = task.text.length > 80 ? `${task.text.slice(0, 77)}…` : task.text;
+    moveSheetTaskTextEls.forEach((element) => {
+      element.textContent = preview;
+    });
+    openMoveSheet();
   });
 
 
@@ -370,15 +377,49 @@ function initPerQuadrantAdd() {
   });
 }
 
+function openMoveSheet() {
+  if (supportsDialog && moveDialog) {
+    if (!moveDialog.open) {
+      moveDialog.showModal();
+    }
+    return;
+  }
+
+  if (!moveFallback || !moveBackdrop) return;
+  moveBackdrop.hidden = false;
+  moveFallback.hidden = false;
+  const firstMoveButton = moveFallback.querySelector("[data-move]");
+  if (firstMoveButton) {
+    firstMoveButton.focus();
+  }
+}
+
+function closeMoveSheet() {
+  if (supportsDialog && moveDialog && moveDialog.open) {
+    moveDialog.close();
+  }
+
+  if (moveFallback && moveBackdrop) {
+    moveFallback.hidden = true;
+    moveBackdrop.hidden = true;
+  }
+
+  activeMoveTaskId = null;
+  if (lastMoveTriggerEl) {
+    lastMoveTriggerEl.focus();
+    lastMoveTriggerEl = null;
+  }
+}
+
 function initMoveSheet() {
-  if (!moveSheet) return;
+  if (!moveDialog && !moveFallback) return;
 
   moveButtons.forEach((button) => {
     button.addEventListener("click", () => {
       if (!activeMoveTaskId) return;
       const task = state.tasks.find((item) => item.id === activeMoveTaskId);
       if (!task) {
-        moveSheet.close();
+        closeMoveSheet();
         return;
       }
 
@@ -386,18 +427,40 @@ function initMoveSheet() {
       task.updatedAt = new Date().toISOString();
       render();
       saveStateDebounced();
-      moveSheet.close();
+      closeMoveSheet();
     });
   });
 
-  if (moveCancel) {
-    moveCancel.addEventListener("click", () => {
-      moveSheet.close();
+  moveCancels.forEach((button) => {
+    button.addEventListener("click", () => {
+      closeMoveSheet();
+    });
+  });
+
+  if (moveDialog) {
+    moveDialog.addEventListener("close", () => {
+      activeMoveTaskId = null;
+      if (lastMoveTriggerEl) {
+        lastMoveTriggerEl.focus();
+        lastMoveTriggerEl = null;
+      }
     });
   }
 
-  moveSheet.addEventListener("close", () => {
-    activeMoveTaskId = null;
+  if (moveBackdrop) {
+    moveBackdrop.addEventListener("click", () => {
+      if (!supportsDialog && moveFallback && !moveFallback.hidden) {
+        closeMoveSheet();
+      }
+    });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    if (!supportsDialog && moveFallback && !moveFallback.hidden) {
+      event.preventDefault();
+      closeMoveSheet();
+    }
   });
 }
 

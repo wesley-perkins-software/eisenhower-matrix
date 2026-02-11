@@ -421,6 +421,19 @@
       <button type="button" class="sheet-cancel" data-sheet-cancel>Cancel</button>
     </dialog>
 
+    <div id="move-sheet-backdrop" class="sheet-backdrop" hidden></div>
+    <div id="move-sheet-fallback" class="sheet sheet--fallback" role="dialog" aria-modal="true" aria-labelledby="move-sheet-title-fallback" hidden>
+      <h2 id="move-sheet-title-fallback">Move task</h2>
+      <p id="move-sheet-task-fallback" class="sheet-task-text"></p>
+      <div class="sheet-actions" role="group" aria-label="Move task to quadrant">
+        <button type="button" data-move="do_first">Do First</button>
+        <button type="button" data-move="schedule">Schedule</button>
+        <button type="button" data-move="delegate">Delegate</button>
+        <button type="button" data-move="eliminate">Eliminate</button>
+      </div>
+      <button type="button" class="sheet-cancel" data-sheet-cancel>Cancel</button>
+    </div>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
