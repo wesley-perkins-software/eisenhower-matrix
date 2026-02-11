@@ -176,18 +176,21 @@ function createTaskElement(task) {
   doneButton.type = "button";
   doneButton.className = "icon-btn";
   doneButton.setAttribute("aria-label", task.completed ? "Mark task as not done" : "Mark task as done");
+  doneButton.title = "Mark complete with ✓";
   doneButton.textContent = "✓";
 
   const editButton = document.createElement("button");
   editButton.type = "button";
   editButton.className = "icon-btn";
   editButton.setAttribute("aria-label", "Edit task");
+  editButton.title = "Edit with ✎";
   editButton.textContent = "✎";
 
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
   deleteButton.className = "icon-btn";
   deleteButton.setAttribute("aria-label", "Delete task");
+  deleteButton.title = "Delete with ×";
   deleteButton.textContent = "×";
 
   doneButton.addEventListener("click", () => {
