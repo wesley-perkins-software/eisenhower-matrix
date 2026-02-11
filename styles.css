@@ -544,6 +544,12 @@ select {
 }
 
 
+
+.sheet[hidden],
+.sheet-backdrop[hidden] {
+  display: none !important;
+}
+
 .sheet-backdrop {
   position: fixed;
   inset: 0;

@@ -354,6 +354,8 @@ function initClearAll() {
 function initMoveSheet() {
   if (!moveSheet || !moveBackdrop) return;
 
+  closeMoveSheet();
+
   if (moveCancel) {
     moveCancel.addEventListener("click", () => {
       closeMoveSheet();
