@@ -6,6 +6,8 @@ const QUADRANTS = [
   { id: "eliminate", label: "Eliminate" },
 ];
 
+const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
 const elements = {
   taskInput: document.getElementById("task-input"),
   quadrantSelect: document.getElementById("quadrant-select"),
@@ -15,6 +17,13 @@ const elements = {
   lists: Array.from(document.querySelectorAll(".task-list")),
   addButtons: Array.from(document.querySelectorAll("[data-add]")),
 };
+
+const moveSheet = document.getElementById("move-sheet");
+const moveSheetTaskTextEl = document.getElementById("move-sheet-task");
+const moveButtons = moveSheet ? Array.from(moveSheet.querySelectorAll("[data-move]")) : [];
+const moveCancel = moveSheet ? moveSheet.querySelector("[data-sheet-cancel]") : null;
+
+let activeMoveTaskId = null;
 
 let state = {
   version: 1,
@@ -172,6 +181,21 @@ function createTaskElement(task) {
   const taskActions = document.createElement("div");
   taskActions.className = "task-actions";
 
+  li.addEventListener("click", (event) => {
+    if (!isTouch || !moveSheet) return;
+    if (event.target.closest(".icon-btn, .task-edit")) return;
+
+    activeMoveTaskId = task.id;
+    if (moveSheetTaskTextEl) {
+      const preview = task.text.length > 80 ? `${task.text.slice(0, 77)}…` : task.text;
+      moveSheetTaskTextEl.textContent = preview;
+    }
+    if (!moveSheet.open) {
+      moveSheet.showModal();
+    }
+  });
+
+
   const doneButton = document.createElement("button");
   doneButton.type = "button";
   doneButton.className = "icon-btn";
@@ -275,7 +299,6 @@ function render() {
 
 function initDragAndDrop() {
   if (!window.Sortable) return;
-  const isTouch = window.matchMedia("(pointer: coarse)").matches;
   elements.lists.forEach((list) => {
     Sortable.create(list, {
       group: "matrix",
@@ -347,6 +370,37 @@ function initPerQuadrantAdd() {
   });
 }
 
+function initMoveSheet() {
+  if (!moveSheet) return;
+
+  moveButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!activeMoveTaskId) return;
+      const task = state.tasks.find((item) => item.id === activeMoveTaskId);
+      if (!task) {
+        moveSheet.close();
+        return;
+      }
+
+      task.quadrant = button.getAttribute("data-move");
+      task.updatedAt = new Date().toISOString();
+      render();
+      saveStateDebounced();
+      moveSheet.close();
+    });
+  });
+
+  if (moveCancel) {
+    moveCancel.addEventListener("click", () => {
+      moveSheet.close();
+    });
+  }
+
+  moveSheet.addEventListener("close", () => {
+    activeMoveTaskId = null;
+  });
+}
+
 function initClearAll() {
   elements.clearAllButton.addEventListener("click", () => {
     const confirmed = window.confirm("Clear all tasks? This cannot be undone.");
@@ -365,6 +419,7 @@ function init() {
   initPerQuadrantAdd();
   initClearAll();
   initDragAndDrop();
+  initMoveSheet();
 }
 
 

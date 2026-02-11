@@ -577,6 +577,65 @@ body.is-dragging .task-list:empty::after {
   border-color: var(--primary);
 }
 
+.sheet {
+  max-width: 640px;
+  width: min(96vw, 640px);
+  border-radius: 18px 18px 0 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.sheet[open] {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 12px;
+  margin: 0 auto;
+}
+
+.sheet::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.sheet h2 {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.sheet-task-text {
+  margin: 8px 0 12px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.sheet-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.sheet-actions button,
+.sheet-cancel {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 10px;
+  font: inherit;
+}
+
+.sheet-actions button {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--ink);
+}
+
+.sheet-cancel {
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+}
+
 .description {
   background: var(--surface);
   border-radius: var(--radius);
