@@ -221,7 +221,7 @@
         <button class="btn primary" id="add-task" type="button">Add</button>
       </section>
 
-      <p class="helper-tip helper-tip--single" aria-live="polite">Add tasks and drag between boxes to sort by urgency and importance. Changes are saved automatically on this device.</p>
+      <p class="helper-tip helper-tip--single" aria-live="polite">Add tasks, then use each task's Move button to place it in the right quadrant. Changes are saved automatically on this device.</p>
 
       <section class="matrix-grid" aria-label="Eisenhower matrix">
         <!-- Axis labels for the Eisenhower Matrix -->
@@ -357,7 +357,7 @@
           <li>Drag tasks into the matching quadrant.</li>
           <li>Give “Schedule” items a specific date or time.</li>
           <li>Delegate or simplify tasks that are urgent but not important.</li>
-          <li>Review the list regularly and clear completed tasks.</li>
+          <li>Review the list regularly and remove tasks that no longer matter.</li>
         </ol>
 
         <h2>Urgent vs important: what’s the difference?</h2>
@@ -538,7 +538,24 @@
       }
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    <div id="move-backdrop" class="sheet-backdrop" hidden></div>
+
+    <div id="move-sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="move-sheet-title" hidden>
+      <div class="sheet__header">
+        <h2 id="move-sheet-title">Move task</h2>
+        <p id="move-sheet-task" class="sheet__task" aria-live="polite"></p>
+      </div>
+
+      <div class="sheet__actions">
+        <button type="button" class="sheet__btn" data-move="do_first">Do First</button>
+        <button type="button" class="sheet__btn" data-move="schedule">Schedule</button>
+        <button type="button" class="sheet__btn" data-move="delegate">Delegate</button>
+        <button type="button" class="sheet__btn" data-move="eliminate">Eliminate</button>
+      </div>
+
+      <button type="button" class="sheet__btn sheet__btn--cancel" id="move-cancel">Cancel</button>
+    </div>
+
     <script src="app.js"></script>
   </body>
 </html>

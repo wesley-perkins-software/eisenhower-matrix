@@ -16,6 +16,12 @@ const elements = {
   addButtons: Array.from(document.querySelectorAll("[data-add]")),
 };
 
+const moveSheet = document.getElementById("move-sheet");
+const moveBackdrop = document.getElementById("move-backdrop");
+const moveCancel = document.getElementById("move-cancel");
+const moveButtons = Array.from(document.querySelectorAll("#move-sheet [data-move]"));
+const moveTaskPreview = document.getElementById("move-sheet-task");
+
 let state = {
   version: 1,
   updatedAt: null,
@@ -25,6 +31,7 @@ let state = {
 
 let saveTimer = null;
 let toastTimer = null;
+let activeMoveTaskId = null;
 
 function uid() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -55,8 +62,11 @@ function loadState() {
         ...state,
         ...parsed,
         tasks: parsed.tasks.map((task) => ({
-          ...task,
-          completed: Boolean(task.completed),
+          id: task.id,
+          text: task.text,
+          quadrant: task.quadrant,
+          createdAt: task.createdAt,
+          updatedAt: task.updatedAt,
         })),
         lastQuadrant: parsed.lastQuadrant || "do_first",
       };
@@ -82,7 +92,6 @@ function addTask(text, quadrant) {
     id: uid(),
     text: normalized,
     quadrant,
-    completed: false,
     createdAt: now,
     updatedAt: now,
   });
@@ -130,36 +139,49 @@ function deleteTask(id) {
   saveStateDebounced();
 }
 
-function toggleTaskDone(id, completed) {
-  updateTask(id, { completed });
+function openMoveSheet(task) {
+  if (!moveSheet || !moveBackdrop) return;
+
+  activeMoveTaskId = task.id;
+  if (moveTaskPreview) {
+    moveTaskPreview.textContent = task.text.length > 80 ? `${task.text.slice(0, 77)}…` : task.text;
+  }
+
+  moveBackdrop.hidden = false;
+  moveSheet.hidden = false;
+
+  const firstButton = moveButtons[0];
+  if (firstButton) {
+    firstButton.focus();
+  }
 }
 
-function reorderFromDOM() {
-  const orderedIds = [];
-  elements.lists.forEach((list) => {
-    list.querySelectorAll("[data-id]").forEach((item) => {
-      orderedIds.push(item.getAttribute("data-id"));
-    });
-  });
+function closeMoveSheet() {
+  if (!moveSheet || !moveBackdrop) return;
 
-  const map = new Map(state.tasks.map((task) => [task.id, task]));
-  const orderedTasks = [];
-  orderedIds.forEach((id) => {
-    const task = map.get(id);
-    if (task) orderedTasks.push(task);
-    map.delete(id);
-  });
+  moveSheet.hidden = true;
+  moveBackdrop.hidden = true;
+  activeMoveTaskId = null;
+}
 
-  map.forEach((task) => orderedTasks.push(task));
-  state.tasks = orderedTasks;
+function moveActiveTaskToQuadrant(quadrant) {
+  if (!activeMoveTaskId) return;
+  const task = state.tasks.find((item) => item.id === activeMoveTaskId);
+  if (!task) {
+    closeMoveSheet();
+    return;
+  }
+
+  task.quadrant = quadrant;
+  task.updatedAt = new Date().toISOString();
+  render();
+  saveStateDebounced();
+  closeMoveSheet();
 }
 
 function createTaskElement(task) {
   const li = document.createElement("li");
   li.className = "task";
-  if (task.completed) {
-    li.classList.add("task--done");
-  }
   li.setAttribute("data-id", task.id);
 
   const topRow = document.createElement("div");
@@ -172,12 +194,12 @@ function createTaskElement(task) {
   const taskActions = document.createElement("div");
   taskActions.className = "task-actions";
 
-  const doneButton = document.createElement("button");
-  doneButton.type = "button";
-  doneButton.className = "icon-btn";
-  doneButton.setAttribute("aria-label", task.completed ? "Mark task as not done" : "Mark task as done");
-  doneButton.title = "Mark complete";
-  doneButton.textContent = "✓";
+  const moveButton = document.createElement("button");
+  moveButton.type = "button";
+  moveButton.className = "icon-btn icon-btn--move";
+  moveButton.setAttribute("aria-label", "Move task");
+  moveButton.title = "Move task";
+  moveButton.textContent = "↔";
 
   const editButton = document.createElement("button");
   editButton.type = "button";
@@ -193,16 +215,25 @@ function createTaskElement(task) {
   deleteButton.title = "Delete task";
   deleteButton.textContent = "×";
 
-  doneButton.addEventListener("click", () => {
-    toggleTaskDone(task.id, !task.completed);
+  moveButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    openMoveSheet(task);
   });
-  editButton.addEventListener("click", () => startInlineEdit(task, textSpan));
 
-  deleteButton.addEventListener("click", () => {
+  editButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    startInlineEdit(task, textSpan);
+  });
+
+  deleteButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     deleteTask(task.id);
   });
 
-  taskActions.appendChild(doneButton);
+  taskActions.appendChild(moveButton);
   taskActions.appendChild(editButton);
   taskActions.appendChild(deleteButton);
 
@@ -273,43 +304,6 @@ function render() {
   });
 }
 
-function initDragAndDrop() {
-  if (!window.Sortable) return;
-  const isTouch = window.matchMedia("(pointer: coarse)").matches;
-  elements.lists.forEach((list) => {
-    Sortable.create(list, {
-      group: "matrix",
-      animation: 150,
-      emptyInsertThreshold: isTouch ? 9999 : 0,
-      fallbackTolerance: isTouch ? 5 : 0,
-      forceFallback: isTouch,
-      fallbackOnBody: true,
-      delay: isTouch ? 300 : 0,
-      delayOnTouchOnly: true,
-      touchStartThreshold: isTouch ? 10 : 0,
-      filter: ".icon-btn, .task-edit",
-      preventOnFilter: false,
-      onStart: () => {
-        document.body.classList.add("is-dragging");
-      },
-      onUnchoose: () => {
-        document.body.classList.remove("is-dragging");
-      },
-      onEnd: (event) => {
-        document.body.classList.remove("is-dragging");
-        const movedId = event.item.getAttribute("data-id");
-        const newQuadrant = event.to.getAttribute("data-list");
-        const task = state.tasks.find((item) => item.id === movedId);
-        if (task) {
-          task.quadrant = newQuadrant;
-        }
-        reorderFromDOM();
-        saveStateDebounced();
-      },
-    });
-  });
-}
-
 function submitQuickAdd() {
   if (isInlineEditingActive()) return;
   const didAdd = addTask(elements.taskInput.value, elements.quadrantSelect.value);
@@ -357,6 +351,28 @@ function initClearAll() {
   });
 }
 
+function initMoveSheet() {
+  if (!moveSheet || !moveBackdrop) return;
+
+  if (moveCancel) {
+    moveCancel.addEventListener("click", () => {
+      closeMoveSheet();
+    });
+  }
+
+  moveBackdrop.addEventListener("click", () => {
+    closeMoveSheet();
+  });
+
+  moveButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const destination = button.getAttribute("data-move");
+      if (!destination) return;
+      moveActiveTaskToQuadrant(destination);
+    });
+  });
+}
+
 function init() {
   loadState();
   elements.quadrantSelect.value = state.lastQuadrant || "do_first";
@@ -364,11 +380,17 @@ function init() {
   initQuickAdd();
   initPerQuadrantAdd();
   initClearAll();
-  initDragAndDrop();
+  initMoveSheet();
 }
 
-
 document.addEventListener("keydown", (event) => {
+  const isMoveSheetOpen = Boolean(moveSheet && !moveSheet.hidden);
+  if (isMoveSheetOpen && event.key === "Escape") {
+    event.preventDefault();
+    closeMoveSheet();
+    return;
+  }
+
   if (!isInlineEditingActive()) return;
   if (event.key === "Enter" || event.key === "Escape") {
     event.stopPropagation();
