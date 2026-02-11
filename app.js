@@ -275,20 +275,28 @@ function render() {
 
 function initDragAndDrop() {
   if (!window.Sortable) return;
+  const isTouch = window.matchMedia("(pointer: coarse)").matches;
   elements.lists.forEach((list) => {
     Sortable.create(list, {
       group: "matrix",
       animation: 150,
-      emptyInsertThreshold: 9999,
-      fallbackTolerance: 3,
-      forceFallback: true,
+      emptyInsertThreshold: isTouch ? 9999 : 0,
+      fallbackTolerance: isTouch ? 5 : 0,
+      forceFallback: isTouch,
       fallbackOnBody: true,
-      delay: 150,
+      delay: isTouch ? 300 : 0,
       delayOnTouchOnly: true,
-      touchStartThreshold: 4,
+      touchStartThreshold: isTouch ? 10 : 0,
       filter: ".icon-btn, .task-edit",
       preventOnFilter: false,
+      onStart: () => {
+        document.body.classList.add("is-dragging");
+      },
+      onUnchoose: () => {
+        document.body.classList.remove("is-dragging");
+      },
       onEnd: (event) => {
+        document.body.classList.remove("is-dragging");
         const movedId = event.item.getAttribute("data-id");
         const newQuadrant = event.to.getAttribute("data-list");
         const task = state.tasks.find((item) => item.id === movedId);

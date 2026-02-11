@@ -360,6 +360,13 @@ select {
   flex-direction: column;
   min-height: 240px;
   box-shadow: var(--shadow);
+  transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
+}
+
+body.is-dragging .quadrant {
+  border-color: color-mix(in srgb, var(--border) 60%, var(--primary));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--focus) 75%, transparent), var(--shadow);
+  background: color-mix(in srgb, var(--card) 90%, var(--bg));
 }
 
 .quadrant[data-quadrant="do_first"] {
@@ -424,22 +431,24 @@ select {
 
 .task-list:empty {
   min-height: 120px;
-  border: 1px dashed rgba(0, 0, 0, 0.12);
 }
 
-.task-list:empty::before {
-  content: attr(data-empty-hint);
-  color: var(--muted);
-  font-size: 0.78rem;
-  padding: 0;
-  text-align: center;
-  opacity: 0.45;
-  pointer-events: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+body.is-dragging .task-list:empty::after {
+  content: "Drop here";
+  color: color-mix(in srgb, var(--muted) 70%, var(--ink));
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  border-radius: 10px;
+  border: 1px dashed color-mix(in srgb, var(--border) 70%, var(--primary));
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  margin: 4px 0;
+  padding: 8px;
   width: 100%;
+  pointer-events: none;
 }
 
 .task-list::-webkit-scrollbar {
