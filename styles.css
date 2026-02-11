@@ -492,6 +492,8 @@ select {
 .task-text {
   font-weight: 600;
   flex: 1 1 auto;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 
