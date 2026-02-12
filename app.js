@@ -92,20 +92,15 @@ function updateCharCounter() {
   const counter = ensureCharCounter();
   if (!counter || !elements.taskInput) return;
 
-  const count = elements.taskInput.value.length;
-  const isFocused = document.activeElement === elements.taskInput;
-  const shouldShow = isFocused || count > 0;
+  const len = elements.taskInput.value.length;
 
   counter.classList.remove("is-visible", "is-warn");
   counter.textContent = "";
 
-  if (!shouldShow) return;
+  if (len < 130) return;
 
-  counter.classList.add("is-visible");
-  counter.textContent = `${count}/${TASK_MAX_CHARS}`;
-  if (count >= 130) {
-    counter.classList.add("is-warn");
-  }
+  counter.classList.add("is-visible", "is-warn");
+  counter.textContent = `${len}/${TASK_MAX_CHARS}`;
 }
 
 function saveState() {
@@ -333,13 +328,37 @@ function startInlineEdit(task, textNode) {
   }
 
   const currentText = task.text;
+  const wrap = document.createElement("div");
+  wrap.className = "task-edit-wrap";
+
   const input = document.createElement("input");
   input.type = "text";
   input.value = currentText;
   input.className = "task-edit";
   input.maxLength = TASK_MAX_CHARS;
 
+  const meta = document.createElement("div");
+  meta.className = "edit-meta";
+
+  const counter = document.createElement("span");
+  counter.className = "char-counter";
+  counter.setAttribute("aria-live", "polite");
+
+  meta.appendChild(counter);
+  wrap.appendChild(input);
+  wrap.appendChild(meta);
+
   let cancelled = false;
+
+  const updateInlineCounter = () => {
+    const len = input.value.length;
+    counter.classList.remove("is-visible", "is-warn");
+    counter.textContent = "";
+
+    if (len < 130) return;
+    counter.classList.add("is-visible", "is-warn");
+    counter.textContent = `${len}/${TASK_MAX_CHARS}`;
+  };
 
   const finish = () => {
     const nextText = normalizeText(input.value);
@@ -369,10 +388,11 @@ function startInlineEdit(task, textNode) {
     }
   });
 
+  input.addEventListener("input", updateInlineCounter);
   input.addEventListener("blur", finish);
 
-
-  textNode.replaceWith(input);
+  textNode.replaceWith(wrap);
+  updateInlineCounter();
   input.focus();
   input.select();
 }
