@@ -151,7 +151,7 @@ function setMoveOptionsState(currentQuadrant) {
 
     const isCurrent = destination === currentQuadrant;
     button.classList.toggle("is-current", isCurrent);
-    button.disabled = isCurrent;
+    button.disabled = false;
 
     if (isCurrent) {
       button.setAttribute("aria-disabled", "true");

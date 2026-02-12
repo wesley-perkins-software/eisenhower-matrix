@@ -642,14 +642,19 @@ select {
   border-color: var(--primary);
 }
 
-.sheet__btn:disabled,
 .sheet__btn[aria-disabled="true"],
 .sheet__btn.is-current {
   opacity: 0.6;
-  cursor: default;
+  cursor: pointer;
   border-color: color-mix(in srgb, var(--border) 65%, transparent);
   background: transparent;
   color: var(--muted);
+}
+
+
+.sheet__btn.is-current:hover {
+  border-color: color-mix(in srgb, var(--border) 65%, transparent);
+  background: transparent;
 }
 
 .sheet__btn.is-current:active {
