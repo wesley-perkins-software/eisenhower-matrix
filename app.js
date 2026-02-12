@@ -151,9 +151,16 @@ function setMoveOptionsState(currentQuadrant) {
 
     const isCurrent = destination === currentQuadrant;
     button.classList.toggle("is-current", isCurrent);
-    button.setAttribute("aria-disabled", String(isCurrent));
     button.disabled = isCurrent;
-    button.textContent = isCurrent ? `${baseLabel} ✓ Current` : baseLabel;
+
+    if (isCurrent) {
+      button.setAttribute("aria-disabled", "true");
+      button.innerHTML = `<span class="sheet__label">${baseLabel}</span><span class="sheet__pill">Current</span>`;
+      return;
+    }
+
+    button.removeAttribute("aria-disabled");
+    button.innerHTML = `<span class="sheet__label">${baseLabel}</span>`;
   });
 }
 
