@@ -1,4 +1,7 @@
 const STORAGE_KEY = "eisenhower_matrix_v1";
+const TASK_MAX_CHARS = 140;
+const WARN_TASK_COUNT = 200;
+const HEAVY_TASK_COUNT = 500;
 const QUADRANTS = [
   { id: "do_first", label: "Do First" },
   { id: "schedule", label: "Schedule" },
@@ -14,6 +17,7 @@ const elements = {
   taskToast: document.getElementById("task-toast"),
   lists: Array.from(document.querySelectorAll(".task-list")),
   addButtons: Array.from(document.querySelectorAll("[data-add]")),
+  helperStatus: document.getElementById("helper-status"),
 };
 
 const moveSheet = document.getElementById("move-sheet");
@@ -32,14 +36,47 @@ let state = {
 let saveTimer = null;
 let toastTimer = null;
 let activeMoveTaskId = null;
+let storageErrorActive = false;
 
 function uid() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
+function setStatus(message, type = "", source = "") {
+  if (!elements.helperStatus) return;
+  elements.helperStatus.textContent = message || "";
+  elements.helperStatus.classList.remove("is-warn", "is-error");
+  if (type === "warn") elements.helperStatus.classList.add("is-warn");
+  if (type === "error") elements.helperStatus.classList.add("is-error");
+  elements.helperStatus.dataset.source = source;
+}
+
+function updateCountWarnings() {
+  if (storageErrorActive) return;
+  const total = state.tasks.length;
+  if (total >= HEAVY_TASK_COUNT) {
+    setStatus("This is a very large list. Consider clearing old tasks.", "warn", "count");
+    return;
+  }
+  if (total >= WARN_TASK_COUNT) {
+    setStatus("Large lists may feel slower in this browser.", "warn", "count");
+    return;
+  }
+  if (elements.helperStatus?.dataset.source === "count") {
+    setStatus("", "", "");
+  }
+}
+
 function saveState() {
   state.updatedAt = new Date().toISOString();
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    storageErrorActive = false;
+    updateCountWarnings();
+  } catch (error) {
+    storageErrorActive = true;
+    setStatus("Couldn’t save in this browser. Your changes may not persist.", "error", "storage");
+  }
 }
 
 function saveStateDebounced() {
@@ -87,6 +124,10 @@ function isInlineEditingActive() {
 function addTask(text, quadrant) {
   const normalized = normalizeText(text);
   if (!normalized) return false;
+  if (normalized.length > TASK_MAX_CHARS) {
+    setStatus(`Max ${TASK_MAX_CHARS} characters`, "warn", "input");
+    return false;
+  }
   const now = new Date().toISOString();
   state.tasks.push({
     id: uid(),
@@ -258,16 +299,22 @@ function startInlineEdit(task, textNode) {
   input.type = "text";
   input.value = currentText;
   input.className = "task-edit";
+  input.maxLength = TASK_MAX_CHARS;
 
   let cancelled = false;
 
   const finish = () => {
     const nextText = normalizeText(input.value);
-    if (!cancelled && nextText) {
-      updateTask(task.id, { text: nextText });
-    } else {
+    if (cancelled || !nextText) {
       render();
+      return;
     }
+    if (nextText.length > TASK_MAX_CHARS) {
+      setStatus(`Max ${TASK_MAX_CHARS} characters`, "warn", "input");
+      render();
+      return;
+    }
+    updateTask(task.id, { text: nextText });
   };
 
   input.addEventListener("keydown", (event) => {
@@ -287,6 +334,16 @@ function startInlineEdit(task, textNode) {
 
   input.addEventListener("blur", finish);
 
+  input.addEventListener("input", () => {
+    if (input.value.length === TASK_MAX_CHARS) {
+      setStatus(`Max ${TASK_MAX_CHARS} characters`, "warn", "input");
+      return;
+    }
+    if (elements.helperStatus?.dataset.source === "input") {
+      updateCountWarnings();
+    }
+  });
+
   textNode.replaceWith(input);
   input.focus();
   input.select();
@@ -302,6 +359,8 @@ function render() {
     if (!list) return;
     list.appendChild(createTaskElement(task));
   });
+
+  updateCountWarnings();
 }
 
 function submitQuickAdd() {
@@ -313,8 +372,63 @@ function submitQuickAdd() {
 }
 
 function initQuickAdd() {
+  elements.taskInput.maxLength = TASK_MAX_CHARS;
+
   elements.addTaskButton.addEventListener("click", () => {
     submitQuickAdd();
+  });
+
+  elements.taskInput.addEventListener("input", () => {
+    if (elements.taskInput.value.length === TASK_MAX_CHARS) {
+      setStatus(`Max ${TASK_MAX_CHARS} characters`, "warn", "input");
+      return;
+    }
+    if (elements.helperStatus?.dataset.source === "input") {
+      updateCountWarnings();
+    }
+  });
+
+  elements.taskInput.addEventListener("paste", (event) => {
+    const text = event.clipboardData?.getData("text") || "";
+    if (!/[\r\n]/.test(text)) return;
+
+    event.preventDefault();
+    const lines = text
+      .split(/\r?\n/)
+      .map((line) => normalizeText(line))
+      .filter(Boolean);
+
+    let added = 0;
+    let rejected = 0;
+
+    lines.forEach((line) => {
+      if (line.length > TASK_MAX_CHARS) {
+        rejected += 1;
+        return;
+      }
+      if (addTask(line, elements.quadrantSelect.value)) {
+        added += 1;
+      }
+    });
+
+    if (added && rejected) {
+      setStatus(
+        `Added ${added} task${added === 1 ? "" : "s"}. ${rejected} line${rejected === 1 ? " was" : "s were"} longer than ${TASK_MAX_CHARS} characters and skipped.`,
+        "warn",
+        "input"
+      );
+    } else if (added) {
+      setStatus(`Added ${added} task${added === 1 ? "" : "s"}.`, "", "input");
+    } else if (rejected) {
+      setStatus(
+        `${rejected} line${rejected === 1 ? " was" : "s were"} longer than ${TASK_MAX_CHARS} characters and skipped.`,
+        "warn",
+        "input"
+      );
+    }
+
+    elements.taskInput.value = "";
+    elements.taskInput.focus();
   });
 
   elements.taskInput.addEventListener("keydown", (event) => {
@@ -379,6 +493,7 @@ function init() {
   loadState();
   elements.quadrantSelect.value = state.lastQuadrant || "do_first";
   render();
+  updateCountWarnings();
   initQuickAdd();
   initPerQuadrantAdd();
   initClearAll();

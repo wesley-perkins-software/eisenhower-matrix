@@ -250,6 +250,21 @@ select {
   font-size: 0.9rem;
 }
 
+.helper-status {
+  min-height: 1.1em;
+  margin-top: -10px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.helper-status.is-warn {
+  color: #8a5a2a;
+}
+
+.helper-status.is-error {
+  color: #9a2c2c;
+}
+
 
 .task-toast {
   position: fixed;
