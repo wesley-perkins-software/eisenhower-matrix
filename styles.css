@@ -763,6 +763,22 @@ select {
   font-size: 1.35rem;
 }
 
+.matrix-quote {
+  margin: 1.5em 0 0.75em;
+  padding-left: 1em;
+  border-left: 0.1875rem solid var(--border);
+  color: var(--muted);
+  font-size: 1.05rem;
+  font-style: italic;
+}
+
+.matrix-quote footer {
+  margin-top: 0.5em;
+  font-size: 0.95rem;
+  font-style: normal;
+  color: var(--muted);
+}
+
 .seo-content h3 {
   font-size: 1.1rem;
   margin-bottom: 6px;
