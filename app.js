@@ -198,21 +198,21 @@ function createTaskElement(task) {
   moveButton.type = "button";
   moveButton.className = "icon-btn icon-btn--move";
   moveButton.setAttribute("aria-label", "Move task");
-  moveButton.title = "Move task";
+  moveButton.setAttribute("data-tooltip", "Move task");
   moveButton.textContent = "↔";
 
   const editButton = document.createElement("button");
   editButton.type = "button";
   editButton.className = "icon-btn";
   editButton.setAttribute("aria-label", "Edit task");
-  editButton.title = "Edit task";
+  editButton.setAttribute("data-tooltip", "Edit task");
   editButton.textContent = "✎";
 
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
   deleteButton.className = "icon-btn";
   deleteButton.setAttribute("aria-label", "Delete task");
-  deleteButton.title = "Delete task";
+  deleteButton.setAttribute("data-tooltip", "Delete task");
   deleteButton.textContent = "×";
 
   moveButton.addEventListener("click", (event) => {
