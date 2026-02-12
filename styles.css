@@ -361,6 +361,7 @@ select {
   min-height: 240px;
   box-shadow: var(--shadow);
   transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
+  overflow-x: hidden;
 }
 
 .quadrant[data-quadrant="do_first"] {
@@ -419,6 +420,7 @@ select {
   min-height: 0;
   width: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   border-radius: var(--radius-sm);
 }
@@ -562,7 +564,7 @@ select {
   visibility: hidden;
   pointer-events: none;
   transition: opacity 70ms ease-out, transform 70ms ease-out, visibility 70ms ease-out;
-  z-index: 12;
+  z-index: 1000;
 }
 
 .icon-btn:hover::after,
