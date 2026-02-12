@@ -33,6 +33,9 @@ let state = {
 let saveTimer = null;
 let toastTimer = null;
 let activeMoveTaskId = null;
+let tooltipEl = null;
+
+const TOOLTIP_OFFSET = 10;
 let activeMoveTaskQuadrant = null;
 let moveSheetOpenedBy = null;
 let moveSheetCloseTimer = null;
@@ -143,6 +146,72 @@ function deleteTask(id) {
   saveStateDebounced();
 }
 
+function ensureGlobalTooltip() {
+  if (tooltipEl) return tooltipEl;
+  tooltipEl = document.createElement("div");
+  tooltipEl.id = "global-tooltip";
+  tooltipEl.setAttribute("role", "tooltip");
+  tooltipEl.setAttribute("aria-hidden", "true");
+  document.body.appendChild(tooltipEl);
+  return tooltipEl;
+}
+
+function hideGlobalTooltip() {
+  if (!tooltipEl) return;
+  tooltipEl.dataset.visible = "false";
+  tooltipEl.setAttribute("aria-hidden", "true");
+}
+
+function showGlobalTooltip(button) {
+  const text = button.getAttribute("data-tooltip") || button.getAttribute("aria-label");
+  if (!text) return;
+
+  const tooltip = ensureGlobalTooltip();
+  tooltip.textContent = text;
+  tooltip.dataset.visible = "false";
+  tooltip.setAttribute("aria-hidden", "true");
+
+  // Measure after setting textContent
+  const rect = button.getBoundingClientRect();
+  const halfWidth = tooltip.offsetWidth / 2;
+  const minLeft = window.scrollX + halfWidth + 8;
+  const maxLeft = window.scrollX + document.documentElement.clientWidth - halfWidth - 8;
+  const centeredLeft = window.scrollX + rect.left + rect.width / 2;
+  const clampedLeft = Math.max(minLeft, Math.min(centeredLeft, maxLeft));
+  const top = window.scrollY + rect.top - tooltip.offsetHeight - TOOLTIP_OFFSET;
+
+  tooltip.style.left = `${clampedLeft}px`;
+  tooltip.style.top = `${Math.max(window.scrollY + 8, top)}px`;
+  tooltip.dataset.visible = "true";
+  tooltip.setAttribute("aria-hidden", "false");
+}
+
+function initGlobalTooltip() {
+  const supportsHover = window.matchMedia("(pointer: fine)").matches;
+  if (!supportsHover) return;
+
+  ensureGlobalTooltip();
+
+  document.addEventListener("pointerover", (event) => {
+    if (!(event.target instanceof Element)) return;
+    const button = event.target.closest(".icon-btn[data-tooltip]");
+    if (!button) return;
+    showGlobalTooltip(button);
+  });
+
+  document.addEventListener("pointerout", (event) => {
+    if (!(event.target instanceof Element)) return;
+    const button = event.target.closest(".icon-btn[data-tooltip]");
+    if (!button) return;
+    const nextTarget = event.relatedTarget;
+    if (nextTarget instanceof Element && button.contains(nextTarget)) return;
+    hideGlobalTooltip();
+  });
+
+  window.addEventListener("scroll", hideGlobalTooltip, { passive: true });
+  window.addEventListener("resize", hideGlobalTooltip);
+}
+
 function setMoveOptionsState(currentQuadrant) {
   moveButtons.forEach((button) => {
     const destination = button.getAttribute("data-move");
@@ -155,6 +224,7 @@ function setMoveOptionsState(currentQuadrant) {
 
     if (isCurrent) {
       button.setAttribute("aria-disabled", "true");
+      button.disabled = true;
       button.innerHTML = `<span class="sheet__label">${baseLabel}</span><span class="sheet__pill">Current</span>`;
       return;
     }
@@ -265,21 +335,21 @@ function createTaskElement(task) {
   moveButton.type = "button";
   moveButton.className = "icon-btn icon-btn--move";
   moveButton.setAttribute("aria-label", "Move task");
-  moveButton.title = "Move task";
+  moveButton.setAttribute("data-tooltip", "Move task");
   moveButton.textContent = "↔";
 
   const editButton = document.createElement("button");
   editButton.type = "button";
   editButton.className = "icon-btn";
   editButton.setAttribute("aria-label", "Edit task");
-  editButton.title = "Edit task";
+  editButton.setAttribute("data-tooltip", "Edit task");
   editButton.textContent = "✎";
 
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
   deleteButton.className = "icon-btn";
   deleteButton.setAttribute("aria-label", "Delete task");
-  deleteButton.title = "Delete task";
+  deleteButton.setAttribute("data-tooltip", "Delete task");
   deleteButton.textContent = "×";
 
   moveButton.addEventListener("click", (event) => {
@@ -450,6 +520,7 @@ function init() {
   initPerQuadrantAdd();
   initClearAll();
   initMoveSheet();
+  initGlobalTooltip();
 }
 
 document.addEventListener("keydown", (event) => {

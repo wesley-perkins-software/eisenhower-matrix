@@ -527,6 +527,7 @@ select {
 }
 
 .icon-btn {
+  position: relative;
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: 50%;
@@ -541,6 +542,40 @@ select {
 
 .icon-btn:hover {
   border-color: var(--primary);
+}
+
+#global-tooltip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+#global-tooltip[data-visible="true"] {
+  opacity: 1;
+}
+
+#global-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(0, 0, 0, 0.85);
 }
 
 
