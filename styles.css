@@ -361,7 +361,6 @@ select {
   min-height: 240px;
   box-shadow: var(--shadow);
   transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
-  overflow-x: hidden;
 }
 
 .quadrant[data-quadrant="do_first"] {
@@ -420,7 +419,6 @@ select {
   min-height: 0;
   width: 100%;
   overflow-y: auto;
-  overflow-x: hidden;
   position: relative;
   border-radius: var(--radius-sm);
 }
@@ -546,32 +544,38 @@ select {
   border-color: var(--primary);
 }
 
-.icon-btn::after {
-  content: attr(data-tooltip);
+#global-tooltip {
   position: absolute;
-  left: 50%;
-  top: calc(100% + 8px);
-  transform: translate(-50%, -2px);
-  padding: 6px 9px;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--ink) 92%, #000);
+  left: 0;
+  top: 0;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
   color: #fff;
-  font-size: 0.9rem;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
   font-weight: 600;
   line-height: 1;
   white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
   pointer-events: none;
-  transition: opacity 70ms ease-out, transform 70ms ease-out, visibility 70ms ease-out;
-  z-index: 1000;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 120ms ease;
 }
 
-.icon-btn:hover::after,
-.icon-btn:focus-visible::after {
+#global-tooltip[data-visible="true"] {
   opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
+}
+
+#global-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(0, 0, 0, 0.85);
 }
 
 
