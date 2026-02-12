@@ -26,6 +26,7 @@ const moveBackdrop = document.getElementById("move-backdrop");
 const moveCancel = document.getElementById("move-cancel");
 const moveButtons = Array.from(document.querySelectorAll("#move-sheet [data-move]"));
 const moveTaskPreview = document.getElementById("move-sheet-task");
+const MOVE_SHEET_ANIMATION_MS = 180;
 
 let state = {
   version: 1,
@@ -38,6 +39,12 @@ let saveTimer = null;
 let toastTimer = null;
 let activeMoveTaskId = null;
 let storageErrorActive = false;
+let tooltipEl = null;
+
+const TOOLTIP_OFFSET = 10;
+let activeMoveTaskQuadrant = null;
+let moveSheetOpenedBy = null;
+let moveSheetCloseTimer = null;
 
 function uid() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -213,16 +220,118 @@ function deleteTask(id) {
   saveStateDebounced();
 }
 
-function openMoveSheet(task) {
+function ensureGlobalTooltip() {
+  if (tooltipEl) return tooltipEl;
+  tooltipEl = document.createElement("div");
+  tooltipEl.id = "global-tooltip";
+  tooltipEl.setAttribute("role", "tooltip");
+  tooltipEl.setAttribute("aria-hidden", "true");
+  document.body.appendChild(tooltipEl);
+  return tooltipEl;
+}
+
+function hideGlobalTooltip() {
+  if (!tooltipEl) return;
+  tooltipEl.dataset.visible = "false";
+  tooltipEl.setAttribute("aria-hidden", "true");
+}
+
+function showGlobalTooltip(button) {
+  const text = button.getAttribute("data-tooltip") || button.getAttribute("aria-label");
+  if (!text) return;
+
+  const tooltip = ensureGlobalTooltip();
+  tooltip.textContent = text;
+  tooltip.dataset.visible = "false";
+  tooltip.setAttribute("aria-hidden", "true");
+
+  // Measure after setting textContent
+  const rect = button.getBoundingClientRect();
+  const halfWidth = tooltip.offsetWidth / 2;
+  const minLeft = window.scrollX + halfWidth + 8;
+  const maxLeft = window.scrollX + document.documentElement.clientWidth - halfWidth - 8;
+  const centeredLeft = window.scrollX + rect.left + rect.width / 2;
+  const clampedLeft = Math.max(minLeft, Math.min(centeredLeft, maxLeft));
+  const top = window.scrollY + rect.top - tooltip.offsetHeight - TOOLTIP_OFFSET;
+
+  tooltip.style.left = `${clampedLeft}px`;
+  tooltip.style.top = `${Math.max(window.scrollY + 8, top)}px`;
+  tooltip.dataset.visible = "true";
+  tooltip.setAttribute("aria-hidden", "false");
+}
+
+function initGlobalTooltip() {
+  const supportsHover = window.matchMedia("(pointer: fine)").matches;
+  if (!supportsHover) return;
+
+  ensureGlobalTooltip();
+
+  document.addEventListener("pointerover", (event) => {
+    if (!(event.target instanceof Element)) return;
+    const button = event.target.closest(".icon-btn[data-tooltip]");
+    if (!button) return;
+    showGlobalTooltip(button);
+  });
+
+  document.addEventListener("pointerout", (event) => {
+    if (!(event.target instanceof Element)) return;
+    const button = event.target.closest(".icon-btn[data-tooltip]");
+    if (!button) return;
+    const nextTarget = event.relatedTarget;
+    if (nextTarget instanceof Element && button.contains(nextTarget)) return;
+    hideGlobalTooltip();
+  });
+
+  window.addEventListener("scroll", hideGlobalTooltip, { passive: true });
+  window.addEventListener("resize", hideGlobalTooltip);
+}
+
+function setMoveOptionsState(currentQuadrant) {
+  moveButtons.forEach((button) => {
+    const destination = button.getAttribute("data-move");
+    const baseLabel = button.dataset.label || button.textContent.trim();
+    button.dataset.label = baseLabel;
+
+    const isCurrent = destination === currentQuadrant;
+    button.classList.toggle("is-current", isCurrent);
+
+    if (isCurrent) {
+      button.setAttribute("aria-current", "true");
+      button.innerHTML = `<span class="sheet__label">${baseLabel}</span><span class="sheet__pill">Current</span>`;
+      return;
+    }
+
+    button.removeAttribute("aria-current");
+    button.innerHTML = `<span class="sheet__label">${baseLabel}</span>`;
+  });
+}
+
+function openMoveSheet(task, triggerElement) {
   if (!moveSheet || !moveBackdrop) return;
 
+  if (moveSheetCloseTimer) {
+    window.clearTimeout(moveSheetCloseTimer);
+    moveSheetCloseTimer = null;
+  }
+
   activeMoveTaskId = task.id;
+  activeMoveTaskQuadrant = task.quadrant;
+  moveSheetOpenedBy = triggerElement || document.activeElement;
+  setMoveOptionsState(task.quadrant);
+
   if (moveTaskPreview) {
     moveTaskPreview.textContent = task.text.length > 80 ? `${task.text.slice(0, 77)}…` : task.text;
   }
 
+  moveBackdrop.classList.remove("is-closing");
+  moveSheet.classList.remove("is-closing");
   moveBackdrop.hidden = false;
   moveSheet.hidden = false;
+
+  window.requestAnimationFrame(() => {
+    moveBackdrop.classList.add("is-open");
+    moveSheet.classList.add("is-open");
+  });
 
   const firstButton = moveButtons[0];
   if (firstButton) {
@@ -233,15 +342,41 @@ function openMoveSheet(task) {
 function closeMoveSheet() {
   if (!moveSheet || !moveBackdrop) return;
 
-  moveSheet.hidden = true;
-  moveBackdrop.hidden = true;
+  if (moveSheetCloseTimer) {
+    window.clearTimeout(moveSheetCloseTimer);
+  }
+
+  moveSheet.classList.remove("is-open");
+  moveBackdrop.classList.remove("is-open");
+  moveSheet.classList.add("is-closing");
+  moveBackdrop.classList.add("is-closing");
+
+  moveSheetCloseTimer = window.setTimeout(() => {
+    moveSheet.hidden = true;
+    moveBackdrop.hidden = true;
+    moveSheet.classList.remove("is-closing");
+    moveBackdrop.classList.remove("is-closing");
+    moveSheetCloseTimer = null;
+  }, MOVE_SHEET_ANIMATION_MS);
+
+  if (moveSheetOpenedBy && typeof moveSheetOpenedBy.focus === "function") {
+    moveSheetOpenedBy.focus();
+  }
+
   activeMoveTaskId = null;
+  activeMoveTaskQuadrant = null;
+  moveSheetOpenedBy = null;
 }
 
 function moveActiveTaskToQuadrant(quadrant) {
   if (!activeMoveTaskId) return;
   const task = state.tasks.find((item) => item.id === activeMoveTaskId);
   if (!task) {
+    closeMoveSheet();
+    return;
+  }
+
+  if (task.quadrant === quadrant || activeMoveTaskQuadrant === quadrant) {
     closeMoveSheet();
     return;
   }
@@ -272,27 +407,27 @@ function createTaskElement(task) {
   moveButton.type = "button";
   moveButton.className = "icon-btn icon-btn--move";
   moveButton.setAttribute("aria-label", "Move task");
-  moveButton.title = "Move task";
+  moveButton.setAttribute("data-tooltip", "Move task");
   moveButton.textContent = "↔";
 
   const editButton = document.createElement("button");
   editButton.type = "button";
   editButton.className = "icon-btn";
   editButton.setAttribute("aria-label", "Edit task");
-  editButton.title = "Edit task";
+  editButton.setAttribute("data-tooltip", "Edit task");
   editButton.textContent = "✎";
 
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
   deleteButton.className = "icon-btn";
   deleteButton.setAttribute("aria-label", "Delete task");
-  deleteButton.title = "Delete task";
+  deleteButton.setAttribute("data-tooltip", "Delete task");
   deleteButton.textContent = "×";
 
   moveButton.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    openMoveSheet(task);
+    openMoveSheet(task, event.currentTarget);
   });
 
   editButton.addEventListener("click", (event) => {
@@ -536,6 +671,10 @@ function initMoveSheet() {
     button.addEventListener("click", () => {
       const destination = button.getAttribute("data-move");
       if (!destination) return;
+      if (destination === activeMoveTaskQuadrant) {
+        closeMoveSheet();
+        return;
+      }
       moveActiveTaskToQuadrant(destination);
     });
   });
@@ -551,6 +690,7 @@ function init() {
   initPerQuadrantAdd();
   initClearAll();
   initMoveSheet();
+  initGlobalTooltip();
 }
 
 document.addEventListener("keydown", (event) => {
