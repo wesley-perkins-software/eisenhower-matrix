@@ -21,6 +21,7 @@ const moveBackdrop = document.getElementById("move-backdrop");
 const moveCancel = document.getElementById("move-cancel");
 const moveButtons = Array.from(document.querySelectorAll("#move-sheet [data-move]"));
 const moveTaskPreview = document.getElementById("move-sheet-task");
+const MOVE_SHEET_ANIMATION_MS = 180;
 
 let state = {
   version: 1,
@@ -35,6 +36,9 @@ let activeMoveTaskId = null;
 let tooltipEl = null;
 
 const TOOLTIP_OFFSET = 10;
+let activeMoveTaskQuadrant = null;
+let moveSheetOpenedBy = null;
+let moveSheetCloseTimer = null;
 
 function uid() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -167,6 +171,7 @@ function showGlobalTooltip(button) {
   tooltip.dataset.visible = "false";
   tooltip.setAttribute("aria-hidden", "true");
 
+  // Measure after setting textContent
   const rect = button.getBoundingClientRect();
   const halfWidth = tooltip.offsetWidth / 2;
   const minLeft = window.scrollX + halfWidth + 8;
@@ -207,18 +212,56 @@ function initGlobalTooltip() {
   window.addEventListener("resize", hideGlobalTooltip);
 }
 
-function openMoveSheet(task) {
+function setMoveOptionsState(currentQuadrant) {
+  moveButtons.forEach((button) => {
+    const destination = button.getAttribute("data-move");
+    const baseLabel = button.dataset.label || button.textContent.trim();
+    button.dataset.label = baseLabel;
+
+    const isCurrent = destination === currentQuadrant;
+    button.classList.toggle("is-current", isCurrent);
+    button.disabled = false;
+
+    if (isCurrent) {
+      button.setAttribute("aria-disabled", "true");
+      button.disabled = true;
+      button.innerHTML = `<span class="sheet__label">${baseLabel}</span><span class="sheet__pill">Current</span>`;
+      return;
+    }
+
+    button.removeAttribute("aria-disabled");
+    button.innerHTML = `<span class="sheet__label">${baseLabel}</span>`;
+  });
+}
+
+function openMoveSheet(task, triggerElement) {
   if (!moveSheet || !moveBackdrop) return;
 
+  if (moveSheetCloseTimer) {
+    window.clearTimeout(moveSheetCloseTimer);
+    moveSheetCloseTimer = null;
+  }
+
   activeMoveTaskId = task.id;
+  activeMoveTaskQuadrant = task.quadrant;
+  moveSheetOpenedBy = triggerElement || document.activeElement;
+  setMoveOptionsState(task.quadrant);
+
   if (moveTaskPreview) {
     moveTaskPreview.textContent = task.text.length > 80 ? `${task.text.slice(0, 77)}…` : task.text;
   }
 
+  moveBackdrop.classList.remove("is-closing");
+  moveSheet.classList.remove("is-closing");
   moveBackdrop.hidden = false;
   moveSheet.hidden = false;
 
-  const firstButton = moveButtons[0];
+  window.requestAnimationFrame(() => {
+    moveBackdrop.classList.add("is-open");
+    moveSheet.classList.add("is-open");
+  });
+
+  const firstButton = moveButtons.find((button) => !button.disabled) || moveButtons[0];
   if (firstButton) {
     firstButton.focus();
   }
@@ -227,15 +270,41 @@ function openMoveSheet(task) {
 function closeMoveSheet() {
   if (!moveSheet || !moveBackdrop) return;
 
-  moveSheet.hidden = true;
-  moveBackdrop.hidden = true;
+  if (moveSheetCloseTimer) {
+    window.clearTimeout(moveSheetCloseTimer);
+  }
+
+  moveSheet.classList.remove("is-open");
+  moveBackdrop.classList.remove("is-open");
+  moveSheet.classList.add("is-closing");
+  moveBackdrop.classList.add("is-closing");
+
+  moveSheetCloseTimer = window.setTimeout(() => {
+    moveSheet.hidden = true;
+    moveBackdrop.hidden = true;
+    moveSheet.classList.remove("is-closing");
+    moveBackdrop.classList.remove("is-closing");
+    moveSheetCloseTimer = null;
+  }, MOVE_SHEET_ANIMATION_MS);
+
+  if (moveSheetOpenedBy && typeof moveSheetOpenedBy.focus === "function") {
+    moveSheetOpenedBy.focus();
+  }
+
   activeMoveTaskId = null;
+  activeMoveTaskQuadrant = null;
+  moveSheetOpenedBy = null;
 }
 
 function moveActiveTaskToQuadrant(quadrant) {
   if (!activeMoveTaskId) return;
   const task = state.tasks.find((item) => item.id === activeMoveTaskId);
   if (!task) {
+    closeMoveSheet();
+    return;
+  }
+
+  if (task.quadrant === quadrant || activeMoveTaskQuadrant === quadrant) {
     closeMoveSheet();
     return;
   }
@@ -286,7 +355,7 @@ function createTaskElement(task) {
   moveButton.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    openMoveSheet(task);
+    openMoveSheet(task, event.currentTarget);
   });
 
   editButton.addEventListener("click", (event) => {
