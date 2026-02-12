@@ -677,23 +677,13 @@ select {
   border-color: var(--primary);
 }
 
-.sheet__btn[aria-disabled="true"],
+.sheet__btn[aria-current="true"],
 .sheet__btn.is-current {
-  opacity: 0.6;
+  opacity: 0.82;
   cursor: pointer;
   border-color: color-mix(in srgb, var(--border) 65%, transparent);
-  background: transparent;
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
   color: var(--muted);
-}
-
-
-.sheet__btn.is-current:hover {
-  border-color: color-mix(in srgb, var(--border) 65%, transparent);
-  background: transparent;
-}
-
-.sheet__btn.is-current:active {
-  transform: none;
 }
 
 .sheet__label {

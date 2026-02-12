@@ -220,16 +220,14 @@ function setMoveOptionsState(currentQuadrant) {
 
     const isCurrent = destination === currentQuadrant;
     button.classList.toggle("is-current", isCurrent);
-    button.disabled = false;
 
     if (isCurrent) {
-      button.setAttribute("aria-disabled", "true");
-      button.disabled = true;
+      button.setAttribute("aria-current", "true");
       button.innerHTML = `<span class="sheet__label">${baseLabel}</span><span class="sheet__pill">Current</span>`;
       return;
     }
 
-    button.removeAttribute("aria-disabled");
+    button.removeAttribute("aria-current");
     button.innerHTML = `<span class="sheet__label">${baseLabel}</span>`;
   });
 }
@@ -261,7 +259,7 @@ function openMoveSheet(task, triggerElement) {
     moveSheet.classList.add("is-open");
   });
 
-  const firstButton = moveButtons.find((button) => !button.disabled) || moveButtons[0];
+  const firstButton = moveButtons[0];
   if (firstButton) {
     firstButton.focus();
   }
@@ -507,6 +505,10 @@ function initMoveSheet() {
     button.addEventListener("click", () => {
       const destination = button.getAttribute("data-move");
       if (!destination) return;
+      if (destination === activeMoveTaskQuadrant) {
+        closeMoveSheet();
+        return;
+      }
       moveActiveTaskToQuadrant(destination);
     });
   });
