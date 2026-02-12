@@ -548,8 +548,8 @@ select {
   content: attr(data-tooltip);
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 8px);
-  transform: translate(-50%, 2px);
+  top: calc(100% + 8px);
+  transform: translate(-50%, -2px);
   padding: 6px 9px;
   border-radius: 6px;
   background: color-mix(in srgb, var(--ink) 92%, #000);
