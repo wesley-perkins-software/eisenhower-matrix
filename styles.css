@@ -221,12 +221,45 @@ select {
   box-shadow: var(--shadow-soft);
 }
 
+.quick-add > * {
+  min-width: 0;
+}
+
+.input-meta {
+  grid-column: 1 / 2;
+  margin-top: -4px;
+  line-height: 1;
+}
+
+.char-counter {
+  display: inline-block;
+  min-height: 1em;
+  font-size: 0.78rem;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.char-counter.is-visible {
+  opacity: 1;
+}
+
+.char-counter.is-warn {
+  color: #8a5a2a;
+}
+
 .quick-add input,
 .quick-add select {
   border: 1px solid var(--border);
   padding: 10px 12px;
   border-radius: var(--radius-sm);
   background: var(--surface);
+}
+
+.quick-add input {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .quick-add input:focus,
@@ -470,6 +503,7 @@ select {
   justify-content: space-between;
   gap: 10px;
   align-items: flex-start;
+  min-width: 0;
 }
 
 .task-actions {
@@ -482,6 +516,9 @@ select {
 .task-text {
   font-weight: 600;
   flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 
@@ -490,6 +527,9 @@ select {
   border-radius: var(--radius-sm);
   padding: 6px 8px;
   width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   background: var(--surface);
 }
 
@@ -887,6 +927,11 @@ select {
 @media (max-width: 900px) {
   .quick-add {
     grid-template-columns: 1fr;
+  }
+
+  .input-meta {
+    grid-column: 1;
+    margin-top: -6px;
   }
 
   .cta-strip {

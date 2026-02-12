@@ -18,6 +18,7 @@ const elements = {
   lists: Array.from(document.querySelectorAll(".task-list")),
   addButtons: Array.from(document.querySelectorAll("[data-add]")),
   helperStatus: document.getElementById("helper-status"),
+  charCounter: null,
 };
 
 const moveSheet = document.getElementById("move-sheet");
@@ -64,6 +65,46 @@ function updateCountWarnings() {
   }
   if (elements.helperStatus?.dataset.source === "count") {
     setStatus("", "", "");
+  }
+}
+
+
+function ensureCharCounter() {
+  if (elements.charCounter) return elements.charCounter;
+  const quickAdd = document.querySelector(".quick-add");
+  if (!quickAdd) return null;
+
+  const meta = document.createElement("div");
+  meta.className = "input-meta";
+
+  const counter = document.createElement("span");
+  counter.id = "char-counter";
+  counter.className = "char-counter";
+  counter.setAttribute("aria-live", "polite");
+
+  meta.appendChild(counter);
+  quickAdd.appendChild(meta);
+  elements.charCounter = counter;
+  return counter;
+}
+
+function updateCharCounter() {
+  const counter = ensureCharCounter();
+  if (!counter || !elements.taskInput) return;
+
+  const count = elements.taskInput.value.length;
+  const isFocused = document.activeElement === elements.taskInput;
+  const shouldShow = isFocused || count > 0;
+
+  counter.classList.remove("is-visible", "is-warn");
+  counter.textContent = "";
+
+  if (!shouldShow) return;
+
+  counter.classList.add("is-visible");
+  counter.textContent = `${count}/${TASK_MAX_CHARS}`;
+  if (count >= 130) {
+    counter.classList.add("is-warn");
   }
 }
 
@@ -124,10 +165,7 @@ function isInlineEditingActive() {
 function addTask(text, quadrant) {
   const normalized = normalizeText(text);
   if (!normalized) return false;
-  if (normalized.length > TASK_MAX_CHARS) {
-    setStatus(`Max ${TASK_MAX_CHARS} characters`, "warn", "input");
-    return false;
-  }
+  if (normalized.length > TASK_MAX_CHARS) return false;
   const now = new Date().toISOString();
   state.tasks.push({
     id: uid(),
@@ -310,7 +348,6 @@ function startInlineEdit(task, textNode) {
       return;
     }
     if (nextText.length > TASK_MAX_CHARS) {
-      setStatus(`Max ${TASK_MAX_CHARS} characters`, "warn", "input");
       render();
       return;
     }
@@ -334,15 +371,6 @@ function startInlineEdit(task, textNode) {
 
   input.addEventListener("blur", finish);
 
-  input.addEventListener("input", () => {
-    if (input.value.length === TASK_MAX_CHARS) {
-      setStatus(`Max ${TASK_MAX_CHARS} characters`, "warn", "input");
-      return;
-    }
-    if (elements.helperStatus?.dataset.source === "input") {
-      updateCountWarnings();
-    }
-  });
 
   textNode.replaceWith(input);
   input.focus();
@@ -368,6 +396,7 @@ function submitQuickAdd() {
   const didAdd = addTask(elements.taskInput.value, elements.quadrantSelect.value);
   if (!didAdd) return;
   elements.taskInput.value = "";
+  updateCharCounter();
   elements.taskInput.focus();
 }
 
@@ -379,13 +408,15 @@ function initQuickAdd() {
   });
 
   elements.taskInput.addEventListener("input", () => {
-    if (elements.taskInput.value.length === TASK_MAX_CHARS) {
-      setStatus(`Max ${TASK_MAX_CHARS} characters`, "warn", "input");
-      return;
-    }
-    if (elements.helperStatus?.dataset.source === "input") {
-      updateCountWarnings();
-    }
+    updateCharCounter();
+  });
+
+  elements.taskInput.addEventListener("focus", () => {
+    updateCharCounter();
+  });
+
+  elements.taskInput.addEventListener("blur", () => {
+    updateCharCounter();
   });
 
   elements.taskInput.addEventListener("paste", (event) => {
@@ -428,6 +459,7 @@ function initQuickAdd() {
     }
 
     elements.taskInput.value = "";
+    updateCharCounter();
     elements.taskInput.focus();
   });
 
@@ -495,6 +527,7 @@ function init() {
   render();
   updateCountWarnings();
   initQuickAdd();
+  updateCharCounter();
   initPerQuadrantAdd();
   initClearAll();
   initMoveSheet();
