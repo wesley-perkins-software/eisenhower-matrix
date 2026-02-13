@@ -210,42 +210,45 @@ select {
   gap: 12px;
 }
 
+.tool-panel {
+  --tool-select-w: 200px;
+  display: grid;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: 11px;
+}
+
 .quick-add {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 200px auto;
+  grid-template-columns: minmax(0, 1fr) var(--tool-select-w) auto;
   gap: 10px;
-  background: var(--card);
-  padding: 11px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-soft);
 }
 
 .quick-add > * {
   min-width: 0;
 }
 
-.tool-panel {
-  display: grid;
-  gap: 6px;
-}
-
 .tool-subrow {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--tool-select-w) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
+  margin-top: 2px;
+  padding-top: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 84%, transparent);
 }
 
 .tool-helper {
   margin: 0;
-  flex: 1;
   min-width: 0;
   max-width: none;
-  color: var(--muted);
-  font-size: 0.86rem;
+  color: color-mix(in srgb, var(--muted) 92%, var(--ink));
+  font-size: 0.84rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .input-meta {
@@ -311,7 +314,7 @@ select {
 
 .helper-status {
   min-height: 1.1em;
-  margin-top: -2px;
+  margin-top: 0;
   color: var(--muted);
   font-size: 0.8rem;
 }
@@ -615,7 +618,7 @@ select {
 }
 
 #clear-all {
-  flex: 0 0 auto;
+  justify-self: end;
   white-space: nowrap;
 }
 
@@ -1112,8 +1115,16 @@ select {
 }
 
 @media (max-width: 900px) {
+  .tool-panel {
+    --tool-select-w: minmax(160px, 220px);
+  }
+
   .quick-add {
     grid-template-columns: 1fr;
+  }
+
+  .tool-subrow {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
   .input-meta {
@@ -1155,13 +1166,12 @@ select {
 
 @media (max-width: 640px) {
   .tool-subrow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   #clear-all {
-    align-self: flex-end;
+    justify-self: end;
   }
 }
 
