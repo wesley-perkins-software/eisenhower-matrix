@@ -5,26 +5,26 @@
   --font-ui: "Source Sans 3", "Trebuchet MS", sans-serif;
   --font-heading: "Space Grotesk", "Segoe UI", sans-serif;
 
-  --bg: #f3f6fa;
+  --bg: #f6f8fc;
   --bg-accent: #e9eef5;
   --ink: #111827;
   --muted: #5f6b7a;
-  --card: #ffffff;
+  --card: #fbfcff;
   --surface: #ffffff;
-  --border: #dbe3ec;
+  --border: #d2dce8;
 
   --primary: #0f766e;
   --primary-dark: #0b5f59;
   --accent: #2563eb;
   --focus: rgba(15, 118, 110, 0.24);
 
-  --quad-do-first: #c97b5a;
-  --quad-schedule: #4f7ecb;
-  --quad-delegate: #7a67a6;
-  --quad-eliminate: #72808f;
+  --quad-do-first: #b98570;
+  --quad-schedule: #6487bf;
+  --quad-delegate: #8376a4;
+  --quad-eliminate: #7a8795;
 
-  --shadow: 0 10px 24px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04);
-  --shadow-soft: 0 4px 12px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+  --shadow: 0 14px 28px rgba(15, 23, 42, 0.07), 0 3px 10px rgba(15, 23, 42, 0.045);
+  --shadow-soft: 0 8px 20px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.035);
 
   --radius: 12px;
   --radius-sm: 10px;
@@ -221,7 +221,7 @@ select {
   display: grid;
   gap: 0;
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1px solid color-mix(in srgb, var(--border) 94%, #9fb0c4);
   border-radius: var(--radius);
   box-shadow: var(--shadow-soft);
   padding: 14px;
@@ -375,10 +375,10 @@ select {
 /* Axis labels for the Eisenhower Matrix grid */
 .axis-label {
   margin: 0;
-  font-size: 1.18rem;
+  font-size: 1.08rem;
   font-weight: 500;
   color: var(--muted);
-  opacity: 0.65;
+  opacity: 0.54;
   text-align: center;
   letter-spacing: 0.01em;
 }
@@ -441,7 +441,7 @@ select {
 
 .quadrant {
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1px solid color-mix(in srgb, var(--border) 94%, #9fb0c4);
   border-radius: var(--radius);
   border-top-width: 1px;
   border-left-width: 3px;
@@ -455,18 +455,22 @@ select {
 
 .quadrant[data-quadrant="do_first"] {
   border-left-color: var(--quad-do-first);
+  background: color-mix(in srgb, var(--card) 97%, var(--quad-do-first));
 }
 
 .quadrant[data-quadrant="schedule"] {
   border-left-color: var(--quad-schedule);
+  background: color-mix(in srgb, var(--card) 97%, var(--quad-schedule));
 }
 
 .quadrant[data-quadrant="delegate"] {
   border-left-color: var(--quad-delegate);
+  background: color-mix(in srgb, var(--card) 97%, var(--quad-delegate));
 }
 
 .quadrant[data-quadrant="eliminate"] {
   border-left-color: var(--quad-eliminate);
+  background: color-mix(in srgb, var(--card) 97%, var(--quad-eliminate));
 }
 
 .quadrant header {
@@ -541,7 +545,8 @@ select {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 9px;
-  padding: 6px 8px;
+  min-height: 44px;
+  padding: 8px 10px;
   transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
 }
 
@@ -558,7 +563,7 @@ select {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  align-items: flex-start;
+  align-items: center;
   min-width: 0;
 }
 
@@ -571,6 +576,7 @@ select {
 
 .task-text {
   font-weight: 600;
+  line-height: 1.25;
   flex: 1 1 auto;
   min-width: 0;
   overflow-wrap: anywhere;
@@ -581,7 +587,8 @@ select {
 .task-edit {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 6px 8px;
+  min-height: 44px;
+  padding: 8px 10px;
   width: 100%;
   min-width: 0;
   overflow-wrap: anywhere;
@@ -623,7 +630,7 @@ select {
 .btn.ghost:hover {
   color: var(--ink);
   border-color: color-mix(in srgb, var(--border) 65%, var(--primary));
-  background: color-mix(in srgb, var(--surface) 72%, var(--bg));
+  background: color-mix(in srgb, var(--surface) 76%, var(--bg));
 }
 
 #clear-all.btn.ghost {
@@ -651,7 +658,7 @@ select {
 
 .icon-btn {
   position: relative;
-  border: 1px solid var(--border);
+  border: 1px solid color-mix(in srgb, var(--border) 88%, #ffffff);
   background: var(--surface);
   border-radius: 8px;
   width: 32px;
@@ -665,8 +672,8 @@ select {
 }
 
 .icon-btn:hover {
-  border-color: color-mix(in srgb, var(--border) 62%, var(--primary));
-  background: color-mix(in srgb, var(--surface) 72%, var(--bg));
+  border-color: color-mix(in srgb, var(--border) 72%, var(--primary));
+  background: color-mix(in srgb, var(--surface) 76%, var(--bg));
 }
 
 #global-tooltip {
