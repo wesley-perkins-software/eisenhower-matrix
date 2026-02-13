@@ -99,6 +99,36 @@ body.theme-vibrant {
   --btn-radius: 999px;
 }
 
+body.theme-calm-modern {
+  --font-ui: "Source Sans 3", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-heading: "Space Grotesk", "Segoe UI", sans-serif;
+
+  --bg: #f3f5f6;
+  --bg-accent: #edf1f2;
+  --ink: #161b1f;
+  --muted: #52606d;
+  --card: #fdfefe;
+  --surface: #ffffff;
+  --border: #d3dce2;
+
+  --primary: #1f5f66;
+  --primary-dark: #184c52;
+  --accent: #b7774d;
+  --focus: rgba(31, 95, 102, 0.22);
+
+  --quad-do-first: #b95c36;
+  --quad-schedule: #355f9f;
+  --quad-delegate: #6b5291;
+  --quad-eliminate: #5e6f7d;
+
+  --shadow: 0 4px 12px rgba(19, 31, 43, 0.07);
+  --shadow-soft: 0 2px 8px rgba(19, 31, 43, 0.05);
+
+  --radius: 12px;
+  --radius-sm: 9px;
+  --btn-radius: 10px;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -117,6 +147,78 @@ body.theme-minimal {
 
 body.theme-vibrant {
   background: radial-gradient(circle at 5% 0%, #ffffff 0%, #eef2ff 35%, var(--bg-accent) 100%);
+}
+
+body.theme-calm-modern {
+  background: linear-gradient(180deg, #f7f9fa 0%, var(--bg) 100%);
+}
+
+body.theme-calm-modern .site-nav a {
+  box-shadow: none;
+}
+
+body.theme-calm-modern .site-nav a:hover {
+  transform: none;
+  background: color-mix(in srgb, var(--surface) 88%, var(--bg));
+}
+
+body.theme-calm-modern .site-nav a[aria-current="page"] {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 85%, black);
+}
+
+body.theme-calm-modern .hero-note,
+body.theme-calm-modern .helper-tip {
+  color: var(--muted);
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+
+body.theme-calm-modern .helper-status {
+  color: color-mix(in srgb, var(--muted) 92%, var(--ink));
+  font-size: 0.84rem;
+}
+
+body.theme-calm-modern .axis-label {
+  color: color-mix(in srgb, var(--ink) 82%, var(--muted));
+  opacity: 1;
+  font-weight: 650;
+}
+
+body.theme-calm-modern .quadrant {
+  border-top-width: 3px;
+}
+
+body.theme-calm-modern .quadrant[data-quadrant="do_first"] {
+  background: color-mix(in srgb, var(--surface) 97%, var(--quad-do-first));
+}
+
+body.theme-calm-modern .quadrant[data-quadrant="schedule"] {
+  background: color-mix(in srgb, var(--surface) 97%, var(--quad-schedule));
+}
+
+body.theme-calm-modern .quadrant[data-quadrant="delegate"] {
+  background: color-mix(in srgb, var(--surface) 97%, var(--quad-delegate));
+}
+
+body.theme-calm-modern .quadrant[data-quadrant="eliminate"] {
+  background: color-mix(in srgb, var(--surface) 97%, var(--quad-eliminate));
+}
+
+body.theme-calm-modern .btn {
+  transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+body.theme-calm-modern .btn:hover {
+  transform: none;
+}
+
+body.theme-calm-modern .btn.tiny {
+  background: color-mix(in srgb, var(--accent) 92%, #8a512f);
+}
+
+body.theme-calm-modern .btn.tiny:hover {
+  filter: none;
+  background: color-mix(in srgb, var(--accent) 82%, #8a512f);
 }
 
 h1,
