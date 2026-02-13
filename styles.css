@@ -5,7 +5,7 @@
   --font-ui: "Source Sans 3", "Trebuchet MS", sans-serif;
   --font-heading: "Space Grotesk", "Segoe UI", sans-serif;
 
-  --bg: #f5f7fc;
+  --bg: #f5f7fb;
   --bg-accent: #e9eef5;
   --ink: #111827;
   --muted: #5f6b7a;
@@ -17,6 +17,17 @@
   --primary-dark: #0b5f59;
   --accent: #2563eb;
   --focus: rgba(15, 118, 110, 0.24);
+
+  /* Axis-color system (calm) */
+  --axis-urgent: #3a86ff;
+  --axis-important: #e07a5f;
+  --axis-neutral: rgba(15, 23, 42, 0.14);
+
+  /* very subtle quadrant tints */
+  --tint-urgent: rgba(58, 134, 255, 0.05);
+  --tint-important: rgba(224, 122, 95, 0.05);
+  --tint-both: rgba(124, 92, 220, 0.06);
+  --tint-neither: rgba(15, 23, 42, 0.02);
 
   --quad-do-first: #b48b7b;
   --quad-schedule: #748fba;
@@ -378,9 +389,9 @@ select {
 .axis-label {
   margin: 0;
   margin-bottom: 12px;
-  font-size: 1.65rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: rgba(15, 23, 42, 0.58);
+  color: rgba(15, 23, 42, 0.52);
   opacity: 1;
   text-align: center;
   letter-spacing: 0.01em;
@@ -444,37 +455,47 @@ select {
 }
 
 .quadrant {
-  background: #f8fafc;
-  border: 1px solid rgba(15, 23, 42, 0.11);
-  border-radius: var(--radius);
-  border-top-width: 1px;
-  border-left-width: 3px;
+  /* Quadrant surface + axis border logic baseline */
+  background: var(--tint-neither);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-top: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-radius: 18px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   min-height: 240px;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+  position: relative;
   transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
 }
 
+/* Urgent + Important */
 .quadrant[data-quadrant="do_first"] {
-  border-left-color: var(--quad-do-first);
-  background: color-mix(in srgb, #f8fafc 96%, var(--quad-do-first));
+  background: var(--tint-both);
+  border-top-color: var(--axis-urgent);
+  border-left-color: var(--axis-important);
 }
 
+/* Not Urgent + Important */
 .quadrant[data-quadrant="schedule"] {
-  border-left-color: var(--quad-schedule);
-  background: color-mix(in srgb, #f8fafc 96%, var(--quad-schedule));
+  background: var(--tint-important);
+  border-top-color: transparent;
+  border-left-color: var(--axis-important);
 }
 
+/* Urgent + Not Important */
 .quadrant[data-quadrant="delegate"] {
-  border-left-color: var(--quad-delegate);
-  background: color-mix(in srgb, #f8fafc 96%, var(--quad-delegate));
+  background: var(--tint-urgent);
+  border-top-color: var(--axis-urgent);
+  border-left-color: transparent;
 }
 
+/* Neither urgent nor important */
 .quadrant[data-quadrant="eliminate"] {
-  border-left-color: var(--quad-eliminate);
-  background: color-mix(in srgb, #f8fafc 96%, var(--quad-eliminate));
+  background: var(--tint-neither);
+  border-top-color: transparent;
+  border-left-color: transparent;
 }
 
 .quadrant header {
@@ -560,36 +581,9 @@ select {
   border: 1px solid rgba(15, 23, 42, 0.12);
   border-radius: 14px;
   min-height: 52px;
-  padding: 10px 12px 10px 14px;
+  padding: 10px 12px;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.7);
   transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
-}
-
-.task::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 10px;
-  bottom: 10px;
-  width: 4px;
-  border-radius: 999px;
-  background: rgba(15, 23, 42, 0.18);
-}
-
-.quadrant[data-quadrant="do_first"] .task::before {
-  background: rgba(198, 95, 46, 0.55);
-}
-
-.quadrant[data-quadrant="schedule"] .task::before {
-  background: rgba(55, 90, 158, 0.55);
-}
-
-.quadrant[data-quadrant="delegate"] .task::before {
-  background: rgba(108, 79, 141, 0.55);
-}
-
-.quadrant[data-quadrant="eliminate"] .task::before {
-  background: rgba(102, 112, 122, 0.55);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1182,7 +1176,7 @@ select {
 
 @media (max-width: 1024px) {
   .axis-label {
-    font-size: 1.45rem;
+    font-size: 1.35rem;
   }
 }
 
