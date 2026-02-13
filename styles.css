@@ -225,18 +225,23 @@ select {
   min-width: 0;
 }
 
+.tool-panel {
+  display: grid;
+  gap: 6px;
+}
+
 .tool-subrow {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 4px;
-  padding: 0 11px;
 }
 
 .tool-helper {
   margin: 0;
-  max-width: 68ch;
+  flex: 1;
+  min-width: 0;
+  max-width: none;
   color: var(--muted);
   font-size: 0.86rem;
   font-weight: 400;
@@ -306,10 +311,9 @@ select {
 
 .helper-status {
   min-height: 1.1em;
-  margin-top: 2px;
+  margin-top: -2px;
   color: var(--muted);
   font-size: 0.8rem;
-  padding: 0 11px;
 }
 
 .helper-status.is-warn {
@@ -608,6 +612,11 @@ select {
   font-size: 0.85rem;
   white-space: nowrap;
   opacity: 0.85;
+}
+
+#clear-all {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .btn.subtle:hover {
@@ -1149,10 +1158,9 @@ select {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    margin-top: 6px;
   }
 
-  .tool-subrow .btn.subtle {
+  #clear-all {
     align-self: flex-end;
   }
 }

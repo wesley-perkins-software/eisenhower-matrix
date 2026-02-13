@@ -205,22 +205,24 @@
         </div>
       </header>
 
-      <section class="quick-add" aria-label="Add a task">
-        <label class="sr-only" for="task-input">Task</label>
-        <input id="task-input" type="text" placeholder="Add a task…" autocomplete="off" />
-        <label class="sr-only" for="quadrant-select">Quadrant</label>
-        <select id="quadrant-select">
-          <option value="do_first">Do First</option>
-          <option value="schedule">Schedule</option>
-          <option value="delegate">Delegate</option>
-          <option value="eliminate">Eliminate</option>
-        </select>
-        <button class="btn primary" id="add-task" type="button">Add</button>
-      </section>
+      <div class="tool-panel">
+        <section class="quick-add" aria-label="Add a task">
+          <label class="sr-only" for="task-input">Task</label>
+          <input id="task-input" type="text" placeholder="Add a task…" autocomplete="off" />
+          <label class="sr-only" for="quadrant-select">Quadrant</label>
+          <select id="quadrant-select">
+            <option value="do_first">Do First</option>
+            <option value="schedule">Schedule</option>
+            <option value="delegate">Delegate</option>
+            <option value="eliminate">Eliminate</option>
+          </select>
+          <button class="btn primary" id="add-task" type="button">Add</button>
+        </section>
 
-      <div class="tool-subrow">
-        <p class="tool-helper" id="tool-helper" aria-live="polite">Add tasks and sort by importance and urgency. Changes are saved automatically on this device.</p>
-        <button class="btn subtle" id="clear-all" type="button" title="Clears all tasks saved on this device">Clear all tasks</button>
+        <div class="tool-subrow">
+          <p class="tool-helper" id="tool-helper" aria-live="polite">Add tasks and sort by importance and urgency. Changes are saved automatically on this device.</p>
+          <button class="btn subtle" id="clear-all" type="button" title="Clears all tasks saved on this device">Clear all tasks</button>
+        </div>
       </div>
 
       <p class="helper-status" id="helper-status" aria-live="polite"></p>
