@@ -16,7 +16,7 @@ const elements = {
   clearAllButton: document.getElementById("clear-all"),
   taskToast: document.getElementById("task-toast"),
   lists: Array.from(document.querySelectorAll(".task-list")),
-  addButtons: Array.from(document.querySelectorAll("[data-add]")),
+  quadrantCounts: Array.from(document.querySelectorAll("[data-count]")),
   helperStatus: document.getElementById("helper-status"),
   charCounter: null,
 };
@@ -532,6 +532,22 @@ function startInlineEdit(task, textNode) {
   input.select();
 }
 
+function updateQuadrantCounts() {
+  const counts = Object.fromEntries(QUADRANTS.map((quadrant) => [quadrant.id, 0]));
+
+  state.tasks.forEach((task) => {
+    if (counts[task.quadrant] !== undefined) {
+      counts[task.quadrant] += 1;
+    }
+  });
+
+  elements.quadrantCounts.forEach((countEl) => {
+    const quadrant = countEl.getAttribute("data-count");
+    const count = counts[quadrant] ?? 0;
+    countEl.textContent = `(${count})`;
+  });
+}
+
 function render() {
   elements.lists.forEach((list) => {
     list.innerHTML = "";
@@ -544,6 +560,7 @@ function render() {
   });
 
   updateCountWarnings();
+  updateQuadrantCounts();
 }
 
 function submitQuickAdd() {
@@ -630,18 +647,6 @@ function initQuickAdd() {
   });
 }
 
-function initPerQuadrantAdd() {
-  elements.addButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const quadrant = button.getAttribute("data-add");
-      const text = window.prompt("New task:");
-      if (text !== null) {
-        addTask(text, quadrant);
-      }
-    });
-  });
-}
-
 function initClearAll() {
   elements.clearAllButton.addEventListener("click", () => {
     const confirmed = window.confirm("Clear all tasks? This cannot be undone.");
@@ -687,7 +692,6 @@ function init() {
   updateCountWarnings();
   initQuickAdd();
   updateCharCounter();
-  initPerQuadrantAdd();
   initClearAll();
   initMoveSheet();
   initGlobalTooltip();
