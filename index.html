@@ -203,25 +203,28 @@
           <h1>Eisenhower Matrix</h1>
           <p class="hero-note">Inspired by Eisenhower’s urgent vs important framework.</p>
         </div>
-        <div class="header-actions">
-          <button class="btn ghost" id="clear-all" type="button" title="Clears all tasks saved on this device">Clear all tasks</button>
-        </div>
       </header>
 
-      <section class="quick-add" aria-label="Add a task">
-        <label class="sr-only" for="task-input">Task</label>
-        <input id="task-input" type="text" placeholder="Add a task…" autocomplete="off" />
-        <label class="sr-only" for="quadrant-select">Quadrant</label>
-        <select id="quadrant-select">
-          <option value="do_first">Do First</option>
-          <option value="schedule">Schedule</option>
-          <option value="delegate">Delegate</option>
-          <option value="eliminate">Eliminate</option>
-        </select>
-        <button class="btn primary" id="add-task" type="button">Add</button>
-      </section>
+      <div class="tool-panel">
+        <section class="quick-add" aria-label="Add a task">
+          <label class="sr-only" for="task-input">Task</label>
+          <input id="task-input" type="text" placeholder="Add a task…" autocomplete="off" />
+          <label class="sr-only" for="quadrant-select">Quadrant</label>
+          <select id="quadrant-select">
+            <option value="do_first">Do First</option>
+            <option value="schedule">Schedule</option>
+            <option value="delegate">Delegate</option>
+            <option value="eliminate">Eliminate</option>
+          </select>
+          <button class="btn primary" id="add-task" type="button">Add</button>
+        </section>
 
-      <p class="helper-tip helper-tip--single" id="helper-tip" aria-live="polite">Add tasks and sort by importance and urgency. Changes are saved automatically on this device.</p>
+        <div class="tool-subrow">
+          <p class="tool-helper" id="tool-helper" aria-live="polite">Add tasks and sort by importance and urgency. Changes are saved automatically on this device.</p>
+          <button class="btn ghost" id="clear-all" type="button" title="Clears all tasks saved on this device">Clear all tasks</button>
+        </div>
+      </div>
+
       <p class="helper-status" id="helper-status" aria-live="polite"></p>
 
       <section class="matrix-grid" aria-label="Eisenhower matrix">
@@ -235,10 +238,9 @@
         <article class="quadrant" data-quadrant="do_first">
           <header>
             <div>
-              <h2>Do First</h2>
+              <h2>Do First <span class="quad-count" data-count="do_first"></span></h2>
               <p class="quad-subtitle"><strong>Important</strong> <span class="muted">and</span> <strong>Urgent</strong></p>
             </div>
-            <button class="btn tiny" data-add="do_first" type="button">+ Add task</button>
           </header>
           <ul class="task-list" data-list="do_first" data-empty-hint="Drop here" aria-label="Do First tasks"></ul>
         </article>
@@ -246,10 +248,9 @@
         <article class="quadrant" data-quadrant="schedule">
           <header>
             <div>
-              <h2>Schedule</h2>
+              <h2>Schedule <span class="quad-count" data-count="schedule"></span></h2>
               <p class="quad-subtitle"><strong>Important</strong> <span class="muted">but not</span> <strong>Urgent</strong></p>
             </div>
-            <button class="btn tiny" data-add="schedule" type="button">+ Add task</button>
           </header>
           <ul class="task-list" data-list="schedule" data-empty-hint="Drop here" aria-label="Schedule tasks"></ul>
         </article>
@@ -257,10 +258,9 @@
         <article class="quadrant" data-quadrant="delegate">
           <header>
             <div>
-              <h2>Delegate</h2>
+              <h2>Delegate <span class="quad-count" data-count="delegate"></span></h2>
               <p class="quad-subtitle"><strong>Not Important</strong> <span class="muted">but</span> <strong>Urgent</strong></p>
             </div>
-            <button class="btn tiny" data-add="delegate" type="button">+ Add task</button>
           </header>
           <ul class="task-list" data-list="delegate" data-empty-hint="Drop here" aria-label="Delegate tasks"></ul>
         </article>
@@ -268,10 +268,9 @@
         <article class="quadrant" data-quadrant="eliminate">
           <header>
             <div>
-              <h2>Eliminate</h2>
+              <h2>Eliminate <span class="quad-count" data-count="eliminate"></span></h2>
               <p class="quad-subtitle"><span class="muted">Neither</span> <strong>Important</strong> <span class="muted">nor</span> <strong>Urgent</strong></p>
             </div>
-            <button class="btn tiny" data-add="eliminate" type="button">+ Add task</button>
           </header>
           <ul class="task-list" data-list="eliminate" data-empty-hint="Drop here" aria-label="Eliminate tasks"></ul>
         </article>
