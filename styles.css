@@ -5,13 +5,13 @@
   --font-ui: "Source Sans 3", "Trebuchet MS", sans-serif;
   --font-heading: "Space Grotesk", "Segoe UI", sans-serif;
 
-  --bg: #f5f7fb;
-  --bg-accent: #e9eef5;
+  --bg: #eef3f9;
+  --bg-accent: #e4ebf5;
   --ink: #111827;
   --muted: #5f6b7a;
-  --card: #ffffff;
-  --surface: #ffffff;
-  --border: #d5dee8;
+  --card: #fdfefe;
+  --surface: #f9fbff;
+  --border: #c7d3e0;
 
   --primary: #0f766e;
   --primary-dark: #0b5f59;
@@ -20,22 +20,22 @@
 
   /* Axis-color system (calm) */
   --axis-urgent: #3a86ff;
-  --axis-important: #e07a5f;
+  --axis-important: #dd6b57;
   --axis-neutral: rgba(15, 23, 42, 0.14);
 
   /* very subtle quadrant tints */
-  --tint-urgent: rgba(58, 134, 255, 0.05);
-  --tint-important: rgba(224, 122, 95, 0.05);
-  --tint-both: rgba(124, 92, 220, 0.06);
-  --tint-neither: rgba(15, 23, 42, 0.02);
+  --tint-urgent: rgba(58, 134, 255, 0.07);
+  --tint-important: rgba(221, 107, 87, 0.07);
+  --tint-both: rgba(110, 96, 216, 0.08);
+  --tint-neither: rgba(15, 23, 42, 0.045);
 
   --quad-do-first: #b48b7b;
   --quad-schedule: #748fba;
   --quad-delegate: #8a7ca6;
   --quad-eliminate: #7f8c98;
 
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow: 0 10px 24px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(15, 23, 42, 0.05);
+  --shadow-soft: 0 6px 14px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.05);
 
   --radius: 12px;
   --radius-sm: 10px;
@@ -118,7 +118,7 @@ body {
   margin: 0;
   font-family: var(--font-ui);
   color: var(--ink);
-  background: var(--bg);
+  background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.72) 0%, transparent 44%), linear-gradient(160deg, var(--bg) 0%, var(--bg-accent) 100%);
   min-height: 100vh;
 }
 
@@ -389,12 +389,12 @@ select {
 .axis-label {
   margin: 0;
   margin-bottom: 12px;
-  font-size: 1.6rem;
+  font-size: 1.75rem;
   font-weight: 800;
-  color: rgba(15, 23, 42, 0.52);
+  color: rgba(15, 23, 42, 0.66);
   opacity: 1;
   text-align: center;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.015em;
 }
 
 .axis-spacer {
@@ -409,7 +409,7 @@ select {
 .axis-label--side {
   align-self: center;
   justify-self: center;
-  font-weight: 600;
+  font-weight: 800;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
 }
@@ -455,47 +455,82 @@ select {
 }
 
 .quadrant {
-  /* Quadrant surface + axis border logic baseline */
-  background: var(--tint-neither);
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  border-top: 4px solid transparent;
-  border-left: 4px solid transparent;
+  /* Quadrant surface + axis framing */
+  background: color-mix(in srgb, var(--surface) 88%, var(--tint-neither));
+  border: 1px solid rgba(15, 23, 42, 0.16);
   border-radius: 18px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   min-height: 240px;
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08), 0 2px 9px rgba(15, 23, 42, 0.05);
   position: relative;
-  transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
+  overflow: hidden;
+  transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition), transform var(--transition);
+}
+
+.quadrant::before,
+.quadrant::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.quadrant::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: transparent;
+}
+
+.quadrant::after {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: transparent;
 }
 
 /* Urgent + Important */
 .quadrant[data-quadrant="do_first"] {
-  background: var(--tint-both);
-  border-top-color: var(--axis-urgent);
-  border-left-color: var(--axis-important);
+  background: color-mix(in srgb, var(--surface) 84%, var(--tint-both));
+}
+
+.quadrant[data-quadrant="do_first"]::before {
+  background: var(--axis-urgent);
+}
+
+.quadrant[data-quadrant="do_first"]::after {
+  background: var(--axis-important);
 }
 
 /* Not Urgent + Important */
 .quadrant[data-quadrant="schedule"] {
-  background: var(--tint-important);
-  border-top-color: transparent;
-  border-left-color: var(--axis-important);
+  background: color-mix(in srgb, var(--surface) 85%, var(--tint-important));
+}
+
+.quadrant[data-quadrant="schedule"]::after {
+  background: var(--axis-important);
 }
 
 /* Urgent + Not Important */
 .quadrant[data-quadrant="delegate"] {
-  background: var(--tint-urgent);
-  border-top-color: var(--axis-urgent);
-  border-left-color: transparent;
+  background: color-mix(in srgb, var(--surface) 85%, var(--tint-urgent));
+}
+
+.quadrant[data-quadrant="delegate"]::before {
+  background: var(--axis-urgent);
 }
 
 /* Neither urgent nor important */
 .quadrant[data-quadrant="eliminate"] {
-  background: var(--tint-neither);
-  border-top-color: transparent;
-  border-left-color: transparent;
+  background: color-mix(in srgb, var(--surface) 90%, var(--tint-neither));
+}
+
+.quadrant[data-quadrant="eliminate"]::before,
+.quadrant[data-quadrant="eliminate"]::after {
+  background: rgba(15, 23, 42, 0.08);
 }
 
 .quadrant header {
@@ -578,11 +613,11 @@ select {
   justify-content: space-between;
   gap: 12px;
   background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(15, 23, 42, 0.15);
   border-radius: 14px;
-  min-height: 52px;
+  min-height: 50px;
   padding: 10px 12px;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.07), 0 1px 2px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85);
   transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
 }
 
@@ -591,7 +626,8 @@ select {
   .task:focus-within {
     border-color: color-mix(in srgb, rgba(15, 23, 42, 0.12) 60%, var(--primary));
     background: #ffffff;
-    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.10), 0 2px 6px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    transform: translateY(-1px);
   }
 }
 
@@ -602,6 +638,7 @@ select {
   align-items: center;
   width: 100%;
   min-width: 0;
+  min-height: 30px;
 }
 
 .task-actions {
@@ -613,10 +650,13 @@ select {
 
 .task-text {
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.3;
   flex: 1 1 auto;
   min-width: 0;
   margin: 0;
+  display: flex;
+  align-items: center;
+  min-height: 28px;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -1176,7 +1216,7 @@ select {
 
 @media (max-width: 1024px) {
   .axis-label {
-    font-size: 1.35rem;
+    font-size: 1.55rem;
   }
 }
 
