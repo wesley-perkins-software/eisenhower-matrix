@@ -6,11 +6,10 @@
     <title>Privacy for This Eisenhower Matrix Tool</title>
     <meta
       name="description"
-      content="Privacy details for this Eisenhower Matrix site. Tasks are stored locally in your browser using localStorage. No server-side task storage."
+      content="Privacy details for this local-first Eisenhower Matrix tool, including what is stored in localStorage and what is not collected."
     />
     <meta name="theme-color" content="#f6f3ef" />
-    <!-- TODO: Update canonical URL once your domain is known. -->
-    <link rel="canonical" href="/privacy.html" />
+    <link rel="canonical" href="privacy.html" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,7 +24,7 @@
         "@context": "https://schema.org",
         "@type": "WebPage",
         "name": "Privacy for This Eisenhower Matrix Tool",
-        "description": "Privacy details for this Eisenhower Matrix site. Tasks are stored locally in your browser using localStorage. No server-side task storage.",
+        "description": "Privacy details for this local-first Eisenhower Matrix tool, including what is stored in localStorage and what is not collected.",
         "url": "/privacy.html"
       }
     </script>
@@ -41,41 +40,69 @@
 
       <section class="cta-strip" aria-label="Try tool">
         <p>Prefer tools with less data collection?</p>
-        <a class="btn primary" href="/">Try the tool →</a>
+        <a class="btn primary" href="index.html">Try the tool →</a>
       </section>
 
       <header class="page-header">
         <div>
           <p class="eyebrow">Privacy</p>
           <h1>Privacy for This Eisenhower Matrix Tool</h1>
-          <p class="lead">Straightforward and local-first: your task data stays in your own browser.</p>
+          <p class="lead">Simple and specific: this tool stores task data in your browser and does not require an account.</p>
         </div>
       </header>
 
       <section class="content-card">
-        <h2>What is stored</h2>
-        <p>
-          Your tasks are saved locally in your browser using localStorage so they can persist when you revisit the site
-          on the same device and browser.
-        </p>
-
-        <h2>What is not stored</h2>
+        <h2>Summary</h2>
         <ul>
-          <li>No server-side task storage</li>
-          <li>No accounts or logins</li>
-          <li>No task data sent to us by default</li>
+          <li>Tasks are stored locally in your browser (localStorage).</li>
+          <li>No account is required.</li>
+          <li>No server-side task storage is used.</li>
         </ul>
+      </section>
 
-        <h2>How to clear your data</h2>
-        <p>
-          Use the “Clear all” button in the app, or clear this site’s storage in your browser settings.
-        </p>
+      <section class="content-card">
+        <h2>What’s stored locally</h2>
+        <ul>
+          <li>Your tasks and which quadrant each task is in.</li>
+          <li>Task metadata used by the app, such as task IDs and timestamps.</li>
+          <li>Your last selected quadrant when adding tasks.</li>
+        </ul>
+        <p>Clearing this site’s data in your browser removes saved tasks.</p>
+      </section>
+
+      <section class="content-card">
+        <h2>What we don’t collect</h2>
+        <ul>
+          <li>No personal information collection by default.</li>
+          <li>No task content sent to a server by default.</li>
+          <li>No ads, no trackers, and no analytics scripts.</li>
+        </ul>
+      </section>
+
+      <section class="content-card">
+        <h2>Third-party services</h2>
+        <p>Fonts are loaded from Google Fonts via <code>fonts.googleapis.com</code> and <code>fonts.gstatic.com</code>.</p>
+        <p>No other third-party services are used.</p>
+      </section>
+
+      <section class="content-card">
+        <h2>Your controls</h2>
+        <ul>
+          <li>Use the “Clear all tasks” button in the tool to remove current tasks.</li>
+          <li>Clear site storage in your browser settings to remove locally stored data.</li>
+          <li>In private browsing modes, local storage may be limited or cleared automatically.</li>
+        </ul>
+      </section>
+
+      <section class="content-card">
+        <h2>Changes</h2>
+        <p><strong>Last updated:</strong> 2026-02-14</p>
       </section>
     </main>
 
     <footer class="site-footer">
       <p>
-        Built for focus. No tracking, no accounts. <a href="about.html">About</a> · <a href="privacy.html">Privacy</a>
+        Built for focus. No tracking, no accounts. <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
       </p>
     </footer>
   </body>
