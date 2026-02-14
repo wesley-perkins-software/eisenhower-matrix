@@ -4,7 +4,12 @@
 A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks by urgency and importance. Tasks persist locally in the browser.
 
 ## Pages
-- `index.html` only (single page).
+- `index.html` (interactive tool homepage)
+- `quadrants.html` (4 quadrants explainer)
+- `urgent-vs-important.html` (concept page + FAQ)
+- `examples.html` (sample matrices)
+- `about.html` (short about page)
+- `privacy.html` (privacy summary page)
 
 ## Features
 
@@ -24,9 +29,11 @@ A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks
   - Enter saves, Esc cancels.
 - Delete task:
   - Small delete control per task.
+- Mark done:
+  - Mark a task as done/undone with the ✓ icon button.
+  - Completed tasks are highlighted light green.
 - Move task:
-  - Drag-and-drop between quadrants is preferred.
-  - Must also have a non-drag fallback (e.g., “Move to…” menu).
+  - Drag-and-drop between quadrants.
 
 ### 3. Persistence
 - Save state on every change (debounced).
@@ -44,6 +51,9 @@ A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks
 - Title: includes “Eisenhower Matrix”
 - H1: “Eisenhower Matrix”
 - Short description below the tool (a few paragraphs max).
+- Supporting pages include unique title, meta description, canonical, and WebPage JSON-LD.
+- `urgent-vs-important.html` includes on-page FAQ + FAQPage JSON-LD.
+- Shared internal links connect homepage and supporting pages.
 
 ## Non-goals (explicitly out of scope)
 - Accounts / login
@@ -55,7 +65,6 @@ A fast, no-login, single-page Eisenhower Matrix tool that helps users sort tasks
 
 ## Acceptance criteria
 - Open `index.html` locally: tool works.
-- Add/edit/delete/move tasks works with no console errors.
+- Add/edit/delete/move/complete tasks works with no console errors.
 - Refresh page: tasks persist.
 - Mobile width ~390px: layout is usable and touch-friendly.
-- A non-drag method exists for moving tasks.

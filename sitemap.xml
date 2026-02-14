@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- TODO: Replace with your production domain. -->
+  <url>
+    <loc>https://example.com/</loc>
+  </url>
+  <url>
+    <loc>https://example.com/quadrants.html</loc>
+  </url>
+  <url>
+    <loc>https://example.com/urgent-vs-important.html</loc>
+  </url>
+  <url>
+    <loc>https://example.com/examples.html</loc>
+  </url>
+  <url>
+    <loc>https://example.com/about.html</loc>
+  </url>
+  <url>
+    <loc>https://example.com/privacy.html</loc>
+  </url>
+  <url>
+    <loc>https://example.com/terms.html</loc>
+  </url>
+</urlset>
