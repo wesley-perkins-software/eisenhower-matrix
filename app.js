@@ -384,6 +384,11 @@ function moveActiveTaskToQuadrant(quadrant) {
   task.quadrant = quadrant;
   task.updatedAt = new Date().toISOString();
   render();
+  // After a successful move and DOM update, smoothly bring the destination quadrant header into view.
+  const destinationQuadrant = document.querySelector(`.quadrant[data-quadrant="${quadrant}"]`);
+  if (destinationQuadrant) {
+    destinationQuadrant.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
   saveStateDebounced();
   closeMoveSheet();
 }
@@ -406,22 +411,22 @@ function createTaskElement(task) {
   const moveButton = document.createElement("button");
   moveButton.type = "button";
   moveButton.className = "icon-btn icon-btn--move";
-  moveButton.setAttribute("aria-label", "Move task");
-  moveButton.setAttribute("data-tooltip", "Move task");
+  moveButton.setAttribute("aria-label", "Move");
+  moveButton.setAttribute("data-tooltip", "Move");
   moveButton.textContent = "⇄\uFE0E";
 
   const editButton = document.createElement("button");
   editButton.type = "button";
   editButton.className = "icon-btn";
-  editButton.setAttribute("aria-label", "Edit task");
-  editButton.setAttribute("data-tooltip", "Edit task");
+  editButton.setAttribute("aria-label", "Edit");
+  editButton.setAttribute("data-tooltip", "Edit");
   editButton.textContent = "✎\uFE0E";
 
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
   deleteButton.className = "icon-btn";
-  deleteButton.setAttribute("aria-label", "Delete task");
-  deleteButton.setAttribute("data-tooltip", "Delete task");
+  deleteButton.setAttribute("aria-label", "Delete");
+  deleteButton.setAttribute("data-tooltip", "Delete");
   deleteButton.textContent = "×\uFE0E";
 
   moveButton.addEventListener("click", (event) => {
