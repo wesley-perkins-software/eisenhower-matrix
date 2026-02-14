@@ -5,8 +5,8 @@
   --font-ui: "Source Sans 3", "Trebuchet MS", sans-serif;
   --font-heading: "Space Grotesk", "Segoe UI", sans-serif;
 
-  --bg: #e8edf4;
-  --bg-accent: #dde5f0;
+  --bg: #e3e9f1;
+  --bg-accent: #d5deea;
   --ink: #111827;
   --muted: #5f6b7a;
   --card: #fdfefe;
@@ -40,6 +40,7 @@
   --radius: 12px;
   --radius-sm: 10px;
   --btn-radius: 12px;
+  --control-h: 44px;
   --transition: 160ms ease;
 }
 
@@ -118,7 +119,7 @@ body {
   margin: 0;
   font-family: var(--font-ui);
   color: var(--ink);
-  background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.72) 0%, transparent 44%), linear-gradient(160deg, var(--bg) 0%, var(--bg-accent) 100%);
+  background: radial-gradient(circle at 0% 0%, rgba(247, 250, 255, 0.56) 0%, transparent 42%), linear-gradient(160deg, var(--bg) 0%, var(--bg-accent) 100%);
   min-height: 100vh;
 }
 
@@ -234,14 +235,15 @@ select {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.09), 0 3px 10px rgba(15, 23, 42, 0.05);
   padding: 12px;
 }
 
 .quick-add {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 200px auto;
+  grid-template-columns: minmax(0, 1fr) 220px auto;
   gap: 10px;
+  align-items: stretch;
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--radius-sm);
@@ -314,10 +316,11 @@ select {
 .quick-add input,
 .quick-add select {
   border: 1px solid var(--border);
-  padding: 9px 11px;
+  height: var(--control-h);
+  padding: 0 12px;
+  line-height: normal;
   border-radius: var(--radius-sm);
   background: var(--surface);
-  min-height: 40px;
 }
 
 .quick-add input {
@@ -325,6 +328,16 @@ select {
   margin: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.quick-add .btn.primary {
+  height: var(--control-h);
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  line-height: normal;
 }
 
 .quick-add input:focus,
@@ -457,13 +470,13 @@ select {
 .quadrant {
   /* Quadrant surface + axis framing */
   background: var(--surface);
-  border: 1px solid rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(15, 23, 42, 0.15);
   border-radius: 18px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   min-height: 240px;
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.07), 0 1px 4px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1), 0 3px 10px rgba(15, 23, 42, 0.06);
   position: relative;
   overflow: visible;
   transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition), transform var(--transition);
