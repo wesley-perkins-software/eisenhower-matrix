@@ -5,30 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Eisenhower Matrix (Urgent vs Important) – Free Online Tool</title>
     <meta name="description" content="Free Eisenhower Matrix to sort tasks by urgent vs important. No signup, no login, and tasks save locally in your browser." />
-    <meta name="theme-color" content="#f6f3ef" />
-    <script>
-      // TODO: Replace with your production domain, e.g. https://eisenhower-matrix.net/
-      const CANONICAL_URL = "/";
-    </script>
-    <!-- TODO: Update canonical URL once your domain is known. -->
-    <link rel="canonical" href="/" />
+    <link rel="canonical" href="https://eisenhower-matrix-tool.com/" />
     <meta property="og:title" content="Eisenhower Matrix (Urgent vs Important) – Free Online Tool" />
     <meta property="og:description" content="Free Eisenhower Matrix to sort tasks by urgent vs important. No signup, no login, and tasks save locally in your browser." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="/" />
-    <!-- TODO: Add an og-image.png asset and update the path if needed. -->
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:url" content="https://eisenhower-matrix-tool.com/" />
+    <meta property="og:image" content="https://eisenhower-matrix-tool.com/android-chrome-512x512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="Eisenhower Matrix tool icon" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Eisenhower Matrix (Urgent vs Important) – Free Online Tool" />
     <meta name="twitter:description" content="Free Eisenhower Matrix to sort tasks by urgent vs important. No signup, no login, and tasks save locally in your browser." />
-    <meta name="twitter:image" content="/og-image.png" />
-    <!-- TODO: Add favicon assets if not present. -->
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="twitter:image" content="https://eisenhower-matrix-tool.com/android-chrome-512x512.png" />
+    <meta name="twitter:image:alt" content="Eisenhower Matrix tool icon" />
+    <!-- Favicon / App Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Android / Chrome -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+
+    <meta name="theme-color" content="#0f172a" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2B5D0DGN0M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-2B5D0DGN0M');
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -162,7 +175,7 @@
         "@context": "https://schema.org",
         "@type": "WebPage",
         "name": "Eisenhower Matrix (Urgent vs Important) – Free Online Tool",
-        "url": "/",
+        "url": "https://eisenhower-matrix-tool.com/",
         "description": "Free Eisenhower Matrix to sort tasks by urgent vs important. No signup, no login, and tasks save locally in your browser."
       }
     </script>
@@ -171,7 +184,7 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "Eisenhower Matrix",
-        "url": "/",
+        "url": "https://eisenhower-matrix-tool.com/",
         "applicationCategory": "ProductivityApplication",
         "operatingSystem": "All",
         "offers": {
@@ -182,8 +195,7 @@
         "featureList": [
           "Create Eisenhower matrix",
           "Move tasks between quadrants",
-          "Local save in your browser",
-          "Print or export for review"
+          "Local save in your browser"
         ]
       }
     </script>
@@ -408,140 +420,12 @@
     </main>
     <footer class="site-footer">
       <p>
-        Built for focus. No tracking, no accounts. <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
+        Built for focus. Private by design, no accounts. <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>
       </p>
     </footer>
 
     <div id="task-toast" class="task-toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Will my tasks be saved?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Your tasks are saved automatically in your browser on this device, so you can close the page and come back later without losing them."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do I need an account to use this?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. There is no sign-up, login, or account required. You can start using the tool immediately."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I access my tasks from another device?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Tasks do not sync between devices. Each browser and device keeps its own list, so tasks added on one device will not appear on another."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is my data private?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Your tasks stay in your browser and are not sent to a server. This tool does not use accounts or store your data remotely."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What happens if I clear my browser data?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "If you clear this site’s data in your browser, your saved tasks will be removed. This includes clearing site storage or browsing data."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does this tool work offline?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The tool may continue to work after it has loaded once, but offline use is not guaranteed. For best results, use it with an internet connection."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What is the difference between urgent and important?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Urgent tasks need attention soon, often because of a deadline or time pressure. Important tasks support your goals, responsibilities, or well-being, even if they are not time-sensitive."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What is a priority matrix?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "A priority matrix is a simple way to organize tasks based on urgency and importance. The Eisenhower Matrix is one of the most well-known priority matrix methods."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How do I decide where a task belongs?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Ask two questions: does this need attention soon, and does it meaningfully matter? Your answers will guide which quadrant the task belongs in."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What should I do with tasks that feel urgent but are not important?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "If possible, delegate them to someone else. If delegation is not an option, simplify or limit the time you spend on them."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What belongs in the “Schedule” quadrant?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Important tasks that are not urgent yet, such as planning, learning, health routines, or long-term projects, belong in “Schedule.”"
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I print or export my matrix?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "This tool does not include built-in print or export features. You can copy tasks manually if you need to save or share them elsewhere."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How often should I review my matrix?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Review it whenever your priorities change. Many people find a daily or weekly review helpful."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is this based on the Eisenhower Matrix method?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. This tool is based on the classic urgent vs important framework, presented in a simple and distraction-free format."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How do I clear everything and start over?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Use the “Clear all tasks” button at the top of the page. This removes all tasks saved on this device."
-            }
-          }
-        ]
-      }
-    </script>
 
     <div id="move-backdrop" class="sheet-backdrop" hidden></div>
 

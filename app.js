@@ -46,6 +46,22 @@ let activeMoveTaskQuadrant = null;
 let moveSheetOpenedBy = null;
 let moveSheetCloseTimer = null;
 
+function shouldAutoScrollOnMove() {
+  const coarse = window.matchMedia?.("(pointer: coarse)").matches;
+  const noHover = window.matchMedia?.("(hover: none)").matches;
+  const narrow = window.matchMedia?.("(max-width: 768px)").matches;
+  return Boolean(coarse || noHover || narrow);
+}
+
+function track(eventName, params = {}) {
+  try {
+    if (typeof window.gtag !== "function") return;
+    window.gtag("event", eventName, params);
+  } catch (error) {
+    // Never allow analytics failures to affect task actions.
+  }
+}
+
 function uid() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
@@ -180,7 +196,7 @@ function addTask(text, quadrant) {
   render();
   showTaskCreatedToast(normalized, quadrant);
   saveStateDebounced();
-  return true;
+  return normalized.length;
 }
 
 function getQuadrantLabel(quadrant) {
@@ -215,9 +231,15 @@ function updateTask(id, updates) {
 }
 
 function deleteTask(id) {
-  state.tasks = state.tasks.filter((task) => task.id !== id);
+  const task = state.tasks.find((item) => item.id === id);
+  if (!task) return;
+  state.tasks = state.tasks.filter((item) => item.id !== id);
   render();
   saveStateDebounced();
+  track("task_deleted", {
+    quadrant: task.quadrant,
+    tasks_total: state.tasks.length,
+  });
 }
 
 function ensureGlobalTooltip() {
@@ -368,7 +390,7 @@ function closeMoveSheet() {
   moveSheetOpenedBy = null;
 }
 
-function moveActiveTaskToQuadrant(quadrant) {
+function moveActiveTaskToQuadrant(quadrant, method = "desktop_controls") {
   if (!activeMoveTaskId) return;
   const task = state.tasks.find((item) => item.id === activeMoveTaskId);
   if (!task) {
@@ -381,15 +403,24 @@ function moveActiveTaskToQuadrant(quadrant) {
     return;
   }
 
+  const fromQuadrant = task.quadrant;
   task.quadrant = quadrant;
   task.updatedAt = new Date().toISOString();
   render();
   // After a successful move and DOM update, smoothly bring the destination quadrant header into view.
-  const destinationQuadrant = document.querySelector(`.quadrant[data-quadrant="${quadrant}"]`);
-  if (destinationQuadrant) {
-    destinationQuadrant.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (shouldAutoScrollOnMove()) {
+    const destinationQuadrant = document.querySelector(`.quadrant[data-quadrant="${quadrant}"]`);
+    if (destinationQuadrant) {
+      destinationQuadrant.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
   saveStateDebounced();
+  track("task_moved", {
+    from_quadrant: fromQuadrant,
+    to_quadrant: quadrant,
+    tasks_total: state.tasks.length,
+    method,
+  });
   closeMoveSheet();
 }
 
@@ -501,6 +532,7 @@ function startInlineEdit(task, textNode) {
   };
 
   const finish = () => {
+    const beforeText = currentText;
     const nextText = normalizeText(input.value);
     if (cancelled || !nextText) {
       render();
@@ -511,6 +543,12 @@ function startInlineEdit(task, textNode) {
       return;
     }
     updateTask(task.id, { text: nextText });
+    track("task_edited", {
+      quadrant: task.quadrant,
+      before_length: beforeText.length,
+      after_length: nextText.length,
+      changed: beforeText !== nextText,
+    });
   };
 
   input.addEventListener("keydown", (event) => {
@@ -568,10 +606,19 @@ function render() {
   updateQuadrantCounts();
 }
 
-function submitQuickAdd() {
+function submitQuickAdd(inputMethod) {
   if (isInlineEditingActive()) return;
-  const didAdd = addTask(elements.taskInput.value, elements.quadrantSelect.value);
-  if (!didAdd) return;
+  const quadrant = elements.quadrantSelect.value;
+  const taskLength = addTask(elements.taskInput.value, quadrant);
+  if (!taskLength) return;
+
+  track("task_created", {
+    quadrant,
+    input_method: inputMethod,
+    task_length: taskLength,
+    tasks_total: state.tasks.length,
+  });
+
   elements.taskInput.value = "";
   updateCharCounter();
   elements.taskInput.focus();
@@ -581,7 +628,7 @@ function initQuickAdd() {
   elements.taskInput.maxLength = TASK_MAX_CHARS;
 
   elements.addTaskButton.addEventListener("click", () => {
-    submitQuickAdd();
+    submitQuickAdd("button");
   });
 
   elements.taskInput.addEventListener("input", () => {
@@ -643,7 +690,7 @@ function initQuickAdd() {
   elements.taskInput.addEventListener("keydown", (event) => {
     if (event.key !== "Enter") return;
     event.preventDefault();
-    submitQuickAdd();
+    submitQuickAdd("enter");
   });
 
   elements.quadrantSelect.addEventListener("change", (event) => {
@@ -656,9 +703,13 @@ function initClearAll() {
   elements.clearAllButton.addEventListener("click", () => {
     const confirmed = window.confirm("Clear all tasks? This cannot be undone.");
     if (!confirmed) return;
+    const tasksClearedCount = state.tasks.length;
     state.tasks = [];
     saveState();
     render();
+    track("all_tasks_cleared", {
+      tasks_cleared_count: tasksClearedCount,
+    });
   });
 }
 
@@ -685,7 +736,7 @@ function initMoveSheet() {
         closeMoveSheet();
         return;
       }
-      moveActiveTaskToQuadrant(destination);
+      moveActiveTaskToQuadrant(destination, "move_sheet");
     });
   });
 }

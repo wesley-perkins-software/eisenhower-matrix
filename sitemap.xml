@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- TODO: Replace with your production domain. -->
+<urlset 
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
-    <loc>https://example.com/</loc>
+    <loc>https://eisenhower-matrix-tool.com/</loc>
   </url>
+
   <url>
-    <loc>https://example.com/quadrants.html</loc>
+    <loc>https://eisenhower-matrix-tool.com/quadrants.html</loc>
   </url>
+
   <url>
-    <loc>https://example.com/urgent-vs-important.html</loc>
+    <loc>https://eisenhower-matrix-tool.com/urgent-vs-important.html</loc>
   </url>
+
   <url>
-    <loc>https://example.com/examples.html</loc>
+    <loc>https://eisenhower-matrix-tool.com/examples.html</loc>
   </url>
+
   <url>
-    <loc>https://example.com/about.html</loc>
+    <loc>https://eisenhower-matrix-tool.com/about.html</loc>
   </url>
+
   <url>
-    <loc>https://example.com/privacy.html</loc>
+    <loc>https://eisenhower-matrix-tool.com/privacy.html</loc>
   </url>
+
   <url>
-    <loc>https://example.com/terms.html</loc>
+    <loc>https://eisenhower-matrix-tool.com/terms.html</loc>
   </url>
+
 </urlset>
