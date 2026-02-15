@@ -46,6 +46,13 @@ let activeMoveTaskQuadrant = null;
 let moveSheetOpenedBy = null;
 let moveSheetCloseTimer = null;
 
+function shouldAutoScrollOnMove() {
+  const coarse = window.matchMedia?.("(pointer: coarse)").matches;
+  const noHover = window.matchMedia?.("(hover: none)").matches;
+  const narrow = window.matchMedia?.("(max-width: 768px)").matches;
+  return Boolean(coarse || noHover || narrow);
+}
+
 function track(eventName, params = {}) {
   try {
     if (typeof window.gtag !== "function") return;
@@ -401,9 +408,11 @@ function moveActiveTaskToQuadrant(quadrant, method = "desktop_controls") {
   task.updatedAt = new Date().toISOString();
   render();
   // After a successful move and DOM update, smoothly bring the destination quadrant header into view.
-  const destinationQuadrant = document.querySelector(`.quadrant[data-quadrant="${quadrant}"]`);
-  if (destinationQuadrant) {
-    destinationQuadrant.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (shouldAutoScrollOnMove()) {
+    const destinationQuadrant = document.querySelector(`.quadrant[data-quadrant="${quadrant}"]`);
+    if (destinationQuadrant) {
+      destinationQuadrant.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
   saveStateDebounced();
   track("task_moved", {
